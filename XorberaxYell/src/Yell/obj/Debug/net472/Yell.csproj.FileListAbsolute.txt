@@ -1,0 +1,8 @@
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\bin\Win64_Shipping_Client\Yell.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\bin\Win64_Shipping_Client\Yell.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\Yell\obj\Debug\net472\Yell.csprojAssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\Yell\obj\Debug\net472\Yell.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\Yell\obj\Debug\net472\Yell.AssemblyInfoInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\Yell\obj\Debug\net472\Yell.AssemblyInfo.cs
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\Yell\obj\Debug\net472\Yell.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\Yell\obj\Debug\net472\Yell.pdb

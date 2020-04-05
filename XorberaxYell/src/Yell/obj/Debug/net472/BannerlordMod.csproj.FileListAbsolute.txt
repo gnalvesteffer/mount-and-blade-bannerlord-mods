@@ -1,0 +1,9 @@
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\bin\Win64_Shipping_Client\BannerlordMod.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\bin\Win64_Shipping_Client\BannerlordMod.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.csprojAssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.AssemblyInfoInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.AssemblyInfo.cs
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Xorberax\src\BannerlordMod\obj\Debug\net472\BannerlordMod.pdb

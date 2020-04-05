@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\XorberaxShoulderCam\bin\Win64_Shipping_Client" t="ExcludeRecursive" />
+    <e p="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\XorberaxShoulderCam\src\ShoulderCam" t="IncludeRecursive">
+      <e p="BannerlordMod.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="net472" t="Include">
+            <e p="ShoulderCam.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Patches" t="Include">
+        <e p="ShoulderCamPatch.cs" t="Include" />
+      </e>
+      <e p="ShoulderCam.csproj" t="IncludeRecursive" />
+      <e p="SubModule.cs" t="Include" />
+    </e>
+    <e p="C:\Users\Prince of Nigeria\.Rider2019.2\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\Prince of Nigeria\.Rider2019.2\config\consoles\ide" t="IncludeRecursive" />
+    <e p="C:\Users\Prince of Nigeria\.Rider2019.2\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\Prince of Nigeria\.Rider2019.2\config\scratches" t="IncludeRecursive" />
+    <e p="C:\Users\Prince of Nigeria\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Prince of Nigeria\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_BannerlordMod.-2017564225.00" t="ExcludeRecursive" />
+  </component>
+</project>

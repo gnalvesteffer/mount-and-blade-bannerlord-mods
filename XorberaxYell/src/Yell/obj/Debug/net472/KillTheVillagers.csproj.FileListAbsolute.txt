@@ -1,0 +1,9 @@
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\bin\Win64_Shipping_Client\KillTheVillagers.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\bin\Win64_Shipping_Client\KillTheVillagers.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.csprojAssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.AssemblyInfoInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.AssemblyInfo.cs
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\XorberaxKillTheVillagers\src\KillTheVillagers\obj\Debug\net472\KillTheVillagers.csproj.CopyComplete

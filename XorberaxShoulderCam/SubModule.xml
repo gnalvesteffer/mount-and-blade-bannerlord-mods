@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="Xorberax's Shoulder Cam"/>
+  <Id value="XorberaxShoulderCam"/>
+  <Version value="v0.1.0"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <Official value="false" />
+  <DependedModules/>
+  <SubModules>
+    <SubModule>
+      <Name value="ShoulderCam"/>
+      <DLLName value="ShoulderCam.dll"/>
+      <SubModuleClassType value="ShoulderCam.SubModule"/>
+      <Tags>
+        <Tag key="DedicatedServerType" value="none" />
+        <Tag key="IsNoRenderModeElement" value="false" />
+      </Tags>
+    </SubModule>
+  </SubModules>
+  <Xmls/>
+</Module>

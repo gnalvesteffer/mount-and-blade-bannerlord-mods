@@ -1,0 +1,41 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mount & Blade II Bannerlord\\Modules\\XorberaxShoulderCam\\src\\ShoulderCam\\ShoulderCam.csproj",
+    "projectName": "ShoulderCam",
+    "projectPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mount & Blade II Bannerlord\\Modules\\XorberaxShoulderCam\\src\\ShoulderCam\\ShoulderCam.csproj",
+    "outputPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mount & Blade II Bannerlord\\Modules\\XorberaxShoulderCam\\src\\ShoulderCam\\obj\\",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "net472"
+    ],
+    "sources": {
+      "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+      "D:\\Program Files (x86)\\DevExpress 18.1\\Components\\System\\Components\\Packages": {},
+      "https://api.nuget.org/v3/index.json": {}
+    },
+    "frameworks": {
+      "net472": {
+        "projectReferences": {}
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "net472": {
+      "dependencies": {
+        "Lib.Harmony": {
+          "target": "Package",
+          "version": "[2.0.0.9, )"
+        }
+      }
+    }
+  }
+}
