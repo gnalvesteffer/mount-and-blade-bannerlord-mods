@@ -15,12 +15,16 @@ namespace ShoulderCam.Patches
     internal static class ShoulderCamPatch
     {
         private static readonly string ConfigFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
+        private static bool _areLiveConfigUpdatesEnabled = false;
         private static float _positionXOffset = 0.35f;
+        private static float _positionYOffset = 0.0f;
         private static float _positionZOffset = -0.5f;
         private static float _bearingOffset = 0.0f;
-        private static float _elevationOffset = 0.1f;
+        private static float _elevationOffset = 0.0f;
         private static float _mountedDistanceOffset = 0.0f;
+        private static float _thirdPersonFieldOfView = 65.0f;
         private static ShoulderCamRangedMode _shoulderCamRangedMode = ShoulderCamRangedMode.RevertWhenAiming;
+        private static ShoulderCamMountedMode _shoulderCamMountedMode = ShoulderCamMountedMode.NoRevert;
 
         static ShoulderCamPatch()
         {
@@ -29,19 +33,24 @@ namespace ShoulderCam.Patches
 
         private static void Prefix(
             ref MissionScreen __instance,
+            ref float ____cameraSpecialTargetFOV,
             ref float ____cameraSpecialTargetDistanceToAdd,
             ref float ____cameraSpecialTargetAddedBearing,
             ref float ____cameraSpecialTargetAddedElevation,
             ref Vec3 ____cameraSpecialTargetPositionToAdd
         )
         {
-            //LoadConfig(); // remove when deploying
+            if (_areLiveConfigUpdatesEnabled)
+            {
+                LoadConfig();
+            }
 
             if (!ShouldApplyCameraTransformation(__instance))
             {
                 var isFreeLooking = InputKey.Tilde.IsDown();
                 if (!isFreeLooking && __instance.Mission.Mode != MissionMode.Conversation)
                 {
+                    ____cameraSpecialTargetFOV = 65;
                     ____cameraSpecialTargetDistanceToAdd = 0;
                     ____cameraSpecialTargetAddedBearing = 0;
                     ____cameraSpecialTargetAddedElevation = 0;
@@ -51,7 +60,8 @@ namespace ShoulderCam.Patches
             }
 
             var mainAgent = __instance.Mission.MainAgent;
-            ____cameraSpecialTargetDistanceToAdd = mainAgent.MountAgent == null ? 0.0f : _mountedDistanceOffset;
+            ____cameraSpecialTargetFOV = _thirdPersonFieldOfView;
+            ____cameraSpecialTargetDistanceToAdd = _positionYOffset + (mainAgent.MountAgent == null ? 0.0f : _mountedDistanceOffset);
             ____cameraSpecialTargetAddedBearing = _bearingOffset;
             ____cameraSpecialTargetAddedElevation = _elevationOffset;
         }
@@ -84,10 +94,16 @@ namespace ShoulderCam.Patches
         {
             var mainAgent = missionScreen.Mission.MainAgent;
             var missionMode = missionScreen.Mission.Mode;
+            var isFirstPerson = missionScreen.Mission.CameraIsFirstPerson;
             var isMainAgentPresent = mainAgent != null;
             var isCompatibleMissionMode = missionMode != MissionMode.Conversation;
             var isFreeLooking = InputKey.Tilde.IsDown();
-            return isMainAgentPresent && isCompatibleMissionMode && !isFreeLooking && !mainAgent.ShouldRevertCameraForRangedMode();
+            return isMainAgentPresent &&
+                   isCompatibleMissionMode &&
+                   !isFreeLooking &&
+                   !isFirstPerson &&
+                   !mainAgent.ShouldRevertCameraForRangedMode() &&
+                   !mainAgent.ShouldRevertCameraForMountMode();
         }
 
         private static bool ShouldRevertCameraForRangedMode(this Agent agent)
@@ -116,6 +132,19 @@ namespace ShoulderCam.Patches
             return false;
         }
 
+        private static bool ShouldRevertCameraForMountMode(this Agent agent)
+        {
+            if (_shoulderCamMountedMode == ShoulderCamMountedMode.NoRevert)
+            {
+                return false;
+            }
+            if (_shoulderCamMountedMode == ShoulderCamMountedMode.RevertWhenMounted && agent.MountAgent != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         private static void LoadConfig()
         {
             if (!File.Exists(ConfigFilePath))
@@ -125,12 +154,16 @@ namespace ShoulderCam.Patches
             try
             {
                 var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilePath));
+                _areLiveConfigUpdatesEnabled = config.AreLiveConfigUpdatesEnabled;
                 _positionXOffset = config.PositionXOffset;
+                _positionYOffset = config.PositionYOffset;
                 _positionZOffset = config.PositionZOffset;
                 _bearingOffset = config.BearingOffset;
                 _elevationOffset = config.ElevationOffset;
                 _mountedDistanceOffset = config.MountedDistanceOffset;
                 _shoulderCamRangedMode = config.ShoulderCamRangedMode;
+                _shoulderCamMountedMode = config.ShoulderCamMountedMode;
+                _thirdPersonFieldOfView = config.ThirdPersonFieldOfView;
             }
             catch
             {

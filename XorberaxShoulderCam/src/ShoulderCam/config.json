@@ -1,8 +1,12 @@
 {
   "positionXOffset": 0.35,
+  "positionYOffset": 0.0,
   "positionZOffset": -0.5,
   "bearingOffset": 0.0,
   "elevationOffset": 0.0,
   "mountedDistanceOffset": 0.0,
-  "shoulderCamRangedMode": "revertWhenAiming"
+  "thirdPersonFieldOfView": 65,
+  "shoulderCamRangedMode": "revertWhenAiming",
+  "shoulderCamMountedMode": "noRevert",
+  "enableLiveConfigUpdates": false
 }

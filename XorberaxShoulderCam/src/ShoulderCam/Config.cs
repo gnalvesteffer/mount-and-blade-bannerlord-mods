@@ -7,9 +7,11 @@ namespace ShoulderCam
         [JsonProperty("positionXOffset")]
         public float PositionXOffset { get; set; }
 
+        [JsonProperty("positionYOffset")]
+        public float PositionYOffset { get; set; }
+
         [JsonProperty("positionZOffset")]
         public float PositionZOffset { get; set; }
-
 
         [JsonProperty("bearingOffset")]
         public float BearingOffset { get; set; }
@@ -22,5 +24,14 @@ namespace ShoulderCam
 
         [JsonProperty("shoulderCamRangedMode")]
         public ShoulderCamRangedMode ShoulderCamRangedMode { get; set; }
+
+        [JsonProperty("shoulderCamMountedMode")]
+        public ShoulderCamMountedMode ShoulderCamMountedMode { get; set; }
+
+        [JsonProperty("enableLiveConfigUpdates")]
+        public bool AreLiveConfigUpdatesEnabled { get; set; }
+
+        [JsonProperty("thirdPersonFieldOfView")]
+        public float ThirdPersonFieldOfView { get; set; }
     }
 }
