@@ -19,5 +19,8 @@ namespace ShoulderCam
 
         [JsonProperty("mountedDistanceOffset")]
         public float MountedDistanceOffset { get; set; }
+
+        [JsonProperty("shoulderCamRangedMode")]
+        public ShoulderCamRangedMode ShoulderCamRangedMode { get; set; }
     }
 }

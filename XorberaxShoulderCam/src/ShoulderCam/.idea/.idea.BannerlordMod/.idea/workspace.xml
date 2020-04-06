@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../XorberaxLivelyTowns/src/LivelyTowns/LivelyTownsMissionBehavior.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Config.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SubModule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../SubModule.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ShoulderCamRangedMode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ShoulderCam.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ShoulderCam.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +33,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/99/18e27f71/CampaignCheats.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FBF907D5-03E6-408C-B3A0-40F72E98E3F7/72/60b9a339/Camera.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/11/7461cf48/ItemRosterElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ShoulderCamRangedMode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0B9594ED-192C-4C06-A096-11228DD921A0/2d/ed023cd9/SPInventoryVM.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/9b/2baa4759/SkillHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/c3/e7f1ee4e/RemoveEquippedWeapon.cs" root0="SKIP_HIGHLIGHTING" />
@@ -79,8 +77,9 @@
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/ShoulderCam.csproj" />
-        <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/Config.cs" />
+        <option value="$PROJECT_DIR$/config.json" />
+        <option value="$PROJECT_DIR$/ShoulderCamRangedMode.cs" />
         <option value="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" />
       </list>
     </option>
@@ -121,8 +120,16 @@
       <workItem from="1585969995944" duration="14692000" />
       <workItem from="1586023661749" duration="3292000" />
       <workItem from="1586031050293" duration="704000" />
-      <workItem from="1586112582625" duration="20285000" />
+      <workItem from="1586112582625" duration="22225000" />
     </task>
+    <task id="LOCAL-00001" summary="update shoulder cam">
+      <created>1586134112450</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586134112450</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,6 +150,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
+    <MESSAGE value="update shoulder cam" />
+    <option name="LAST_COMMIT_MESSAGE" value="update shoulder cam" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

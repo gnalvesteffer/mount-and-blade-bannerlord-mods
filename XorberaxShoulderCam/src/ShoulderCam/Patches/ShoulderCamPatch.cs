@@ -19,7 +19,13 @@ namespace ShoulderCam.Patches
         private static float _positionZOffset = -0.5f;
         private static float _bearingOffset = 0.0f;
         private static float _elevationOffset = 0.1f;
-        private static float _mountedDistanceOffset = 1.0f;
+        private static float _mountedDistanceOffset = 0.0f;
+        private static ShoulderCamRangedMode _shoulderCamRangedMode = ShoulderCamRangedMode.RevertWhenAiming;
+
+        static ShoulderCamPatch()
+        {
+            LoadConfig();
+        }
 
         private static void Prefix(
             ref MissionScreen __instance,
@@ -29,9 +35,11 @@ namespace ShoulderCam.Patches
             ref Vec3 ____cameraSpecialTargetPositionToAdd
         )
         {
+            //LoadConfig(); // remove when deploying
+
             if (!ShouldApplyCameraTransformation(__instance))
             {
-                var isFreeLooking = !InputKey.Tilde.IsDown();
+                var isFreeLooking = InputKey.Tilde.IsDown();
                 if (!isFreeLooking)
                 {
                     ____cameraSpecialTargetDistanceToAdd = 0;
@@ -41,8 +49,6 @@ namespace ShoulderCam.Patches
                 }
                 return;
             }
-
-            LoadConfig();
 
             var mainAgent = __instance.Mission.MainAgent;
             ____cameraSpecialTargetDistanceToAdd = mainAgent.MountAgent == null ? 0.0f : _mountedDistanceOffset;
@@ -81,12 +87,16 @@ namespace ShoulderCam.Patches
             var isMainAgentPresent = mainAgent != null;
             var isCompatibleMissionMode = missionMode != MissionMode.Conversation;
             var isFreeLooking = InputKey.Tilde.IsDown();
-            return isMainAgentPresent && isCompatibleMissionMode && !isFreeLooking && !mainAgent.IsAgentUsingRangedWeapon();
+            return isMainAgentPresent && isCompatibleMissionMode && !isFreeLooking && !mainAgent.ShouldRevertCameraForRangedMode();
         }
 
-        private static bool IsAgentUsingRangedWeapon(this Agent agent)
+        private static bool ShouldRevertCameraForRangedMode(this Agent agent)
         {
-            if (!InputKey.LeftMouseButton.IsDown())
+            if (_shoulderCamRangedMode == ShoulderCamRangedMode.NoRevert)
+            {
+                return false;
+            }
+            if (_shoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !InputKey.LeftMouseButton.IsDown())
             {
                 return false;
             }
@@ -120,6 +130,7 @@ namespace ShoulderCam.Patches
                 _bearingOffset = config.BearingOffset;
                 _elevationOffset = config.ElevationOffset;
                 _mountedDistanceOffset = config.MountedDistanceOffset;
+                _shoulderCamRangedMode = config.ShoulderCamRangedMode;
             }
             catch
             {
