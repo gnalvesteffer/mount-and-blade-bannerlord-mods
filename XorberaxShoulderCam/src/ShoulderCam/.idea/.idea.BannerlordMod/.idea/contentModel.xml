@@ -26,6 +26,7 @@
       <e p="ShoulderCam.csproj" t="IncludeRecursive" />
       <e p="ShoulderCamMountMode.cs" t="Include" />
       <e p="ShoulderCamRangedMode.cs" t="Include" />
+      <e p="ShoulderPosition.cs" t="Include" />
       <e p="SubModule.cs" t="Include" />
     </e>
   </component>

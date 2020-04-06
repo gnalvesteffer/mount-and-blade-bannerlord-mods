@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Reflection;
 using HarmonyLib;
@@ -16,6 +17,7 @@ namespace ShoulderCam.Patches
     {
         private static readonly string ConfigFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
         private static bool _areLiveConfigUpdatesEnabled = false;
+        private static bool _shouldSwitchShouldersToMatchAttackDirection = false;
         private static float _positionXOffset = 0.35f;
         private static float _positionYOffset = 0.0f;
         private static float _positionZOffset = -0.5f;
@@ -25,6 +27,7 @@ namespace ShoulderCam.Patches
         private static float _thirdPersonFieldOfView = 65.0f;
         private static ShoulderCamRangedMode _shoulderCamRangedMode = ShoulderCamRangedMode.RevertWhenAiming;
         private static ShoulderCamMountedMode _shoulderCamMountedMode = ShoulderCamMountedMode.NoRevert;
+        private static ShoulderPosition _focusedShoulderPosition = ShoulderPosition.Right;
 
         static ShoulderCamPatch()
         {
@@ -77,10 +80,11 @@ namespace ShoulderCam.Patches
             }
 
             var mainAgent = __instance.Mission.MainAgent;
+            UpdateFocusedShoulderPosition(mainAgent);
             var directionBoneIndex = mainAgent.Monster.HeadLookDirectionBoneIndex;
             var boneEntitialFrame = mainAgent.AgentVisuals.GetSkeleton().GetBoneEntitialFrame(directionBoneIndex);
             boneEntitialFrame.origin = boneEntitialFrame.TransformToParent(mainAgent.Monster.FirstPersonCameraOffsetWrtHead);
-            boneEntitialFrame.origin.x += _positionXOffset;
+            boneEntitialFrame.origin.x += _positionXOffset * _focusedShoulderPosition.GetOffsetValue();
             var frame = mainAgent.AgentVisuals.GetFrame();
             var parent = frame.TransformToParent(boneEntitialFrame);
             ____cameraSpecialTargetPositionToAdd = new Vec3(
@@ -88,6 +92,41 @@ namespace ShoulderCam.Patches
                 parent.origin.y - mainAgent.Position.y,
                 _positionZOffset
             );
+        }
+
+        private static void UpdateFocusedShoulderPosition(Agent mainAgent)
+        {
+            if (!_shouldSwitchShouldersToMatchAttackDirection)
+            {
+                return;
+            }
+
+            var actionDirection = mainAgent.GetCurrentActionDirection(1);
+            if (InputKey.LeftMouseButton.IsDown())
+            {
+                switch (actionDirection)
+                {
+                    case Agent.UsageDirection.AttackLeft:
+                        _focusedShoulderPosition = ShoulderPosition.Left;
+                        return;
+                    case Agent.UsageDirection.AttackRight:
+                        _focusedShoulderPosition = ShoulderPosition.Right;
+                        return;
+                }
+            }
+
+            if (InputKey.RightMouseButton.IsDown())
+            {
+                switch (actionDirection)
+                {
+                    case Agent.UsageDirection.DefendLeft:
+                        _focusedShoulderPosition = ShoulderPosition.Left;
+                        return;
+                    case Agent.UsageDirection.DefendRight:
+                        _focusedShoulderPosition = ShoulderPosition.Right;
+                        return;
+                }
+            }
         }
 
         private static bool ShouldApplyCameraTransformation(MissionScreen missionScreen)
@@ -155,6 +194,7 @@ namespace ShoulderCam.Patches
             {
                 var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilePath));
                 _areLiveConfigUpdatesEnabled = config.AreLiveConfigUpdatesEnabled;
+                _shouldSwitchShouldersToMatchAttackDirection = config.ShouldSwitchShouldersToMatchAttackDirection;
                 _positionXOffset = config.PositionXOffset;
                 _positionYOffset = config.PositionYOffset;
                 _positionZOffset = config.PositionZOffset;
