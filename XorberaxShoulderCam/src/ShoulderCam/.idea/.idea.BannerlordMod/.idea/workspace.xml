@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ShoulderCamRangedMode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,9 +74,9 @@
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/ShoulderCam.csproj" />
-        <option value="$PROJECT_DIR$/Config.cs" />
         <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/ShoulderCamRangedMode.cs" />
+        <option value="$PROJECT_DIR$/Config.cs" />
         <option value="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" />
       </list>
     </option>
@@ -120,7 +117,7 @@
       <workItem from="1585969995944" duration="14692000" />
       <workItem from="1586023661749" duration="3292000" />
       <workItem from="1586031050293" duration="704000" />
-      <workItem from="1586112582625" duration="22225000" />
+      <workItem from="1586112582625" duration="23064000" />
     </task>
     <task id="LOCAL-00001" summary="update shoulder cam">
       <created>1586134112450</created>
@@ -129,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586134112450</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add ranged mode revert type">
+      <created>1586136244781</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586136244781</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,7 +155,8 @@
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
     <MESSAGE value="update shoulder cam" />
-    <option name="LAST_COMMIT_MESSAGE" value="update shoulder cam" />
+    <MESSAGE value="add ranged mode revert type" />
+    <option name="LAST_COMMIT_MESSAGE" value="add ranged mode revert type" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

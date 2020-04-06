@@ -40,7 +40,7 @@ namespace ShoulderCam.Patches
             if (!ShouldApplyCameraTransformation(__instance))
             {
                 var isFreeLooking = InputKey.Tilde.IsDown();
-                if (!isFreeLooking)
+                if (!isFreeLooking && __instance.Mission.Mode != MissionMode.Conversation)
                 {
                     ____cameraSpecialTargetDistanceToAdd = 0;
                     ____cameraSpecialTargetAddedBearing = 0;
