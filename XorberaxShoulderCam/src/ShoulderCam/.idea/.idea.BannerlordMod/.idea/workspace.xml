@@ -1,28 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="" />
+    <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../XorberaxLivelyTowns/src/LivelyTowns/LivelyTownsMissionBehavior.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Config.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../SubModule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../SubModule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ShoulderCam.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ShoulderCam.csproj" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/c3/842b6f80/ItemCategory.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/86/9e560492/MissionMainAgentController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Config.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0B9594ED-192C-4C06-A096-11228DD921A0/39/c4ff350b/SPItemVM.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/0f/142c48e6/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/e4/c894bd42/MissionScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/ec/f5c158fd/MBSubModuleBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/78/9c0d95bc/EquipmentIndex.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/d6/1b08bcc0/Equipment.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/aa/aaf611a1/EquipmentElement.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/b7/e7b09c4c/ItemObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/4e/f9f24c7c/MissionCameraFadeView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/a3/04b033ba/InputKey.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/99/18e27f71/CampaignCheats.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FBF907D5-03E6-408C-B3A0-40F72E98E3F7/72/60b9a339/Camera.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/11/7461cf48/ItemRosterElement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0B9594ED-192C-4C06-A096-11228DD921A0/2d/ed023cd9/SPInventoryVM.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/9b/2baa4759/SkillHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/c3/e7f1ee4e/RemoveEquippedWeapon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/b3/3421b348/Module.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/e1/1564f536/Agent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E6088FFC-2DEF-43EB-AE11-0D35CA37F638/06/ad6d7b2c/Widget.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92BFAE3E-41D6-41B3-AFD3-F86D2F2A7147/eb/41849e27/CrosshairWidget.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/17/14784c8e/ConsoleCommandMethod.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/36/f6212d7a/BasicCharacterObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92BFAE3E-41D6-41B3-AFD3-F86D2F2A7147/76/fe84aed4/AgentAmmoTextWidget.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/16133C00-2608-41B9-BA98-3C95A3AD6184/2e/96945a79/CrosshairVM.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/obj/Debug/net472/ShoulderCam.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/c0/34d9b35a/GameMenu.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/a7/e23eb7e5/CommandLineFunctionality.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/b7/e7b09c4c/ItemObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/4e/f9f24c7c/MissionCameraFadeView.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SubModule.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/06/80be2365/Mat3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FBF907D5-03E6-408C-B3A0-40F72E98E3F7/d0/e915ab14/IUtil.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/10/dc8f18c8/CampaignGameStarter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FBF907D5-03E6-408C-B3A0-40F72E98E3F7/05/49c03392/Utilities.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/b6/14a849d0/AgentVisualHolder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/d7/97bcd17a/QueryLibrary.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/10/8de13bb4/MissionEquipment.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/27/aceb01d2/MissionWeapon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/71/89042db1/DefaultPerks.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/440D1D09-336D-46EE-B6BA-2229A55AC755/98/0c2c5d1f/Math.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/d5/278c3660/GameKey.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/5b/279f4911/IInputContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/3e/fbb17cb4/Vec3.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/59/b61e7023/MatrixFrame.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -31,13 +76,17 @@
         <option value="$PROJECT_DIR$/BannerlordMod.csproj" />
         <option value="$PROJECT_DIR$/Patches/ItemPricePatch.cs" />
         <option value="$PROJECT_DIR$/Patches/ExamplePatch.cs" />
+        <option value="$PROJECT_DIR$/SubModule.cs" />
+        <option value="$PROJECT_DIR$/SubModule.cs" />
+        <option value="$PROJECT_DIR$/ShoulderCam.csproj" />
+        <option value="$PROJECT_DIR$/config.json" />
+        <option value="$PROJECT_DIR$/Config.cs" />
         <option value="$PROJECT_DIR$/Patches/ShoulderCamPatch.cs" />
-        <option value="$PROJECT_DIR$/SubModule.cs" />
-        <option value="$PROJECT_DIR$/SubModule.cs" />
       </list>
     </option>
   </component>
   <component name="ProjectId" id="1a3h4dmxW5znhg3DUqZZrd9v1Nt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
@@ -72,6 +121,7 @@
       <workItem from="1585969995944" duration="14692000" />
       <workItem from="1586023661749" duration="3292000" />
       <workItem from="1586031050293" duration="704000" />
+      <workItem from="1586112582625" duration="20285000" />
     </task>
     <servers />
   </component>
@@ -80,6 +130,17 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
   </component>

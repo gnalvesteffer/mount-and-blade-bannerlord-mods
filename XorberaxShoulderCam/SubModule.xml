@@ -2,11 +2,17 @@
 <Module>
   <Name value="Xorberax's Shoulder Cam"/>
   <Id value="XorberaxShoulderCam"/>
-  <Version value="v0.1.0"/>
+  <Version value="v0.2.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />
-  <DependedModules/>
+  <DependedModules>
+    <DependedModule Id="Native"/>
+    <DependedModule Id="SandBoxCore"/>
+    <DependedModule Id="Sandbox"/>
+    <DependedModule Id="CustomBattle"/>
+    <DependedModule Id="StoryMode" />
+  </DependedModules> 
   <SubModules>
     <SubModule>
       <Name value="ShoulderCam"/>
