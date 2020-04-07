@@ -135,7 +135,7 @@ namespace TrainingField
                 {
                     continue;
                 }
-                var experienceGainMultiplier = CalculateExperienceGainMultiplierForTroop(member.Troop, party);
+                var experienceGainMultiplier = _config.ShouldCombatSkillsAffectExperienceGain ? CalculateExperienceGainMultiplierForTroop(member.Troop, party) : 1.0f;
                 var experienceGained = (int)(_config.BaseExperiencePerHour * experienceGainMultiplier);
                 party.MemberRoster.AddXpToTroop(experienceGained, member.Troop);
                 var wasTroopWoundedInTraining = _config.ShouldWoundDuringTraining && MBRandom.RandomFloat <= _config.WoundProbability;
@@ -182,7 +182,7 @@ namespace TrainingField
             {
                 experienceGainMultiplier += throwingSkillValue;
             }
-            return experienceGainMultiplier + leadershipSkillValue + tacticsSkillValue + athleticsSkillValue;
+            return experienceGainMultiplier + (leadershipSkillValue + tacticsSkillValue + athleticsSkillValue) * MBRandom.RandomFloat;
         }
 
         private static void ReturnToTrainingFieldMainMenu()

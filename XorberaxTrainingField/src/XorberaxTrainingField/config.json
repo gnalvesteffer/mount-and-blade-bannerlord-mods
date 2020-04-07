@@ -2,7 +2,8 @@
   "experiencePerHour": 10,
   "maximumHoursToTrain": 24,
   "trainingCooldownHours": 72,
-  "enableWoundingDuringTraining": true,
   "woundProbability": 0.02,
-  "maxSkillValue": 275
+  "maxSkillValue": 275,
+  "enableWoundingDuringTraining": true,
+  "combatSkillsAffectExperienceGain": true
 }

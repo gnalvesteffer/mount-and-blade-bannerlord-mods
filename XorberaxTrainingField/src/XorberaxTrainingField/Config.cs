@@ -21,5 +21,8 @@ namespace TrainingField
 
         [JsonProperty("maxSkillValue")]
         public int MaxSkillValue { get; set; } = 275;
+
+        [JsonProperty("combatSkillsAffectExperienceGain")]
+        public bool ShouldCombatSkillsAffectExperienceGain { get; set; } = true;
     }
 }
