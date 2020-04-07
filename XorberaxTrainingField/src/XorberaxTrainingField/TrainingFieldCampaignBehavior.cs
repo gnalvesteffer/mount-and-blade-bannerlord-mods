@@ -144,15 +144,17 @@ namespace TrainingField
                 var totalTrainableUnitsInElement = totalUnitsInElement - totalWoundedUnitsInElement;
                 if (totalTrainableUnitsInElement > 0)
                 {
+                    var experienceGained = party.MemberRoster.GetElementXp(troopElementIndex) + _experiencePerHour * totalTrainableUnitsInElement;
                     party.MemberRoster.SetElementXp(
                         troopElementIndex,
-                        party.MemberRoster.GetElementXp(troopElementIndex) + _experiencePerHour * totalTrainableUnitsInElement
+                        party.MemberRoster.GetElementXp(troopElementIndex) + experienceGained
                     );
                     if (_shouldWoundDuringTraining && MBRandom.RandomFloat <= _woundProbability)
                     {
                         var totalUnitsInElementThisHour = MBRandom.RandomInt(0, totalUnitsInElement);
                         totalUnitsWoundedInTrainingThisHour += totalUnitsInElementThisHour;
                         party.MemberRoster.SetElementWoundedNumber(troopElementIndex, totalUnitsInElementThisHour);
+                        party.MemberRoster.AddToCountsAtIndex(troopElementIndex, 0, totalUnitsWoundedInTrainingThisHour, experienceGained);
                     }
                 }
             }
