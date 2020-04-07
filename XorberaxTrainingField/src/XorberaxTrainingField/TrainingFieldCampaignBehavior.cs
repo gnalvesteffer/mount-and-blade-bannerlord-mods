@@ -136,7 +136,7 @@ namespace TrainingField
                     continue;
                 }
                 var experienceGainMultiplier = CalculateExperienceGainMultiplierForTroop(member.Troop, party);
-                var experienceGained = (int)Math.Max(member.Xp + _config.BaseExperiencePerHour * experienceGainMultiplier, 1);
+                var experienceGained = (int)(_config.BaseExperiencePerHour * experienceGainMultiplier);
                 party.MemberRoster.AddXpToTroop(experienceGained, member.Troop);
                 var wasTroopWoundedInTraining = _config.ShouldWoundDuringTraining && MBRandom.RandomFloat <= _config.WoundProbability;
                 if (wasTroopWoundedInTraining)
