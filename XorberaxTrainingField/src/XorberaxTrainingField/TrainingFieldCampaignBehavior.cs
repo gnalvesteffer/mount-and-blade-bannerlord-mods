@@ -29,7 +29,7 @@ namespace TrainingField
         public float TrainingProgress => 1.0f - (float)_trainingHoursRemaining / _maximumNumberOfHoursToTrain;
         public int MaximumNumberOfHoursToTrain => _maximumNumberOfHoursToTrain;
         public int TotalUnitsWoundedInTraining => _totalUnitsWoundedInTraining;
-
+        public bool HasTroopsToTrain => MobileParty.MainParty.MemberRoster.TotalRegulars > 0;
 
         public TrainingFieldCampaignBehavior()
         {
@@ -136,31 +136,27 @@ namespace TrainingField
         private void DistributeTrainingExperienceToParty()
         {
             var party = MobileParty.MainParty;
-            var totalUnitsWoundedInTrainingThisHour = 0;
-            for (var troopElementIndex = 0; troopElementIndex < party.MemberRoster.Count; ++troopElementIndex)
+            var totalUnitsWoundedInPartyThisHour = 0;
+            var flattenedMemberRoster = party.MemberRoster.ToFlattenedRoster();
+            foreach (var member in flattenedMemberRoster)
             {
-                var totalUnitsInElement = party.MemberRoster.GetElementNumber(troopElementIndex);
-                var totalWoundedUnitsInElement = party.MemberRoster.GetElementWoundedNumber(troopElementIndex);
-                var totalTrainableUnitsInElement = totalUnitsInElement - totalWoundedUnitsInElement;
-                if (totalTrainableUnitsInElement > 0)
+                if (member.Troop.IsHero || member.IsWounded || member.IsKilled)
                 {
-                    var experienceGained = party.MemberRoster.GetElementXp(troopElementIndex) + _experiencePerHour * totalTrainableUnitsInElement;
-                    party.MemberRoster.SetElementXp(
-                        troopElementIndex,
-                        party.MemberRoster.GetElementXp(troopElementIndex) + experienceGained
-                    );
-                    if (_shouldWoundDuringTraining && MBRandom.RandomFloat <= _woundProbability)
-                    {
-                        var totalUnitsInElementThisHour = MBRandom.RandomInt(0, totalUnitsInElement);
-                        totalUnitsWoundedInTrainingThisHour += totalUnitsInElementThisHour;
-                        party.MemberRoster.SetElementWoundedNumber(troopElementIndex, totalUnitsInElementThisHour);
-                        party.MemberRoster.AddToCountsAtIndex(troopElementIndex, 0, totalUnitsWoundedInTrainingThisHour, experienceGained);
-                    }
+                    continue;
                 }
+                var experienceGained = member.Xp + _experiencePerHour;
+                party.MemberRoster.AddXpToTroop(experienceGained, member.Troop);
+                var wasTroopWoundedInTraining = _shouldWoundDuringTraining && MBRandom.RandomFloat <= _woundProbability;
+                if (wasTroopWoundedInTraining)
+                {
+                    party.MemberRoster.WoundTroop(member.Troop);
+                    ++totalUnitsWoundedInPartyThisHour;
+                }
+                party.MemberRoster.AddToCounts(member.Troop, 0, false, wasTroopWoundedInTraining ? 1 : 0, experienceGained);
             }
-            if (totalUnitsWoundedInTrainingThisHour > 0)
+            if (totalUnitsWoundedInPartyThisHour > 0)
             {
-                DisplayWarningMessage($"{totalUnitsWoundedInTrainingThisHour} {(totalUnitsWoundedInTrainingThisHour > 1 ? "units" : "unit")} wounded during training.");
+                DisplayWarningMessage($"{totalUnitsWoundedInPartyThisHour} {(totalUnitsWoundedInPartyThisHour > 1 ? "units were" : "unit was")} wounded during training.");
             }
         }
 

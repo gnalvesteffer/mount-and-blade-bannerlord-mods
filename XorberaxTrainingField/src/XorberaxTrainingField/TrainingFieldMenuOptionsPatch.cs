@@ -18,7 +18,7 @@ namespace TrainingField
                 menuCallbackArgs =>
                 {
                     menuCallbackArgs.optionLeaveType = GameMenuOption.LeaveType.Wait;
-                    return true;
+                    return TrainingFieldCampaignBehavior.Current.HasTroopsToTrain;
                 },
                 menuCallbackArgs => TrainingFieldCampaignBehavior.Current.BeginTraining(),
                 false,

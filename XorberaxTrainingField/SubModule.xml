@@ -2,7 +2,7 @@
 <Module>
   <Name value="Xorberax's Training Field"/>
   <Id value="XorberaxTrainingField"/>
-  <Version value="v0.1.0"/>
+  <Version value="v0.2.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />
