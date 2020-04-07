@@ -5,18 +5,21 @@ namespace TrainingField
     public class Config
     {
         [JsonProperty("experiencePerHour")]
-        public int ExperiencePerHour { get; set; }
+        public int BaseExperiencePerHour { get; set; } = 10;
 
         [JsonProperty("maximumHoursToTrain")]
-        public int MaximumHoursToTrain { get; set; }
+        public int MaximumHoursToTrain { get; set; } = 24;
 
         [JsonProperty("trainingCooldownHours")]
-        public int TrainingCooldownHours { get; set; }
+        public int TrainingCooldownHours { get; set; } = 72;
 
         [JsonProperty("enableWoundingDuringTraining")]
-        public bool ShouldWoundDuringTraining { get; set; }
+        public bool ShouldWoundDuringTraining { get; set; } = true;
 
         [JsonProperty("woundProbability")]
-        public float WoundProbability { get; set; }
+        public float WoundProbability { get; set; } = 0.02f;
+
+        [JsonProperty("maxSkillValue")]
+        public int MaxSkillValue { get; set; } = 275;
     }
 }

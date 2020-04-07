@@ -15,19 +15,15 @@ namespace TrainingField
 
         internal static TrainingFieldCampaignBehavior Current;
 
-        private bool _shouldWoundDuringTraining = true;
-        private float _woundProbability = 0.02f;
-        private int _maximumNumberOfHoursToTrain = 24;
-        private int _experiencePerHour = 10;
-        private int _trainingCooldownHours = 72;
+        private Config _config = new Config();
         private int _trainingCooldownHoursRemaining;
         private bool _isTraining;
         private int _trainingHoursRemaining;
         private int _totalUnitsWoundedInTraining;
 
         public bool CanTrain => _trainingCooldownHoursRemaining == 0;
-        public float TrainingProgress => 1.0f - (float)_trainingHoursRemaining / _maximumNumberOfHoursToTrain;
-        public int MaximumNumberOfHoursToTrain => _maximumNumberOfHoursToTrain;
+        public float TrainingProgress => 1.0f - (float)_trainingHoursRemaining / _config.MaximumHoursToTrain;
+        public int MaximumNumberOfHoursToTrain => _config.MaximumHoursToTrain;
         public int TotalUnitsWoundedInTraining => _totalUnitsWoundedInTraining;
         public bool HasTroopsToTrain => MobileParty.MainParty.MemberRoster.TotalRegulars > 0;
 
@@ -45,12 +41,7 @@ namespace TrainingField
             }
             try
             {
-                var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilePath));
-                _experiencePerHour = config.ExperiencePerHour;
-                _maximumNumberOfHoursToTrain = config.MaximumHoursToTrain;
-                _trainingCooldownHours = config.TrainingCooldownHours;
-                _shouldWoundDuringTraining = config.ShouldWoundDuringTraining;
-                _woundProbability = config.WoundProbability;
+                _config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigFilePath));
             }
             catch
             {
@@ -84,8 +75,8 @@ namespace TrainingField
             SwitchToActiveTrainingMenu();
             _isTraining = true;
             _totalUnitsWoundedInTraining = 0;
-            _trainingHoursRemaining = _maximumNumberOfHoursToTrain;
-            _trainingCooldownHoursRemaining = _trainingCooldownHours;
+            _trainingHoursRemaining = _config.MaximumHoursToTrain;
+            _trainingCooldownHoursRemaining = _config.TrainingCooldownHours;
         }
 
         private void OnHourAdvanced()
@@ -144,9 +135,10 @@ namespace TrainingField
                 {
                     continue;
                 }
-                var experienceGained = member.Xp + _experiencePerHour;
+                var experienceGainMultiplier = CalculateExperienceGainMultiplierForTroop(member.Troop, party);
+                var experienceGained = (int)Math.Max(member.Xp + _config.BaseExperiencePerHour * experienceGainMultiplier, 1);
                 party.MemberRoster.AddXpToTroop(experienceGained, member.Troop);
-                var wasTroopWoundedInTraining = _shouldWoundDuringTraining && MBRandom.RandomFloat <= _woundProbability;
+                var wasTroopWoundedInTraining = _config.ShouldWoundDuringTraining && MBRandom.RandomFloat <= _config.WoundProbability;
                 if (wasTroopWoundedInTraining)
                 {
                     party.MemberRoster.WoundTroop(member.Troop);
@@ -158,6 +150,39 @@ namespace TrainingField
             {
                 DisplayWarningMessage($"{totalUnitsWoundedInPartyThisHour} {(totalUnitsWoundedInPartyThisHour > 1 ? "units were" : "unit was")} wounded during training.");
             }
+        }
+
+        private float CalculateExperienceGainMultiplierForTroop(CharacterObject memberTroop, MobileParty party)
+        {
+            var bowSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Bow) / _config.MaxSkillValue;
+            var crossbowSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Crossbow) / _config.MaxSkillValue;
+            var polearmSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Polearm) / _config.MaxSkillValue;
+            var ridingSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Riding) / _config.MaxSkillValue;
+            var throwingSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Throwing) / _config.MaxSkillValue;
+            var oneHandedSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.OneHanded) / _config.MaxSkillValue;
+            var twoHandedSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.TwoHanded) / _config.MaxSkillValue;
+            var leadershipSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Leadership) / _config.MaxSkillValue;
+            var tacticsSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Tactics) / _config.MaxSkillValue;
+            var athleticsSkillValue = (float)party.GetHighestSkillValueInParty(DefaultSkills.Athletics) / _config.MaxSkillValue;
+
+            var experienceGainMultiplier = 1.0f;
+            if (memberTroop.IsArcher)
+            {
+                experienceGainMultiplier += bowSkillValue + crossbowSkillValue;
+            }
+            if (memberTroop.IsInfantry)
+            {
+                experienceGainMultiplier += polearmSkillValue + oneHandedSkillValue + twoHandedSkillValue;
+            }
+            if (memberTroop.IsMounted)
+            {
+                experienceGainMultiplier += ridingSkillValue;
+            }
+            if (memberTroop.HasThrowingWeapon())
+            {
+                experienceGainMultiplier += throwingSkillValue;
+            }
+            return experienceGainMultiplier + leadershipSkillValue + tacticsSkillValue + athleticsSkillValue;
         }
 
         private static void ReturnToTrainingFieldMainMenu()
