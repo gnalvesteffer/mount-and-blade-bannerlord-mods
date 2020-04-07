@@ -3,15 +3,14 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace Arena
+namespace TrainingField
 {
     public class SubModule : MBSubModuleBase
     {
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
-            var harmony = new Harmony("xorberax.arena");
-            harmony.PatchAll();
+            new Harmony("xorberax.trainingfield").PatchAll();
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
@@ -23,12 +22,7 @@ namespace Arena
                 return;
             }
             var campaignGameStarter = (CampaignGameStarter)gameStarterObject;
-            campaignGameStarter.AddBehavior(new ArenaCampaignBehavior());
-        }
-
-        public override void OnMissionBehaviourInitialize(Mission mission)
-        {
-            base.OnMissionBehaviourInitialize(mission);
+            campaignGameStarter.AddBehavior(new TrainingFieldCampaignBehavior());
         }
     }
 }

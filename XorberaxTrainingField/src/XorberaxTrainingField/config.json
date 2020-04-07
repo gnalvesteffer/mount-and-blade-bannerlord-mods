@@ -1,0 +1,7 @@
+{
+  "experiencePerHour": 10,
+  "maximumHoursToTrain": 24,
+  "trainingCooldownHours": 72,
+  "enableWoundingDuringTraining": true,
+  "woundProbability": 0.02 
+}
