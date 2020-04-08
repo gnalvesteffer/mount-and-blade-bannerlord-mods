@@ -8,11 +8,5 @@ namespace FriendlyFire
     {
         [JsonProperty("friendlyFireEnabledMissionModes")]
         public HashSet<MissionMode> FriendlyFireEnabledMissionModes { get; set; }
-
-        [JsonProperty("logFriendlyFire")]
-        public bool ShouldLogFriendlyFire { get; set; }
-
-        [JsonProperty("friendlyFireLogMessageColorHex")]
-        public string FriendlyFireLogMessageColorHex { get; set; }
     }
 }
