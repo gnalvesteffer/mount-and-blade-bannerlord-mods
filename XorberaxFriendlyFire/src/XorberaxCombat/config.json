@@ -1,5 +1,5 @@
 {
-  "logFriendlyFire": true,
+  "logFriendlyFire": false,
   "friendlyFireLogMessageColorHex": "#FF6200FF",
   "friendlyFireEnabledMissionModes": [
     "Battle",
