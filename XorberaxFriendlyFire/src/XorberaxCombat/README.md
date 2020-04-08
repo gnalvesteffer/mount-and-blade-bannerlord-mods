@@ -1,5 +1,5 @@
 # Xorberax's Friendly Fire
-Enables friendly for all units, e.g. you can hurt your troops,
+Enables friendly fire for all units, e.g. you can hurt your troops,
 they can hurt each other, and your enemies can do the same.
 
 ## Configuration
