@@ -1,0 +1,9 @@
+{
+  "logFriendlyFire": true,
+  "friendlyFireLogMessageColorHex": "#FF6200",
+  "friendlyFireEnabledMissionModes": [
+    "Battle",
+    "Tournament",
+    "Duel"
+  ]
+}
