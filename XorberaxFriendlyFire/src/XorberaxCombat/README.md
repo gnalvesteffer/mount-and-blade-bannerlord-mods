@@ -15,7 +15,7 @@ Setting this to `true` will log a message to the chat log whenever a
 friendly fire incident occurs on your team.
 
 #### friendlyFireLogMessageColorHex
-This can be set to a hexadecimal color code value. This color will be
+This can be set to a 4 byte hexadecimal color code value. This color will be
 used for the friendly fire message that appears when the
 `logFriendlyFire` setting is set to `true`.
 
