@@ -1,10 +1,8 @@
-using System;
 using System.IO;
 using System.Reflection;
 using HarmonyLib;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
-using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screen;
@@ -50,7 +48,7 @@ namespace ShoulderCam.Patches
 
             if (!ShouldApplyCameraTransformation(__instance))
             {
-                var isFreeLooking = InputKey.Tilde.IsDown();
+                var isFreeLooking = __instance.InputManager.IsGameKeyDown(CombatHotKeyCategory.ViewCharacter);
                 if (!isFreeLooking && __instance.Mission.Mode != MissionMode.Conversation)
                 {
                     ____cameraSpecialTargetFOV = 65;
@@ -76,11 +74,12 @@ namespace ShoulderCam.Patches
         {
             if (!ShouldApplyCameraTransformation(__instance))
             {
+                ____cameraSpecialTargetPositionToAdd = Vec3.Zero;
                 return;
             }
 
             var mainAgent = __instance.Mission.MainAgent;
-            UpdateFocusedShoulderPosition(mainAgent);
+            UpdateFocusedShoulderPosition(__instance, mainAgent);
             var directionBoneIndex = mainAgent.Monster.HeadLookDirectionBoneIndex;
             var boneEntitialFrame = mainAgent.AgentVisuals.GetSkeleton().GetBoneEntitialFrame(directionBoneIndex);
             boneEntitialFrame.origin = boneEntitialFrame.TransformToParent(mainAgent.Monster.FirstPersonCameraOffsetWrtHead);
@@ -94,7 +93,7 @@ namespace ShoulderCam.Patches
             );
         }
 
-        private static void UpdateFocusedShoulderPosition(Agent mainAgent)
+        private static void UpdateFocusedShoulderPosition(MissionScreen missionScreen, Agent mainAgent)
         {
             if (!_shouldSwitchShouldersToMatchAttackDirection)
             {
@@ -102,7 +101,7 @@ namespace ShoulderCam.Patches
             }
 
             var actionDirection = mainAgent.GetCurrentActionDirection(1);
-            if (InputKey.LeftMouseButton.IsDown())
+            if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
             {
                 switch (actionDirection)
                 {
@@ -115,7 +114,7 @@ namespace ShoulderCam.Patches
                 }
             }
 
-            if (InputKey.RightMouseButton.IsDown())
+            if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Defend))
             {
                 switch (actionDirection)
                 {
@@ -136,22 +135,22 @@ namespace ShoulderCam.Patches
             var isFirstPerson = missionScreen.Mission.CameraIsFirstPerson;
             var isMainAgentPresent = mainAgent != null;
             var isCompatibleMissionMode = missionMode != MissionMode.Conversation;
-            var isFreeLooking = InputKey.Tilde.IsDown();
+            var isFreeLooking = missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.ViewCharacter);
             return isMainAgentPresent &&
                    isCompatibleMissionMode &&
                    !isFreeLooking &&
                    !isFirstPerson &&
-                   !mainAgent.ShouldRevertCameraForRangedMode() &&
+                   !mainAgent.ShouldRevertCameraForRangedMode(missionScreen) &&
                    !mainAgent.ShouldRevertCameraForMountMode();
         }
 
-        private static bool ShouldRevertCameraForRangedMode(this Agent agent)
+        private static bool ShouldRevertCameraForRangedMode(this Agent agent, MissionScreen missionScreen)
         {
             if (_shoulderCamRangedMode == ShoulderCamRangedMode.NoRevert)
             {
                 return false;
             }
-            if (_shoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !InputKey.LeftMouseButton.IsDown())
+            if (_shoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
             {
                 return false;
             }
