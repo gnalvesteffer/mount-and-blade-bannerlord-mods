@@ -57,6 +57,10 @@ namespace CutThroughEveryone
 
         internal static bool ShouldSliceThrough(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
+            if (victim == null)
+            {
+                return false;
+            }
             var weaponClass = attacker.WieldedWeapon.Weapons?.FirstOrDefault()?.WeaponClass ?? WeaponClass.Undefined;
             if (WeaponClassSliceMetadata.ContainsKey(weaponClass))
             {
