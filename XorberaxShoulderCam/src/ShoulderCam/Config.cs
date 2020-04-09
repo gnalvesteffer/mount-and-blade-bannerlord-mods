@@ -31,8 +31,11 @@ namespace ShoulderCam
         [JsonProperty("shoulderCamMountedMode")]
         public ShoulderCamMountedMode ShoulderCamMountedMode { get; set; }
 
-        [JsonProperty("switchShouldersToMatchAttackDirection")]
-        public bool ShouldSwitchShouldersToMatchAttackDirection { get; set; }
+        [JsonProperty("shoulderSwitchMode")]
+        public ShoulderSwitchMode ShoulderSwitchMode { get; set; }
+
+        [JsonProperty("temporaryShoulderSwitchDuration")]
+        public float TemporaryShoulderSwitchDuration { get; set; }
 
         [JsonProperty("enableLiveConfigUpdates")]
         public bool AreLiveConfigUpdatesEnabled { get; set; }

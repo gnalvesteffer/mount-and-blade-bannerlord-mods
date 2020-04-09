@@ -47,7 +47,7 @@ The angle in degrees to set the third person camera's field of view.
 #### shoulderCamRangedMode
 The behavior of the camera when using a ranged weapon, such as a bow.
 
-**Accepts one of the possible values:** 
+**Accepts one of the following values:** 
 - `"noRevert"` -- does not revert/reposition the camera when aiming or
 equipping a ranged weapon (causes aiming to be inaccurate).
 - `"revertWhenAiming"` -- reverts/repositions the camera when aiming with 
@@ -58,17 +58,30 @@ weapon is equipped.
 #### shoulderCamMountedMode
 The behavior of the camera when riding on a horse.
 
-**Accepts one of the possible values:** 
+**Accepts one of the following values:** 
 - `"noRevert"` -- does not revert/reposition the camera when riding a
 horse.
 - `"revertWhenMounted"` -- reverts/repositions the camera when riding
 a horse.
 
-#### switchShouldersToMatchAttackDirection
-When enabled, the camera will switch shoulders depending on the 
-direction you're attacking/blocking.
+#### shoulderSwitchMode
+Specifies the shoulder switching behavior.
 
-**Accepts:** `true` or `false`
+**Accepts one of the following values:** 
+- `"noSwitching"` -- the camera will remain locked to a single shoulder.
+- `"matchAttackAndBlockDirection"` -- the camera will switch shoulders
+depending on the attack/block direction.
+- `"temporarilyMatchAttackAndBlockDirection"` -- the camera will switch
+shoulders depending on the attack/block direction, and then revert back
+to the original shoulder upon release of the attack/block
+*(see `temporaryShoulderSwitchDuration`)*.
+
+#### temporaryShoulderSwitchDuration
+The number of seconds that the camera should remain switched to the
+alternate shoulder when `shoulderSwitchMode` is set to
+`temporarilyMatchAttackAndBlockDirection`.
+
+**Accepts:** decimal number
 
 #### enableLiveConfigUpdates
 When enabled, changes to the config will be applied instantly in-game.

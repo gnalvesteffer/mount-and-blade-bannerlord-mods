@@ -8,6 +8,7 @@
   "thirdPersonFieldOfView": 65,
   "shoulderCamRangedMode": "revertWhenAiming",
   "shoulderCamMountedMode": "noRevert",
-  "switchShouldersToMatchAttackDirection": false,
+  "shoulderSwitchMode": "noSwitching",
+  "temporaryShoulderSwitchDuration": 0.5,
   "enableLiveConfigUpdates": false
 }
