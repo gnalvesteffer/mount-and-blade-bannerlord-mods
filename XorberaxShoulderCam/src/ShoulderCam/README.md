@@ -8,18 +8,33 @@ Inside of `\XorberaxShoulderCam\bin\Win64_Shipping_Client` lives a
 
 ### Settings
 
-#### positionXOffset
-The distance in meters to offset the camera on the X-Axis.
+#### onFootPositionXOffset
+The distance in meters to offset the camera on the X-Axis when on foot.
 
 **Accepts:** decimal number
 
-#### positionYOffset
-The distance in meters to offset the camera on the X-Axis.
+#### onFootPositionYOffset
+The distance in meters to offset the camera on the Y-Axis when on foot.
 
 **Accepts:** decimal number
 
-#### positionZOffset
-The distance in meters to offset the camera on the X-Axis.
+#### onFootPositionZOffset
+The distance in meters to offset the camera on the Z-Axis when on foot.
+
+**Accepts:** decimal number
+
+#### mountedPositionXOffset
+The distance in meters to offset the camera on the X-Axis when on horse.
+
+**Accepts:** decimal number
+
+#### mountedPositionYOffset
+The distance in meters to offset the camera on the Y-Axis when on horse.
+
+**Accepts:** decimal number
+
+#### mountedPositionZOffset
+The distance in meters to offset the camera on the Z-Axis when on horse.
 
 **Accepts:** decimal number
 

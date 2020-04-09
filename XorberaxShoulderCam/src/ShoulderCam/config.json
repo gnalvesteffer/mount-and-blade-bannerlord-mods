@@ -1,14 +1,16 @@
 {
-  "positionXOffset": 0.35,
-  "positionYOffset": 0.0,
-  "positionZOffset": -0.5,
+  "onFootPositionXOffset": 0.35,
+  "onFootPositionYOffset": 0.0,
+  "onFootPositionZOffset": -0.5,
+  "mountedPositionXOffset": 0.35,
+  "mountedPositionYOffset": 0.0,
+  "mountedPositionZOffset": -0.5,
   "bearingOffset": 0.0,
   "elevationOffset": 0.0,
-  "mountedDistanceOffset": 0.0,
   "thirdPersonFieldOfView": 65,
   "shoulderCamRangedMode": "revertWhenAiming",
   "shoulderCamMountedMode": "noRevert",
   "shoulderSwitchMode": "noSwitching",
-  "temporaryShoulderSwitchDuration": 0.5,
+  "temporaryShoulderSwitchDuration": 1.0,
   "enableLiveConfigUpdates": false
 }

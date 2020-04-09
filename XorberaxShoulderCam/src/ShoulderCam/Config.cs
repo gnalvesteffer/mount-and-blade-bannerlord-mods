@@ -4,23 +4,29 @@ namespace ShoulderCam
 {
     public class Config
     {
-        [JsonProperty("positionXOffset")]
-        public float PositionXOffset { get; set; }
+        [JsonProperty("onFootPositionXOffset")]
+        public float OnFootPositionXOffset { get; set; }
 
-        [JsonProperty("positionYOffset")]
-        public float PositionYOffset { get; set; }
+        [JsonProperty("onFootPositionYOffset")]
+        public float OnFootPositionYOffset { get; set; }
 
-        [JsonProperty("positionZOffset")]
-        public float PositionZOffset { get; set; }
+        [JsonProperty("onFootPositionZOffset")]
+        public float OnFootPositionZOffset { get; set; }
+
+        [JsonProperty("mountedPositionXOffset")]
+        public float MountedPositionXOffset { get; set; }
+
+        [JsonProperty("mountedPositionYOffset")]
+        public float MountedPositionYOffset { get; set; }
+
+        [JsonProperty("mountedPositionZOffset")]
+        public float MountedPositionZOffset { get; set; }
 
         [JsonProperty("bearingOffset")]
         public float BearingOffset { get; set; }
 
         [JsonProperty("elevationOffset")]
         public float ElevationOffset { get; set; }
-
-        [JsonProperty("mountedDistanceOffset")]
-        public float MountedDistanceOffset { get; set; }
 
         [JsonProperty("thirdPersonFieldOfView")]
         public float ThirdPersonFieldOfView { get; set; }

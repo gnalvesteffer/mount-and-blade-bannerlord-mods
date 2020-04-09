@@ -39,7 +39,7 @@ namespace ShoulderCam.Patches
 
             var mainAgent = __instance.Mission.MainAgent;
             ____cameraSpecialTargetFOV = SubModule.Config.ThirdPersonFieldOfView;
-            ____cameraSpecialTargetDistanceToAdd = SubModule.Config.PositionYOffset + (mainAgent.MountAgent == null ? 0.0f : SubModule.Config.MountedDistanceOffset);
+            ____cameraSpecialTargetDistanceToAdd = mainAgent.MountAgent == null ? SubModule.Config.OnFootPositionYOffset : SubModule.Config.MountedPositionYOffset;
             ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset;
             ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset;
         }
@@ -60,13 +60,13 @@ namespace ShoulderCam.Patches
             var directionBoneIndex = mainAgent.Monster.HeadLookDirectionBoneIndex;
             var boneEntitialFrame = mainAgent.AgentVisuals.GetSkeleton().GetBoneEntitialFrame(directionBoneIndex);
             boneEntitialFrame.origin = boneEntitialFrame.TransformToParent(mainAgent.Monster.FirstPersonCameraOffsetWrtHead);
-            boneEntitialFrame.origin.x += SubModule.Config.PositionXOffset * _focusedShoulderPosition.GetOffsetValue();
+            boneEntitialFrame.origin.x += (mainAgent.MountAgent == null ? SubModule.Config.OnFootPositionXOffset : SubModule.Config.MountedPositionXOffset) * _focusedShoulderPosition.GetOffsetValue();
             var frame = mainAgent.AgentVisuals.GetFrame();
             var parent = frame.TransformToParent(boneEntitialFrame);
             ____cameraSpecialTargetPositionToAdd = new Vec3(
                 parent.origin.x - mainAgent.Position.x,
                 parent.origin.y - mainAgent.Position.y,
-                SubModule.Config.PositionZOffset
+                mainAgent.MountAgent == null ? SubModule.Config.OnFootPositionZOffset : SubModule.Config.MountedPositionZOffset
             );
         }
 
