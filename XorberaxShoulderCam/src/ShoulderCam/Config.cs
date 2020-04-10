@@ -43,6 +43,24 @@ namespace ShoulderCam
         [JsonProperty("temporaryShoulderSwitchDuration")]
         public float TemporaryShoulderSwitchDuration { get; set; }
 
+        [JsonProperty("minimumPlayerHitCamShake")]
+        public float MinimumPlayerHitCamShake { get; set; }
+
+        [JsonProperty("playerHitCamShakeMultiplier")]
+        public float PlayerHitCamShakeMultiplier { get; set; }
+
+        [JsonProperty("playerHitCamShakeDuration")]
+        public float PlayerHitCamShakeDuration { get; set; }
+
+        [JsonProperty("minimumEnemyHitCamShakeAmount")]
+        public float MinimumEnemyHitCamShakeAmount { get; set; }
+
+        [JsonProperty("enemyHitCamShakeMultiplier")]
+        public float EnemyHitCamShakeMultiplier { get; set; }
+
+        [JsonProperty("enemyHitCamShakeDuration")]
+        public float EnemyHitCamShakeDuration { get; set; }
+
         [JsonProperty("enableLiveConfigUpdates")]
         public bool AreLiveConfigUpdatesEnabled { get; set; }
     }

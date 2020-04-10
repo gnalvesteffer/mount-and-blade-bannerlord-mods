@@ -1,11 +1,11 @@
-using System.Runtime.CompilerServices;
+using System;
 using HarmonyLib;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screen;
 
-namespace ShoulderCam.Patches
+namespace ShoulderCam
 {
     [HarmonyPatch(typeof(MissionScreen))]
     [HarmonyPatch("UpdateCamera")]
@@ -13,6 +13,14 @@ namespace ShoulderCam.Patches
     {
         private static ShoulderPosition _focusedShoulderPosition = ShoulderPosition.Right;
         private static float _alternateShoulderSwitchTimestamp;
+        private static float _camShakeAmount;
+        private static float _camShakeEndTimestamp;
+
+        public static void ShakeCamera(float amount, float duration)
+        {
+            _camShakeAmount = amount;
+            _camShakeEndTimestamp = Mission.Current.Time + duration;
+        }
 
         private static void Prefix(
             ref MissionScreen __instance,
@@ -38,10 +46,11 @@ namespace ShoulderCam.Patches
             }
 
             var mainAgent = __instance.Mission.MainAgent;
+            var camShakeVector = GetCamShakeVector();
             ____cameraSpecialTargetFOV = SubModule.Config.ThirdPersonFieldOfView;
             ____cameraSpecialTargetDistanceToAdd = mainAgent.MountAgent == null ? SubModule.Config.OnFootPositionYOffset : SubModule.Config.MountedPositionYOffset;
-            ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset;
-            ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset;
+            ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset + camShakeVector.z;
+            ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset + camShakeVector.x;
         }
 
         private static void Postfix(
@@ -174,6 +183,16 @@ namespace ShoulderCam.Patches
                 return true;
             }
             return false;
+        }
+
+        private static Vec3 GetCamShakeVector()
+        {
+            var strength = Math.Max(_camShakeEndTimestamp - Mission.Current.Time, 0);
+            return new Vec3(
+                MBRandom.RandomFloatNormal * _camShakeAmount * strength,
+                MBRandom.RandomFloatNormal * _camShakeAmount * strength,
+                MBRandom.RandomFloatNormal * _camShakeAmount * strength
+            );
         }
     }
 }

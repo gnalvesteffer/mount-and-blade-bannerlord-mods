@@ -98,6 +98,39 @@ alternate shoulder when `shoulderSwitchMode` is set to
 
 **Accepts:** decimal number
 
+#### minimumPlayerHitCamShake
+The strength of the camera shake when the player is hit.
+
+**Accepts:** decimal number
+
+#### playerHitCamShakeMultiplier
+The strength of additional camera shake when the player is hit, scaled
+to the amount of damage received.
+
+**Accepts:** decimal number
+
+#### playerHitCamShakeDuration
+The duration of the camera shake in seconds when the player is hit.
+
+**Accepts:** decimal number
+
+#### minimumEnemyHitCamShakeAmount
+The strength of the camera shake when the player hits an enemy.
+
+**Accepts:** decimal number
+
+#### enemyHitCamShakeMultiplier
+The strength of additional camera shake when the player hits an enemy,
+scaled to the amount of damage delivered.
+
+**Accepts:** decimal number
+
+#### enemyHitCamShakeDuration
+The duration of the camera shake in seconds when the player hits an 
+enemy.
+
+**Accepts:** decimal number
+
 #### enableLiveConfigUpdates
 When enabled, changes to the config will be applied instantly in-game.
 

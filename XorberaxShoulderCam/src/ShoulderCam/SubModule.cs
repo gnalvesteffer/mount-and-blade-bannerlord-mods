@@ -28,6 +28,12 @@ namespace ShoulderCam
             }
         }
 
+        public override void OnMissionBehaviourInitialize(Mission mission)
+        {
+            base.OnMissionBehaviourInitialize(mission);
+            mission.AddMissionBehaviour(new ShoulderCamMissionLogic());
+        }
+
         private static void LoadConfig()
         {
             if (!File.Exists(ConfigFilePath))
