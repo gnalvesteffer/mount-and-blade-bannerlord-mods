@@ -68,7 +68,9 @@ namespace CutThroughEveryone
                 var isSliceDirection = weaponSliceMetadatum.SliceDirections.Contains(collisionData.AttackDirection);
                 if (isSliceDirection)
                 {
-                    return collisionData.InflictedDamage > collisionData.AbsorbedByArmor;
+                    var totalDamage = collisionData.InflictedDamage + collisionData.AbsorbedByArmor;
+                    var normalizedDamageInflicted = (float)collisionData.InflictedDamage / totalDamage;
+                    return normalizedDamageInflicted >= SubModule.Config.PercentageOfInflictedDamageRequiredToCutThroughArmor;
                 }
             }
             return false;

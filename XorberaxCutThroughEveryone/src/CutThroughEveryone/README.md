@@ -21,3 +21,12 @@ The amount of damage retained per person cut.
 Recommended to use a value between 0.0 through 1.0.
 
 **Accepts:** decimal number
+
+#### percentageOfInflictedDamageRequiredToCutThroughArmor
+The percentage of inflicted damage required to cut through armor.
+e.g. if `percentageOfInflictedDamageRequiredToCutThroughArmor` is `0.8`,
+and an attack has a total of 100 points of damage, and 20 points are absorbed 
+by armor, then 80 points of damage will be inflicted, which means 80% of
+the attack damage was inflicted, allowing the attack to cut through.
+ 
+ **Accepts:** decimal number

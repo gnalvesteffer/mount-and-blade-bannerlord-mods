@@ -1,4 +1,5 @@
 {
   "onlyCutThroughWhenUnitIsKilled": false,
-  "damageRetainedPerCut": 0.85
+  "damageRetainedPerCut": 0.85,
+  "percentageOfInflictedDamageRequiredToCutThroughArmor": 0.8
 }

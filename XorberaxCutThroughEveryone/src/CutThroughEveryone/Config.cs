@@ -9,5 +9,8 @@ namespace CutThroughEveryone
 
         [JsonProperty("damageRetainedPerCut")]
         public float DamageRetainedPerCut { get; set; }
+
+        [JsonProperty("percentageOfInflictedDamageRequiredToCutThroughArmor")]
+        public float PercentageOfInflictedDamageRequiredToCutThroughArmor { get; set; }
     }
 }
