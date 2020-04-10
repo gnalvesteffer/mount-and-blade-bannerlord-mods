@@ -1,3 +1,4 @@
 {
-  
+  "onlyCutThroughWhenUnitIsKilled": false,
+  "damageRetainedPerCut": 0.85
 }

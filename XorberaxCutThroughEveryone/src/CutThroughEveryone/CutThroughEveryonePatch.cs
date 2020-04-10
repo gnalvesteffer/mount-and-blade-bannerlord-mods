@@ -47,7 +47,10 @@ namespace CutThroughEveryone
             if (totalDamage >= 1 && SliceLogic.ShouldSliceThrough(collisionData, attacker, victim))
             {
                 var normalizedDamageInflicted = (float)collisionData.InflictedDamage / totalDamage;
-                inOutMomentumRemaining = momentumRemainingToComputeDamage * normalizedDamageInflicted;
+                inOutMomentumRemaining =
+                    momentumRemainingToComputeDamage *
+                    normalizedDamageInflicted *
+                    SubModule.Config.DamageRetainedPerCut;
             }
         }
     }

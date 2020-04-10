@@ -57,7 +57,7 @@ namespace CutThroughEveryone
 
         internal static bool ShouldSliceThrough(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
-            if (victim == null)
+            if (victim == null || SubModule.Config.ShouldOnlyCutThroughWhenUnitIsKilled && (int)victim.Health != 0)
             {
                 return false;
             }
