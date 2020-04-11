@@ -57,7 +57,7 @@ namespace CutThroughEveryone
 
         internal static bool ShouldSliceThrough(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
-            if (victim == null || SubModule.Config.ShouldOnlyCutThroughWhenUnitIsKilled && (int)victim.Health != 0)
+            if (!DoPreflightSliceThroughChecksPass(attacker, victim))
             {
                 return false;
             }
@@ -74,6 +74,15 @@ namespace CutThroughEveryone
                 }
             }
             return false;
+        }
+
+        private static bool DoPreflightSliceThroughChecksPass(Agent attacker, Agent victim)
+        {
+            return
+                victim != null &&
+                (!SubModule.Config.ShouldOnlyCutThroughKilledUnits || (int)victim.Health == 0) &&
+                (!SubModule.Config.DoFriendlyUnitsBlockCutThroughs || attacker.Team != victim.Team) &&
+                (!SubModule.Config.OnlyPlayerCanCutThrough || attacker.IsMainAgent);
         }
     }
 }

@@ -1,5 +1,7 @@
 {
   "onlyCutThroughWhenUnitIsKilled": false,
   "damageRetainedPerCut": 0.85,
-  "percentageOfInflictedDamageRequiredToCutThroughArmor": 0.8
+  "percentageOfInflictedDamageRequiredToCutThroughArmor": 0.8,
+  "doFriendlyUnitsBlockCutThroughs": true,
+  "onlyPlayerCanCutThrough": false
 }

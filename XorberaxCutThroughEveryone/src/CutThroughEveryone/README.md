@@ -30,3 +30,13 @@ by armor, then 80 points of damage will be inflicted, which means 80% of
 the attack damage was inflicted, allowing the attack to cut through.
  
  **Accepts:** decimal number
+ 
+ #### doFriendlyUnitsBlockCutThroughs
+ When enabled, prevents weapons from cutting through friendly units.
+ 
+ **Accepts:** `true` or `false`
+ 
+ #### onlyPlayerCanCutThrough
+ When enabled, only the player will be allowed to cut through units.
+ 
+ **Accepts:** `true` or `false`

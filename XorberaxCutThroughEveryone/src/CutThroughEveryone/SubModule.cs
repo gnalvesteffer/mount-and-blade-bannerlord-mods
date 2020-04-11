@@ -15,7 +15,7 @@ namespace CutThroughEveryone
         {
             base.OnSubModuleLoad();
             LoadConfig();
-            new Harmony("xorberax.moreblood").PatchAll();
+            new Harmony("xorberax.cutthrougheveryone").PatchAll();
         }
 
         private static void LoadConfig()
