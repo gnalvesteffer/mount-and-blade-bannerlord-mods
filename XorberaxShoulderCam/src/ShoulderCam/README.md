@@ -48,12 +48,6 @@ Angle in radians to rotate the camera up/down (pitch).
 
 **Accepts:** decimal number
 
-#### mountedDistanceOffset
-The distance in meters to offset the camera away from the player when
-riding a horse. 
-
-**Accepts:** decimal number
-
 #### thirdPersonFieldOfView
 The angle in degrees to set the third person camera's field of view.
 
