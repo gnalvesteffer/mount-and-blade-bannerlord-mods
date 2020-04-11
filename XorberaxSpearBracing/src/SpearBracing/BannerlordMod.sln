@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyHorseCharges", "DeadlyHorseCharges.csproj", "{7F79778B-DD47-47AD-BDEC-5D2E098A578D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpearBracing", "SpearBracing.csproj", "{7F79778B-DD47-47AD-BDEC-5D2E098A578D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
