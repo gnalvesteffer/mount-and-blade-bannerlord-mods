@@ -1,4 +1,5 @@
 {
   "boneCollisionRadius": 0.2,
+  "agentCollisionCheckRadius": 5.0,
   "isDebugMode": false
 }

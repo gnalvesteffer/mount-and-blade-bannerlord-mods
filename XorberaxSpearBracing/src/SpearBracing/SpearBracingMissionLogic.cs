@@ -52,9 +52,10 @@ namespace SpearBracing
 
         private static bool IsAgentBracingPolearm(Agent agent)
         {
+            var attackDirection = agent.GetAttackDirection(true);
             return
                 agent.WieldedWeapon.CurrentUsageItem?.Item?.Type == ItemObject.ItemTypeEnum.Polearm &&
-                (agent.AttackDirection == Agent.UsageDirection.AttackUp || agent.AttackDirection == Agent.UsageDirection.AttackDown);
+                (attackDirection == Agent.UsageDirection.AttackUp || attackDirection == Agent.UsageDirection.AttackDown);
         }
 
         private void HandleBracedPolearm(WeaponComponentData weapon, Agent wieldingAgent)
@@ -65,7 +66,7 @@ namespace SpearBracing
                 MBDebug.RenderDebugDirectionArrow(weaponTipFrame.origin, weaponTipFrame.rotation.u);
                 MBDebug.RenderDebugSphere(weaponTipFrame.origin, SubModule.Config.BoneCollisionRadius);
             }
-            var agentsNearWeaponTip = _mission.GetNearbyAgents(weaponTipFrame.origin.AsVec2, 1.0f);
+            var agentsNearWeaponTip = _mission.GetNearbyAgents(weaponTipFrame.origin.AsVec2, SubModule.Config.AgentCollisionCheckRadius);
             foreach (var agentNearWeaponTip in agentsNearWeaponTip)
             {
                 if (agentNearWeaponTip != wieldingAgent)
@@ -101,6 +102,7 @@ namespace SpearBracing
             }
             var blow = CreateBlow(affectedAgent, impactedBone, affectorAgent, weapon, weaponTipFrame);
             affectedAgent.RegisterBlow(blow);
+            affectedAgent.CreateBloodBurstAtLimb((sbyte)impactedBone, ref weaponTipFrame.origin, blow.BaseMagnitude);
         }
 
         private Blow CreateBlow(

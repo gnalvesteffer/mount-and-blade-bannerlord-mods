@@ -7,6 +7,9 @@ namespace SpearBracing
         [JsonProperty("boneCollisionRadius")]
         public float BoneCollisionRadius { get; set; }
 
+        [JsonProperty("agentCollisionCheckRadius")]
+        public float AgentCollisionCheckRadius { get; set; }
+
         [JsonProperty("isDebugMode")]
         public bool IsDebugMode { get; set; }
     }
