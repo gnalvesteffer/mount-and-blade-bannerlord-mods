@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -36,55 +37,7 @@ namespace Banks
 
         private void AddMenus(CampaignGameStarter campaignGameStarter)
         {
-            // Bank Setup
-            campaignGameStarter.AddGameMenu(
-                "bank_setup",
-                "{=bank_setup}You are at the {SETTLEMENT_NAME} Bank. You can open an account with an interest rate of {INTEREST_RATE}% per month.",
-                args => UpdateBankMenuTextVariables(),
-                GameOverlays.MenuOverlayType.SettlementWithBoth
-            );
-            campaignGameStarter.AddGameMenuOption(
-                "bank_setup",
-                "bank_setup_open_account",
-                "{=bank_deposit}Open Account ({BANK_ACCOUNT_COST}{GOLD_ICON})",
-                args =>
-                {
-                    args.optionLeaveType = GameMenuOption.LeaveType.Default;
-                    return true;
-                },
-                args => { OnOpenBankAccountAtSettlement(Settlement.CurrentSettlement); }
-            );
-            campaignGameStarter.AddGameMenuOption(
-                "bank_setup",
-                "bank_setup_open_account",
-                "{=bank_deposit}Open Account",
-                args =>
-                {
-                    args.optionLeaveType = GameMenuOption.LeaveType.Default;
-                    return true;
-                },
-                args => { OnOpenBankAccountAtSettlement(Settlement.CurrentSettlement); }
-            );
-
-            // Bank Account
-            campaignGameStarter.AddGameMenu(
-                "bank_account",
-                "{=bank_account}You are at the {SETTLEMENT_NAME} Bank. Your balance is {BALANCE}{GOLD_ICON} with an interest rate of {INTEREST_RATE}% per month.",
-                args => UpdateBankMenuTextVariables(),
-                GameOverlays.MenuOverlayType.SettlementWithBoth
-            );
-            campaignGameStarter.AddGameMenuOption(
-                "bank_account",
-                "bank_account_deposit",
-                "{=bank_account_deposit}Deposit",
-                args =>
-                {
-                    args.optionLeaveType = GameMenuOption.LeaveType.Default;
-                    return true;
-                },
-                args => { PromptDepositAmount(); }
-            );
-
+            // Town Menu
             campaignGameStarter.AddGameMenuOption(
                 "town",
                 "town_go_to_bank",
@@ -96,7 +49,78 @@ namespace Banks
                 },
                 args => { GameMenu.SwitchToMenu(GetBankMenuId(Settlement.CurrentSettlement)); },
                 false,
-                4
+                1
+            );
+
+            // Bank Setup
+            campaignGameStarter.AddGameMenu(
+                "bank_setup",
+                "{=bank_setup}You are at the {XORBERAX_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% per month.",
+                args => UpdateBankMenuTextVariables(),
+                GameOverlays.MenuOverlayType.SettlementWithBoth
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_setup",
+                "bank_setup_open_account",
+                "{=bank_setup_open_account}Open Account ({XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST}{GOLD_ICON})",
+                args =>
+                {
+                    args.optionLeaveType = GameMenuOption.LeaveType.Continue;
+                    return true;
+                },
+                args => OnOpenBankAccountAtSettlement(Settlement.CurrentSettlement)
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_setup",
+                "bank_setup_leave",
+                "{=bank_setup_leave}Leave bank",
+                args =>
+                {
+                    args.optionLeaveType = GameMenuOption.LeaveType.Leave;
+                    return true;
+                },
+                args => GameMenu.SwitchToMenu("town")
+            );
+
+            // Bank Account
+            campaignGameStarter.AddGameMenu(
+                "bank_account",
+                "{=bank_account}You are at the {XORBERAX_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% per month.",
+                args => UpdateBankMenuTextVariables(),
+                GameOverlays.MenuOverlayType.SettlementWithBoth
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_account",
+                "bank_account_deposit",
+                "{=bank_account_deposit}Deposit",
+                args =>
+                {
+                    args.optionLeaveType = GameMenuOption.LeaveType.Trade;
+                    return true;
+                },
+                args => { PromptDepositAmount(); }
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_account",
+                "bank_account_withdraw",
+                "{=bank_account_deposit}Withdraw",
+                args =>
+                {
+                    args.optionLeaveType = GameMenuOption.LeaveType.Trade;
+                    return true;
+                },
+                args => { PromptWithdrawAmount(); }
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_account",
+                "bank_account_leave",
+                "{=bank_account_leave}Leave bank",
+                args =>
+                {
+                    args.optionLeaveType = GameMenuOption.LeaveType.Leave;
+                    return true;
+                },
+                args => GameMenu.SwitchToMenu("town")
             );
         }
 
@@ -108,21 +132,22 @@ namespace Banks
 
         private void OnOpenBankAccountAtSettlement(Settlement settlement)
         {
-            OpenBankAccountAtSettlement(settlement);
-            GameMenu.SwitchToMenu("");
+            GameMenu.SwitchToMenu(TryOpenBankAccountAtSettlement(settlement) ? "bank_account" : "town");
         }
 
         private void UpdateBankMenuTextVariables()
         {
-            MBTextManager.SetTextVariable("SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
-            MBTextManager.SetTextVariable("BALANCE", GetBalanceAtSettlement(Settlement.CurrentSettlement));
-            MBTextManager.SetTextVariable("INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement):0.000}");
-            MBTextManager.SetTextVariable("BANK_ACCOUNT_COST", GetBankAccountOpeningCost(Settlement.CurrentSettlement));
+            MBTextManager.SetTextVariable("XORBERAX_SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_BALANCE", GetBalanceAtSettlement(Settlement.CurrentSettlement));
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement):0.000}");
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCost(Settlement.CurrentSettlement));
         }
 
-        private int GetBankAccountOpeningCost(Settlement settlement)
+        private int GetBankAccountOpeningCost([CanBeNull] Settlement settlement)
         {
-            var settlementProsperityFactor = settlement.Prosperity % SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor;
+            var settlementProsperityFactor = settlement.Prosperity >= SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
+                ? settlement.Prosperity % SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
+                : 1;
             return (int)(SubModule.Config.BankAccountOpeningCostBase * settlementProsperityFactor);
         }
 
@@ -151,6 +176,31 @@ namespace Banks
             );
         }
 
+        private void PromptWithdrawAmount()
+        {
+            InformationManager.ShowTextInquiry(
+                new TextInquiryData(
+                    "Withdraw",
+                    "Amount",
+                    true,
+                    true,
+                    "Withdraw",
+                    "Cancel",
+                    amountText =>
+                    {
+                        var (isValid, amount) = TryParseWithdrawAmount(amountText, Settlement.CurrentSettlement);
+                        if (isValid)
+                        {
+                            Withdraw(amount, Settlement.CurrentSettlement);
+                        }
+                    },
+                    () => { InformationManager.HideInquiry(); },
+                    false,
+                    amountText => TryParseWithdrawAmount(amountText, Settlement.CurrentSettlement).IsValid
+                )
+            );
+        }
+
         private void Deposit(int amount, Settlement settlement)
         {
             if (amount > Hero.MainHero.Gold)
@@ -163,6 +213,22 @@ namespace Banks
             {
                 _settlementBankDataBySettlementId[settlementId].Balance += amount;
                 GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, amount);
+            }
+            UpdateBankMenuTextVariables();
+        }
+
+        private void Withdraw(int amount, Settlement settlement)
+        {
+            if (amount > Hero.MainHero.Gold)
+            {
+                InformationManager.DisplayMessage(new InformationMessage("You do not have enough Denars to withdraw."));
+                return;
+            }
+            var settlementId = settlement.Id;
+            if (_settlementBankDataBySettlementId.ContainsKey(settlementId))
+            {
+                _settlementBankDataBySettlementId[settlementId].Balance -= amount;
+                GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount);
             }
             UpdateBankMenuTextVariables();
         }
@@ -200,10 +266,18 @@ namespace Banks
             return _settlementBankDataBySettlementId[settlement.Id] = InitializeBankDataAtSettlement(settlement);
         }
 
-        private void OpenBankAccountAtSettlement(Settlement settlement)
+        private bool TryOpenBankAccountAtSettlement(Settlement settlement)
         {
+            var openingCost = GetBankAccountOpeningCost(settlement);
+            if (openingCost > Hero.MainHero.Gold)
+            {
+                InformationManager.DisplayMessage(new InformationMessage("You cannot afford to open an account here."));
+                return false;
+            }
             var bankData = GetPlayerBankDataAtSettlement(settlement);
             bankData.AccountOpenDate = CampaignTime.Now;
+            GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, openingCost);
+            return true;
         }
 
         private BankData InitializeBankDataAtSettlement(Settlement settlement)
@@ -219,11 +293,20 @@ namespace Banks
             return settlement.Prosperity * SubModule.Config.InterestRatePerSettlementProsperityFactor;
         }
 
-        private static (bool IsValid, int Amount) TryParseDepositAmount(string amountText)
+        private (bool IsValid, int Amount) TryParseDepositAmount(string amountText)
         {
             if (int.TryParse(amountText, out var amount))
             {
                 return (amount > 0 && amount <= GetPlayerMoneyOnPerson(), amount);
+            }
+            return (false, -1);
+        }
+
+        private (bool IsValid, int Amount) TryParseWithdrawAmount(string amountText, Settlement settlement)
+        {
+            if (int.TryParse(amountText, out var amount))
+            {
+                return (amount > 0 && amount <= GetBalanceAtSettlement(settlement), amount);
             }
             return (false, -1);
         }

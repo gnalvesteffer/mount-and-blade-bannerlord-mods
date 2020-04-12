@@ -18,15 +18,16 @@ namespace Banks
             LoadConfig();
         }
 
-        public override void OnCampaignStart(Game game, object starterObject)
+        protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
-            base.OnCampaignStart(game, starterObject);
-            var campaignGameStarter = starterObject as CampaignGameStarter;
-            if (campaignGameStarter == null)
+            base.OnGameStart(game, gameStarter);
+            var campaign = game.GameType as Campaign;
+            if (campaign == null)
             {
                 return;
             }
-            campaignGameStarter.AddBehavior(new BanksCampaignBehavior());
+            var campaignGameStarter = gameStarter as CampaignGameStarter;
+            campaignGameStarter?.AddBehavior(new BanksCampaignBehavior());
         }
 
         private static void LoadConfig()
