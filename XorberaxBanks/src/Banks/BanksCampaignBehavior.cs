@@ -16,7 +16,7 @@ namespace Banks
         public override void RegisterEvents()
         {
             CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
-            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
+            CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, OnWeeklyTick);
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -35,7 +35,7 @@ namespace Banks
             AddMenus(campaignGameStarter);
         }
 
-        private void OnDailyTick()
+        private void OnWeeklyTick()
         {
             UpdateBankData();
         }
@@ -44,13 +44,8 @@ namespace Banks
         {
             foreach (var settlementId in _settlementBankDataBySettlementId.Keys)
             {
-                var settlement = Settlement.Find(settlementId);
                 var bankData = _settlementBankDataBySettlementId[settlementId];
-                if ((CampaignTime.Now - bankData.AccountOpenDate).ToDays > CampaignTime.DaysInSeason)
-                {
-                    bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
-                    bankData.InterestRate = CalculateSettlementInterestRate(settlement);
-                }
+                bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
             }
         }
 
@@ -74,7 +69,7 @@ namespace Banks
             // Bank Setup
             campaignGameStarter.AddGameMenu(
                 "bank_setup",
-                "{=bank_setup}You are at the {XORBERAX_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% per month.",
+                "{=bank_setup}You are at the {XORBERAX_SETTLEMENT_NAME} bank. You can open an account with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%.",
                 args => UpdateBankMenuTextVariables(),
                 GameOverlays.MenuOverlayType.SettlementWithBoth
             );
@@ -104,7 +99,7 @@ namespace Banks
             // Bank Account
             campaignGameStarter.AddGameMenu(
                 "bank_account",
-                "{=bank_account}You are at the {XORBERAX_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% per month.",
+                "{=bank_account}You are at the {XORBERAX_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%.",
                 args => UpdateBankMenuTextVariables(),
                 GameOverlays.MenuOverlayType.SettlementWithBoth
             );
@@ -161,16 +156,16 @@ namespace Banks
         {
             MBTextManager.SetTextVariable("XORBERAX_SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BALANCE", GetBalanceAtSettlement(Settlement.CurrentSettlement));
-            MBTextManager.SetTextVariable("XORBERAX_BANKS_INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement):0.000}");
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement):0.0000}");
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCost(Settlement.CurrentSettlement));
         }
 
         private int GetBankAccountOpeningCost(Settlement settlement)
         {
             var settlementProsperityFactor = settlement.Prosperity >= SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
-                ? settlement.Prosperity / SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
+                ? (int)(settlement.Prosperity / SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor)
                 : 1;
-            return (int)(SubModule.Config.BankAccountOpeningCostBase * settlementProsperityFactor);
+            return SubModule.Config.BankAccountOpeningCostBase * settlementProsperityFactor;
         }
 
         private void PromptDepositAmount()
@@ -318,7 +313,9 @@ namespace Banks
 
         private float CalculateSettlementInterestRate(Settlement settlement)
         {
-            return settlement.Prosperity * SubModule.Config.InterestRatePerSettlementProsperityFactor;
+            return
+                (settlement.Prosperity + settlement.GetSettlementComponent().Gold) *
+                SubModule.Config.InterestRatePerSettlementProsperityFactor;
         }
 
         private (bool IsValid, int Amount) TryParseDepositAmount(string amountText)
