@@ -27,5 +27,11 @@ namespace Banks
 
         [SaveableProperty(7)]
         public CampaignTime LoanStartDate { get; set; }
+
+        [SaveableProperty(8)]
+        public CampaignTime LastBankUpdateDate { get; set; }
+
+        [SaveableProperty(9)]
+        public bool HasBankRetaliatedForUnpaidLoan { get; set; }
     }
 }

@@ -7,6 +7,12 @@ namespace Banks
         [JsonProperty("availableLoanAmountPerRenown")]
         public int AvailableLoanAmountPerRenown { get; set; }
 
+        [JsonProperty("availableLoanAmountDivisor")]
+        public int availableLoanAmountDivisor { get; set; }
+
+        [JsonProperty("daysToRepayLoan")]
+        public int DaysToRepayLoan { get; set; }
+
         [JsonProperty("interestRatePerSettlementProsperityFactor")]
         public float InterestRatePerSettlementProsperityFactor { get; set; }
 
