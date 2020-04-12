@@ -1,8 +1,13 @@
 {
   "experiencePerHour": 10,
+  "experiencePerHourAtArenas": 50,
+  "perUnitTrainingCostAtArenas": 15,
+  "additionalFeeForSettlementFactor": 0.05,
+  "additionalExperiencePerHourPerSettlementMilitia": 0.1,
   "maximumHoursToTrain": 24,
   "trainingCooldownHours": 72,
-  "woundProbability": 0.02,
+  "woundProbabilityAtTrainingField": 0.1,
+  "woundProbabilityAtArena": 0.02,
   "maxSkillValue": 275,
   "enableWoundingDuringTraining": true,
   "combatSkillsAffectExperienceGain": true
