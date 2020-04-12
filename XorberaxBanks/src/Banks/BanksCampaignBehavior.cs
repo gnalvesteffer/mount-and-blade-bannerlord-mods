@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -23,7 +22,7 @@ namespace Banks
         {
             try
             {
-                dataStore.SyncData("settlementBankData", ref _settlementBankDataBySettlementId);
+                dataStore.SyncData(nameof(_settlementBankDataBySettlementId), ref _settlementBankDataBySettlementId);
             }
             catch
             {
@@ -143,7 +142,7 @@ namespace Banks
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCost(Settlement.CurrentSettlement));
         }
 
-        private int GetBankAccountOpeningCost([CanBeNull] Settlement settlement)
+        private int GetBankAccountOpeningCost(Settlement settlement)
         {
             var settlementProsperityFactor = settlement.Prosperity >= SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
                 ? settlement.Prosperity % SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
@@ -208,10 +207,9 @@ namespace Banks
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough Denars to deposit."));
                 return;
             }
-            var settlementId = settlement.Id;
-            if (_settlementBankDataBySettlementId.ContainsKey(settlementId))
+            if (_settlementBankDataBySettlementId.ContainsKey(settlement.Id))
             {
-                _settlementBankDataBySettlementId[settlementId].Balance += amount;
+                _settlementBankDataBySettlementId[settlement.Id].Balance += amount;
                 GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, amount);
             }
             UpdateBankMenuTextVariables();
@@ -224,10 +222,9 @@ namespace Banks
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough Denars to withdraw."));
                 return;
             }
-            var settlementId = settlement.Id;
-            if (_settlementBankDataBySettlementId.ContainsKey(settlementId))
+            if (_settlementBankDataBySettlementId.ContainsKey(settlement.Id))
             {
-                _settlementBankDataBySettlementId[settlementId].Balance -= amount;
+                _settlementBankDataBySettlementId[settlement.Id].Balance -= amount;
                 GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount);
             }
             UpdateBankMenuTextVariables();
@@ -275,6 +272,7 @@ namespace Banks
                 return false;
             }
             var bankData = GetPlayerBankDataAtSettlement(settlement);
+            bankData.HasAccount = true;
             bankData.AccountOpenDate = CampaignTime.Now;
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, openingCost);
             return true;
