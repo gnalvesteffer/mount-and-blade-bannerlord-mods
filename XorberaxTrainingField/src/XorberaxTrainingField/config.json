@@ -6,7 +6,7 @@
   "additionalExperiencePerHourPerSettlementMilitia": 0.1,
   "maximumHoursToTrain": 24,
   "trainingCooldownHours": 72,
-  "woundProbabilityAtTrainingField": 0.1,
+  "woundProbabilityAtTrainingField": 0.2,
   "woundProbabilityAtArena": 0.02,
   "maxSkillValue": 275,
   "enableWoundingDuringTraining": true,
