@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 
 namespace Banks
@@ -17,7 +16,7 @@ namespace Banks
 
         protected override void DefineContainerDefinitions()
         {
-            ConstructContainerDefinition(typeof(Dictionary<MBGUID, BankData>));
+            ConstructContainerDefinition(typeof(Dictionary<string, BankData>));
         }
     }
 }

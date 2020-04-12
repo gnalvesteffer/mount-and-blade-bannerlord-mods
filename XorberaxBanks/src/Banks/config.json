@@ -2,5 +2,5 @@
   "availableLoanAmountPerRenown": 100,
   "interestRatePerSettlementProsperityFactor": 0.00001,
   "bankAccountOpeningCostBase": 1000,
-  "bankAccountOpeningCostSettlementProsperityDivisor": 10000
+  "bankAccountOpeningCostSettlementProsperityDivisor": 1000
 }

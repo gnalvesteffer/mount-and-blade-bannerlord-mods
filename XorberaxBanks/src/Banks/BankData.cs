@@ -8,7 +8,7 @@ namespace Banks
     public class BankData
     {
         [SaveableProperty(1)]
-        public MBGUID SettlementId { get; set; }
+        public string SettlementId { get; set; }
 
         [SaveableProperty(2)]
         public bool HasAccount { get; set; }

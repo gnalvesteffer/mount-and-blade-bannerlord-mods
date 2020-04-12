@@ -11,11 +11,12 @@ namespace Banks
 {
     public class BanksCampaignBehavior : CampaignBehaviorBase
     {
-        private Dictionary<MBGUID, BankData> _settlementBankDataBySettlementId = new Dictionary<MBGUID, BankData>();
+        private Dictionary<string, BankData> _settlementBankDataBySettlementId = new Dictionary<string, BankData>();
 
         public override void RegisterEvents()
         {
             CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
+            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -34,6 +35,25 @@ namespace Banks
             AddMenus(campaignGameStarter);
         }
 
+        private void OnDailyTick()
+        {
+            UpdateBankData();
+        }
+
+        private void UpdateBankData()
+        {
+            foreach (var settlementId in _settlementBankDataBySettlementId.Keys)
+            {
+                var settlement = Settlement.Find(settlementId);
+                var bankData = _settlementBankDataBySettlementId[settlementId];
+                if ((CampaignTime.Now - bankData.AccountOpenDate).ToDays > CampaignTime.DaysInSeason)
+                {
+                    bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
+                    bankData.InterestRate = CalculateSettlementInterestRate(settlement);
+                }
+            }
+        }
+
         private void AddMenus(CampaignGameStarter campaignGameStarter)
         {
             // Town Menu
@@ -46,7 +66,7 @@ namespace Banks
                     args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
                     return true;
                 },
-                args => { GameMenu.SwitchToMenu(GetBankMenuId(Settlement.CurrentSettlement)); },
+                args => GameMenu.SwitchToMenu(GetBankMenuId(Settlement.CurrentSettlement)),
                 false,
                 1
             );
@@ -125,13 +145,16 @@ namespace Banks
 
         private string GetBankMenuId(Settlement settlement)
         {
-            var bankData = GetPlayerBankDataAtSettlement(settlement);
+            var bankData = GetBankDataAtSettlement(settlement);
             return bankData.HasAccount ? "bank_account" : "bank_setup";
         }
 
         private void OnOpenBankAccountAtSettlement(Settlement settlement)
         {
-            GameMenu.SwitchToMenu(TryOpenBankAccountAtSettlement(settlement) ? "bank_account" : "town");
+            if (TryOpenBankAccountAtSettlement(settlement))
+            {
+                GameMenu.SwitchToMenu("bank_account");
+            }
         }
 
         private void UpdateBankMenuTextVariables()
@@ -145,7 +168,7 @@ namespace Banks
         private int GetBankAccountOpeningCost(Settlement settlement)
         {
             var settlementProsperityFactor = settlement.Prosperity >= SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
-                ? settlement.Prosperity % SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
+                ? settlement.Prosperity / SubModule.Config.BankAccountOpeningCostSettlementProsperityDivisor
                 : 1;
             return (int)(SubModule.Config.BankAccountOpeningCostBase * settlementProsperityFactor);
         }
@@ -207,9 +230,9 @@ namespace Banks
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough Denars to deposit."));
                 return;
             }
-            if (_settlementBankDataBySettlementId.ContainsKey(settlement.Id))
+            if (_settlementBankDataBySettlementId.ContainsKey(settlement.StringId))
             {
-                _settlementBankDataBySettlementId[settlement.Id].Balance += amount;
+                _settlementBankDataBySettlementId[settlement.StringId].Balance += amount;
                 GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, amount);
             }
             UpdateBankMenuTextVariables();
@@ -217,14 +240,21 @@ namespace Banks
 
         private void Withdraw(int amount, Settlement settlement)
         {
-            if (amount > Hero.MainHero.Gold)
+            var bankData = GetBankDataAtSettlement(settlement);
+            if (amount > bankData.Balance)
             {
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough Denars to withdraw."));
                 return;
             }
-            if (_settlementBankDataBySettlementId.ContainsKey(settlement.Id))
+            var settlementComponent = settlement.GetSettlementComponent();
+            if (amount > settlementComponent.Gold)
             {
-                _settlementBankDataBySettlementId[settlement.Id].Balance -= amount;
+                InformationManager.DisplayMessage(new InformationMessage($"The bank does not have enough funds available for you to withdraw. Only {settlementComponent.Gold} Denars remain."));
+                return;
+            }
+            if (_settlementBankDataBySettlementId.ContainsKey(settlement.StringId))
+            {
+                _settlementBankDataBySettlementId[settlement.StringId].Balance -= amount;
                 GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount);
             }
             UpdateBankMenuTextVariables();
@@ -241,12 +271,12 @@ namespace Banks
 
         private float GetInterestRateAtSettlement(Settlement settlement)
         {
-            return GetPlayerBankDataAtSettlement(settlement).InterestRate;
+            return GetBankDataAtSettlement(settlement).InterestRate;
         }
 
         private int GetBalanceAtSettlement(Settlement settlement)
         {
-            var bankData = GetPlayerBankDataAtSettlement(settlement);
+            var bankData = GetBankDataAtSettlement(settlement);
             if (bankData != null)
             {
                 return bankData.Balance;
@@ -254,13 +284,13 @@ namespace Banks
             return 0;
         }
 
-        private BankData GetPlayerBankDataAtSettlement(Settlement settlement)
+        private BankData GetBankDataAtSettlement(Settlement settlement)
         {
-            if (_settlementBankDataBySettlementId.ContainsKey(settlement.Id))
+            if (_settlementBankDataBySettlementId.ContainsKey(settlement.StringId))
             {
-                return _settlementBankDataBySettlementId[settlement.Id];
+                return _settlementBankDataBySettlementId[settlement.StringId];
             }
-            return _settlementBankDataBySettlementId[settlement.Id] = InitializeBankDataAtSettlement(settlement);
+            return _settlementBankDataBySettlementId[settlement.StringId] = InitializeBankDataAtSettlement(settlement);
         }
 
         private bool TryOpenBankAccountAtSettlement(Settlement settlement)
@@ -271,7 +301,7 @@ namespace Banks
                 InformationManager.DisplayMessage(new InformationMessage("You cannot afford to open an account here."));
                 return false;
             }
-            var bankData = GetPlayerBankDataAtSettlement(settlement);
+            var bankData = GetBankDataAtSettlement(settlement);
             bankData.HasAccount = true;
             bankData.AccountOpenDate = CampaignTime.Now;
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, openingCost);
