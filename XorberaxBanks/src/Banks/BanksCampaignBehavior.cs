@@ -217,7 +217,7 @@ namespace Banks
                     }
                     else
                     {
-                        args.Tooltip = new TextObject($"You nn have at least {SubModule.Config.MinimumRenownRequiredToTakeOutLoan} renown to take out a loan.");
+                        args.Tooltip = new TextObject($"You must have at least {SubModule.Config.MinimumRenownRequiredToTakeOutLoan} renown to take out a loan.");
                     }
                     return true;
                 },
