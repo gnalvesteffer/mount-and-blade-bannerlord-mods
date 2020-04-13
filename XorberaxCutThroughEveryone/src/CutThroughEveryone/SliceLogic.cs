@@ -80,6 +80,7 @@ namespace CutThroughEveryone
         {
             return
                 victim != null &&
+                attacker != null &&
                 (!SubModule.Config.ShouldOnlyCutThroughKilledUnits || (int)victim.Health == 0) &&
                 (!SubModule.Config.DoFriendlyUnitsBlockCutThroughs || attacker.Team != victim.Team) &&
                 (!SubModule.Config.OnlyPlayerCanCutThrough || attacker.IsMainAgent);
