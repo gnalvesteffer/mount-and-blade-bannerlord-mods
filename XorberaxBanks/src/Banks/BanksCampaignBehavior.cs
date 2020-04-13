@@ -128,24 +128,28 @@ namespace Banks
                     args.Tooltip = canPlayerAccessBank ? TextObject.Empty : new TextObject(reasonMessage);
                     return true;
                 },
-                args => GameMenu.SwitchToMenu(GetBankMenuId(Settlement.CurrentSettlement)),
+                args => GameMenu.SwitchToMenu("bank_account"),
                 false,
                 1
             );
 
-            // Bank Setup
+            // Bank Account
             campaignGameStarter.AddGameMenu(
-                "bank_setup",
-                "{=bank_setup}You are at the {XORBERAX_SETTLEMENT_NAME} bank. You can open an account with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%.",
+                "bank_account",
+                "{=bank_account_info}{XORBERAX_BANKS_BANK_ACCOUNT_INFO}",
                 args => UpdateBankMenuTextVariables(),
                 GameOverlays.MenuOverlayType.SettlementWithBoth
             );
             campaignGameStarter.AddGameMenuOption(
-                "bank_setup",
-                "bank_setup_open_account",
-                "{=bank_setup_open_account}Open Account ({XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST}{GOLD_ICON})",
+                "bank_account",
+                "bank_account_open_account",
+                "{=bank_account_open_account}Open Account ({XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST}{GOLD_ICON})",
                 args =>
                 {
+                    if (DoesPlayerHaveAccountAtSettlementBank(Settlement.CurrentSettlement))
+                    {
+                        return false;
+                    }
                     var canPlayerAffordToOpenBankAccountAtSettlement = CanPlayerAffordToOpenBankAccountAtSettlement(Settlement.CurrentSettlement);
                     args.optionLeaveType = GameMenuOption.LeaveType.Continue;
                     args.IsEnabled = canPlayerAffordToOpenBankAccountAtSettlement;
@@ -157,30 +161,15 @@ namespace Banks
                 args => OnOpenBankAccountAtSettlement(Settlement.CurrentSettlement)
             );
             campaignGameStarter.AddGameMenuOption(
-                "bank_setup",
-                "bank_setup_leave",
-                "{=bank_setup_leave}Leave bank",
-                args =>
-                {
-                    args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-                    return true;
-                },
-                args => GameMenu.SwitchToMenu("town")
-            );
-
-            // Bank Account
-            campaignGameStarter.AddGameMenu(
-                "bank_account",
-                "{=bank_account}You are at the {XORBERAX_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}",
-                args => UpdateBankMenuTextVariables(),
-                GameOverlays.MenuOverlayType.SettlementWithBoth
-            );
-            campaignGameStarter.AddGameMenuOption(
                 "bank_account",
                 "bank_account_deposit",
                 "{=bank_account_deposit}Deposit",
                 args =>
                 {
+                    if (!DoesPlayerHaveAccountAtSettlementBank(Settlement.CurrentSettlement))
+                    {
+                        return false;
+                    }
                     var isLoanOverdueAtSettlement = IsLoanOverdueAtSettlement(Settlement.CurrentSettlement);
                     args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = !isLoanOverdueAtSettlement;
@@ -195,6 +184,10 @@ namespace Banks
                 "{=bank_account_withdraw}Withdraw",
                 args =>
                 {
+                    if (!DoesPlayerHaveAccountAtSettlementBank(Settlement.CurrentSettlement))
+                    {
+                        return false;
+                    }
                     var isLoanOverdueAtSettlement = IsLoanOverdueAtSettlement(Settlement.CurrentSettlement);
                     args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = !isLoanOverdueAtSettlement;
@@ -220,7 +213,7 @@ namespace Banks
                     args.IsEnabled = canLoan;
                     if (doesPlayerHaveEnoughRenownToTakeOutLoan)
                     {
-                        args.Tooltip = canLoan ? TextObject.Empty : new TextObject("{XORBERAX_SETTLEMENT_NAME}'s bank is unable to offer loans at this time.");
+                        args.Tooltip = canLoan ? TextObject.Empty : new TextObject("{XORBERAX_BANKS_SETTLEMENT_NAME}'s bank is unable to offer loans at this time.");
                     }
                     else
                     {
@@ -264,6 +257,12 @@ namespace Banks
             );
         }
 
+        private bool DoesPlayerHaveAccountAtSettlementBank(Settlement settlement)
+        {
+            var bankData = GetBankDataAtSettlement(settlement);
+            return bankData.HasAccount;
+        }
+
         private static bool DoesPlayerHaveEnoughRenownToTakeOutLoan()
         {
             return (int)Hero.MainHero.Clan.Renown >= SubModule.Config.MinimumRenownRequiredToTakeOutLoan;
@@ -292,7 +291,7 @@ namespace Banks
             InformationManager.DisplayMessage(new InformationMessage($"You have paid off your loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_negative"));
             bankData.RemainingUnpaidLoan = 0;
             bankData.HasBankRetaliatedForUnpaidLoan = false;
-            GameMenu.SwitchToMenu(GetBankMenuId(settlement));
+            GameMenu.SwitchToMenu("bank_account");
         }
 
         private bool CanPlayerAffordToOpenBankAccountAtSettlement(Settlement settlement)
@@ -311,12 +310,6 @@ namespace Banks
             return bankData.RemainingUnpaidLoan > 0;
         }
 
-        private string GetBankMenuId(Settlement settlement)
-        {
-            var bankData = GetBankDataAtSettlement(settlement);
-            return bankData.HasAccount ? "bank_account" : "bank_setup";
-        }
-
         private void OnOpenBankAccountAtSettlement(Settlement settlement)
         {
             if (TryOpenBankAccountAtSettlement(settlement))
@@ -327,12 +320,21 @@ namespace Banks
 
         private void UpdateBankMenuTextVariables()
         {
-            MBTextManager.SetTextVariable("XORBERAX_SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BALANCE", GetBalanceAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement):0.0000}");
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCostAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_REMAINING_UNPAID_LOAN", GetRemainingUnpaidLoanAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_LOAN_INFO", BuildLoanInfoText(Settlement.CurrentSettlement));
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_INFO", BuildBankAccountInfoText(Settlement.CurrentSettlement));
+        }
+
+        private string BuildBankAccountInfoText(Settlement settlement)
+        {
+            var bankData = GetBankDataAtSettlement(settlement);
+            return bankData.HasAccount
+                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}"
+                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}";
         }
 
         private string BuildLoanInfoText(Settlement settlement)
@@ -512,7 +514,7 @@ namespace Banks
             GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);
             InformationManager.DisplayMessage(new InformationMessage($"You took out a loan for {amount}<img src=\"Icons\\Coin@2x\">. Lost {loanRenownCost} renown.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
-            GameMenu.SwitchToMenu(GetBankMenuId(settlement));
+            GameMenu.SwitchToMenu("bank_account");
         }
 
         private int MaxAvailableLoanAtSettlement(Settlement settlement)
