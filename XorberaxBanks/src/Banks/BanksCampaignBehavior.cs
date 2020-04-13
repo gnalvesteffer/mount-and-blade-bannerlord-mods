@@ -208,16 +208,16 @@ namespace Banks
                         return false;
                     }
                     var doesPlayerHaveEnoughRenownToTakeOutLoan = DoesPlayerHaveEnoughRenownToTakeOutLoan();
-                    var canLoan = MaxAvailableLoanAtSettlement(Settlement.CurrentSettlement) > 0;
+                    var canLoan = doesPlayerHaveEnoughRenownToTakeOutLoan && MaxAvailableLoanAtSettlement(Settlement.CurrentSettlement) > 0;
                     args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = canLoan;
-                    if (doesPlayerHaveEnoughRenownToTakeOutLoan)
+                    if (!canLoan)
                     {
-                        args.Tooltip = canLoan ? TextObject.Empty : new TextObject("{XORBERAX_BANKS_SETTLEMENT_NAME}'s bank is unable to offer loans at this time.");
-                    }
-                    else
-                    {
-                        args.Tooltip = new TextObject($"You must have at least {SubModule.Config.MinimumRenownRequiredToTakeOutLoan} renown to take out a loan.");
+                        args.Tooltip = new TextObject(
+                            doesPlayerHaveEnoughRenownToTakeOutLoan
+                                ? "{XORBERAX_BANKS_SETTLEMENT_NAME}'s bank is unable to offer loans at this time."
+                                : $"You must have at least {SubModule.Config.MinimumRenownRequiredToTakeOutLoan} renown to take out a loan."
+                        );
                     }
                     return true;
                 },
