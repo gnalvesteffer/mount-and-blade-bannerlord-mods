@@ -28,6 +28,8 @@ namespace Banks
         [SaveableProperty(7)]
         public CampaignTime LoanStartDate { get; set; }
 
+        public CampaignTime LoanEndDate => LoanStartDate + CampaignTime.Days(SubModule.Config.DaysToRepayLoan);
+
         [SaveableProperty(8)]
         public CampaignTime LastBankUpdateDate { get; set; }
 

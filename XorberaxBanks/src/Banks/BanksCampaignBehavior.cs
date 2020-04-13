@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -6,6 +7,7 @@ using TaleWorlds.CampaignSystem.Overlay;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.TwoDimension;
 
 namespace Banks
 {
@@ -46,14 +48,14 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                if ((CampaignTime.Now - bankData.LastBankUpdateDate).ToWeeks > 0)
+                if ((CampaignTime.Now - bankData.LastBankUpdateDate).ToWeeks >= 1)
                 {
                     bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
                     bankData.LastBankUpdateDate = CampaignTime.Now;
-                    if (IsLoanOverDueAtSettlement(settlement) && !bankData.HasBankRetaliatedForUnpaidLoan)
-                    {
-                        ApplyBankRetaliationForUnpaidLoan(settlement);
-                    }
+                }
+                if (IsLoanOverDueAtSettlement(settlement) && !bankData.HasBankRetaliatedForUnpaidLoan)
+                {
+                    ApplyBankRetaliationForUnpaidLoan(settlement);
                 }
             }
         }
@@ -61,12 +63,14 @@ namespace Banks
         private void ApplyBankRetaliationForUnpaidLoan(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
-            FactionManager.DeclareWar(settlement.MapFaction, Hero.MainHero.MapFaction);
             bankData.HasBankRetaliatedForUnpaidLoan = true;
+            ChangeCrimeRatingAction.Apply(settlement.MapFaction, SubModule.Config.CrimeRatingIncreaseForUnpaidLoan);
+            Hero.MainHero.Clan.Renown -= SubModule.Config.RenownLossForUnpaidLoan;
+            InformationManager.DisplayMessage(new InformationMessage($"You failed to repay your loan. Lost {SubModule.Config.RenownLossForUnpaidLoan} renown."));
             InformationManager.ShowInquiry(
                 new InquiryData(
                     "Loan Payment Overdue",
-                    $"You have failed to repay your loan with the {settlement.Name} bank. {settlement.Name} now recognizes you as a criminal.",
+                    $"You have failed to repay your loan with the {settlement.Name} bank. {settlement.MapFaction.Name} now recognizes you as an outlaw.",
                     true,
                     false,
                     "OK",
@@ -81,7 +85,7 @@ namespace Banks
         private bool IsLoanOverDueAtSettlement(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
-            return bankData.RemainingUnpaidLoan > 0 && (CampaignTime.Now - bankData.LoanStartDate).ToDays > SubModule.Config.DaysToRepayLoan;
+            return bankData.RemainingUnpaidLoan > 0 && (CampaignTime.Now - bankData.LoanEndDate).ToDays >= 0;
         }
 
         private void AddMenus(CampaignGameStarter campaignGameStarter)
@@ -93,7 +97,10 @@ namespace Banks
                 "{=town_bank}Go to the bank",
                 args =>
                 {
+                    var (canPlayerAccessBank, reasonMessage) = CanPlayerAccessBankAtSettlement(Settlement.CurrentSettlement);
                     args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
+                    args.IsEnabled = canPlayerAccessBank;
+                    args.Tooltip = canPlayerAccessBank ? TextObject.Empty : new TextObject(reasonMessage);
                     return true;
                 },
                 args => GameMenu.SwitchToMenu(GetBankMenuId(Settlement.CurrentSettlement)),
@@ -224,6 +231,16 @@ namespace Banks
             );
         }
 
+        private (bool CanAccess, string ReasonMessage) CanPlayerAccessBankAtSettlement(Settlement settlement)
+        {
+            if (!CampaignTime.Now.IsDayTime)
+            {
+                return (false, "The bank is closed at night.");
+            }
+            var isPlayerEnemyOfFaction = FactionManager.IsAtWarAgainstFaction(settlement.MapFaction, Hero.MainHero.MapFaction);
+            return (!isPlayerEnemyOfFaction, isPlayerEnemyOfFaction ? "You cannot access the bank with your current reputation." : string.Empty);
+        }
+
         private void RepayLoanAtSettlement(Settlement settlement)
         {
             var remainingUnpaidLoanAmount = GetRemainingUnpaidLoanAtSettlement(settlement);
@@ -285,7 +302,8 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             if (bankData.RemainingUnpaidLoan > 0)
             {
-                return $"You have a loan of {bankData.RemainingUnpaidLoan}{{GOLD_ICON}} due on {GetLoanRepayDueDateAtSettlement(settlement)}.";
+                var isLoanOverdue = IsLoanOverDueAtSettlement(settlement);
+                return $"You {(isLoanOverdue ? "had" : "have")} a loan of {bankData.RemainingUnpaidLoan}{{GOLD_ICON}} due on {GetLoanRepayDueDateAtSettlement(settlement)}.";
             }
             return string.Empty;
         }
@@ -293,7 +311,7 @@ namespace Banks
         private CampaignTime GetLoanRepayDueDateAtSettlement(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
-            return CampaignTime.Days((int)(bankData.LoanStartDate.ToDays + SubModule.Config.DaysToRepayLoan));
+            return bankData.LoanEndDate;
         }
 
         private int GetRemainingUnpaidLoanAtSettlement(Settlement settlement)
@@ -374,7 +392,7 @@ namespace Banks
                         var (isValid, amount) = TryParseLoanAmount(amountText, settlement);
                         if (isValid)
                         {
-                            TakeOutLoan(amount, settlement);
+                            PromptLoanConfirmation(amount, settlement);
                         }
                     },
                     () => { InformationManager.HideInquiry(); },
@@ -382,6 +400,27 @@ namespace Banks
                     amountText => TryParseLoanAmount(amountText, settlement).IsValid
                 )
             );
+        }
+
+        private void PromptLoanConfirmation(int amount, Settlement settlement)
+        {
+            InformationManager.ShowInquiry(
+                new InquiryData(
+                    "Loan",
+                    $"Are you sure you want to take out a loan of {amount}<img src=\"Icons\\Coin@2x\">? You will lose {CalculateRenownCostForLoanAmount(amount):0.00} renown.",
+                    true,
+                    true,
+                    "Yes",
+                    "No",
+                    () => TakeOutLoan(amount, settlement),
+                    () => InformationManager.HideInquiry()
+                )
+            );
+        }
+
+        private float CalculateRenownCostForLoanAmount(int loanAmount)
+        {
+            return (int)Mathf.Max(loanAmount / SubModule.Config.AvailableLoanAmountDivisor * SubModule.Config.RenownCostPerLoanAmountDivisor, 1);
         }
 
         private void Deposit(int amount, Settlement settlement)
@@ -394,7 +433,7 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.Balance += amount;
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, amount, true);
-            InformationManager.DisplayMessage(new InformationMessage($"Deposited {amount}{{GOLD_ICON}}.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You deposited {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
         }
 
@@ -414,7 +453,7 @@ namespace Banks
             }
             bankData.Balance -= amount;
             GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);
-            InformationManager.DisplayMessage(new InformationMessage($"Withdrew {amount}{{GOLD_ICON}}.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You withdrew {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
         }
 
@@ -424,12 +463,15 @@ namespace Banks
             var settlementComponent = settlement.GetSettlementComponent();
             if (amount > settlementComponent.Gold)
             {
-                InformationManager.DisplayMessage(new InformationMessage($"This bank does not have enough funds to loan to you. Only {settlementComponent.Gold} Denars are available."));
+                InformationManager.DisplayMessage(new InformationMessage($"This bank does not have enough funds to loan to you. Only {settlementComponent.Gold}<img src=\"Icons\\Coin@2x\"> are available."));
                 return;
             }
             bankData.LoanStartDate = CampaignTime.Now;
             bankData.RemainingUnpaidLoan = amount;
-            GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount);
+            var loanRenownCost = CalculateRenownCostForLoanAmount(amount);
+            Hero.MainHero.Clan.Renown -= loanRenownCost;
+            GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);
+            InformationManager.DisplayMessage(new InformationMessage($"You took out a loan for {amount}<img src=\"Icons\\Coin@2x\">. Lost {loanRenownCost} renown.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu(GetBankMenuId(settlement));
         }
@@ -440,9 +482,9 @@ namespace Banks
                 (int)(MathF.Clamp(
                           Hero.MainHero.Clan.Renown * SubModule.Config.AvailableLoanAmountPerRenown,
                           0,
-                          settlement.Prosperity
-                      ) / SubModule.Config.availableLoanAmountDivisor
-                ) * SubModule.Config.availableLoanAmountDivisor;
+                          settlement.GetSettlementComponent().Gold
+                      ) / SubModule.Config.AvailableLoanAmountDivisor
+                ) * SubModule.Config.AvailableLoanAmountDivisor;
             return availableLoanAmount;
         }
 
