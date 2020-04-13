@@ -58,22 +58,19 @@ namespace Banks
                 }
                 if (IsLoanOverdueAtSettlement(settlement))
                 {
-                    if (bankData.HasBankRetaliatedForUnpaidLoan && hasWeekPassedSinceLastBankDataUpdate)
+                    if (bankData.HasBankRetaliatedForUnpaidLoan)
                     {
-                        ApplyWeeklyBankRetaliationForUnpaidLoan(settlement);
+                        if (hasWeekPassedSinceLastBankDataUpdate)
+                        {
+                            ApplyWeeklyBankRetaliationForUnpaidLoan(settlement);
+                        }
                     }
                     else
                     {
-                        ApplyBankRetaliationForUnpaidLoan(settlement);
+                        ApplyInitialBankRetaliationForUnpaidLoan(settlement);
                     }
                 }
             }
-        }
-
-        private void ApplyWeeklyBankRetaliationForUnpaidLoan(Settlement settlement)
-        {
-            var bankData = GetBankDataAtSettlement(settlement);
-            bankData.RemainingUnpaidLoan += (int)(bankData.RemainingUnpaidLoan * bankData.LoanLateFeeInterestRate);
         }
 
         private float CalculateLoanLateFeeInterestAtSettlement(Settlement settlement)
@@ -81,7 +78,7 @@ namespace Banks
             return settlement.Prosperity * SubModule.Config.LoanLateFeeInterestRatePerSettlementProsperityFactor;
         }
 
-        private void ApplyBankRetaliationForUnpaidLoan(Settlement settlement)
+        private void ApplyInitialBankRetaliationForUnpaidLoan(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.HasBankRetaliatedForUnpaidLoan = true;
@@ -91,7 +88,7 @@ namespace Banks
             InformationManager.ShowInquiry(
                 new InquiryData(
                     "Loan Payment Overdue",
-                    $"You have failed to repay your loan with the {settlement.Name} bank. {settlement.MapFaction.Name} now recognizes you as an outlaw.",
+                    $"You have failed to repay your loan with the {settlement.Name} bank. The {settlement.MapFaction.InformalName} will treat you as an outlaw if you do not repay your debts.",
                     true,
                     false,
                     "OK",
@@ -101,6 +98,13 @@ namespace Banks
                 ),
                 true
             );
+        }
+
+        private void ApplyWeeklyBankRetaliationForUnpaidLoan(Settlement settlement)
+        {
+            var bankData = GetBankDataAtSettlement(settlement);
+            bankData.RemainingUnpaidLoan += (int)(bankData.RemainingUnpaidLoan * bankData.LoanLateFeeInterestRate);
+            ChangeCrimeRatingAction.Apply(settlement.MapFaction, SubModule.Config.RecurringCrimeRatingIncreaseForUnpaidLoan);
         }
 
         private bool IsLoanOverdueAtSettlement(Settlement settlement)
@@ -178,7 +182,7 @@ namespace Banks
                 args =>
                 {
                     var isLoanOverdueAtSettlement = IsLoanOverdueAtSettlement(Settlement.CurrentSettlement);
-                    args.optionLeaveType = GameMenuOption.LeaveType.Trade;
+                    args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = !isLoanOverdueAtSettlement;
                     args.Tooltip = isLoanOverdueAtSettlement ? new TextObject("You must repay your loan.") : TextObject.Empty;
                     return true;
@@ -192,7 +196,7 @@ namespace Banks
                 args =>
                 {
                     var isLoanOverdueAtSettlement = IsLoanOverdueAtSettlement(Settlement.CurrentSettlement);
-                    args.optionLeaveType = GameMenuOption.LeaveType.Trade;
+                    args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = !isLoanOverdueAtSettlement;
                     args.Tooltip = isLoanOverdueAtSettlement ? new TextObject("You must repay your loan.") : TextObject.Empty;
                     return true;
@@ -212,7 +216,7 @@ namespace Banks
                     }
                     var doesPlayerHaveEnoughRenownToTakeOutLoan = DoesPlayerHaveEnoughRenownToTakeOutLoan();
                     var canLoan = MaxAvailableLoanAtSettlement(Settlement.CurrentSettlement) > 0;
-                    args.optionLeaveType = GameMenuOption.LeaveType.Trade;
+                    args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = canLoan;
                     if (doesPlayerHaveEnoughRenownToTakeOutLoan)
                     {
@@ -238,7 +242,7 @@ namespace Banks
                         return false;
                     }
                     var doesPlayerHaveEnoughMoneyToRepayLoanAtSettlement = DoesPlayerHaveEnoughMoneyToRepayLoanAtSettlement(Settlement.CurrentSettlement);
-                    args.optionLeaveType = GameMenuOption.LeaveType.Trade;
+                    args.optionLeaveType = GameMenuOption.LeaveType.RansomAndBribe;
                     args.IsEnabled = doesPlayerHaveEnoughMoneyToRepayLoanAtSettlement;
                     args.Tooltip = doesPlayerHaveEnoughMoneyToRepayLoanAtSettlement
                         ? TextObject.Empty

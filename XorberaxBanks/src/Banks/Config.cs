@@ -23,7 +23,10 @@ namespace Banks
         public int RenownLossForUnpaidLoan { get; set; }
 
         [JsonProperty("crimeRatingIncreaseForUnpaidLoan")]
-        public int CrimeRatingIncreaseForUnpaidLoan { get; set; }
+        public float CrimeRatingIncreaseForUnpaidLoan { get; set; }
+
+        [JsonProperty("recurringCrimeRatingIncreaseForUnpaidLoan")]
+        public float RecurringCrimeRatingIncreaseForUnpaidLoan { get; set; }
 
         [JsonProperty("loanLateFeeInterestRatePerSettlementProsperityFactor")]
         public float LoanLateFeeInterestRatePerSettlementProsperityFactor { get; set; }
