@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -48,16 +47,38 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                if ((CampaignTime.Now - bankData.LastBankUpdateDate).ToWeeks >= 1)
+                var hasWeekPassedSinceLastBankDataUpdate = (CampaignTime.Now - bankData.LastBankUpdateDate).ToWeeks >= 1;
+                if (hasWeekPassedSinceLastBankDataUpdate)
                 {
-                    bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
+                    if (bankData.RemainingUnpaidLoan == 0)
+                    {
+                        bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
+                    }
                     bankData.LastBankUpdateDate = CampaignTime.Now;
                 }
-                if (IsLoanOverDueAtSettlement(settlement) && !bankData.HasBankRetaliatedForUnpaidLoan)
+                if (IsLoanOverdueAtSettlement(settlement))
                 {
-                    ApplyBankRetaliationForUnpaidLoan(settlement);
+                    if (bankData.HasBankRetaliatedForUnpaidLoan && hasWeekPassedSinceLastBankDataUpdate)
+                    {
+                        ApplyWeeklyBankRetaliationForUnpaidLoan(settlement);
+                    }
+                    else
+                    {
+                        ApplyBankRetaliationForUnpaidLoan(settlement);
+                    }
                 }
             }
+        }
+
+        private void ApplyWeeklyBankRetaliationForUnpaidLoan(Settlement settlement)
+        {
+            var bankData = GetBankDataAtSettlement(settlement);
+            bankData.RemainingUnpaidLoan += (int)(bankData.RemainingUnpaidLoan * bankData.LoanLateFeeInterestRate);
+        }
+
+        private float CalculateLoanLateFeeInterestAtSettlement(Settlement settlement)
+        {
+            return settlement.Prosperity * SubModule.Config.LoanLateFeeInterestRatePerSettlementProsperityFactor;
         }
 
         private void ApplyBankRetaliationForUnpaidLoan(Settlement settlement)
@@ -82,7 +103,7 @@ namespace Banks
             );
         }
 
-        private bool IsLoanOverDueAtSettlement(Settlement settlement)
+        private bool IsLoanOverdueAtSettlement(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
             return bankData.RemainingUnpaidLoan > 0 && (CampaignTime.Now - bankData.LoanEndDate).ToDays >= 0;
@@ -156,10 +177,10 @@ namespace Banks
                 "{=bank_account_deposit}Deposit",
                 args =>
                 {
-                    var isLoanOverDueAtSettlement = IsLoanOverDueAtSettlement(Settlement.CurrentSettlement);
+                    var isLoanOverdueAtSettlement = IsLoanOverdueAtSettlement(Settlement.CurrentSettlement);
                     args.optionLeaveType = GameMenuOption.LeaveType.Trade;
-                    args.IsEnabled = !isLoanOverDueAtSettlement;
-                    args.Tooltip = isLoanOverDueAtSettlement ? new TextObject("You must repay your loan.") : TextObject.Empty;
+                    args.IsEnabled = !isLoanOverdueAtSettlement;
+                    args.Tooltip = isLoanOverdueAtSettlement ? new TextObject("You must repay your loan.") : TextObject.Empty;
                     return true;
                 },
                 args => { PromptDepositAmount(Settlement.CurrentSettlement); }
@@ -170,10 +191,10 @@ namespace Banks
                 "{=bank_account_withdraw}Withdraw",
                 args =>
                 {
-                    var isLoanOverDueAtSettlement = IsLoanOverDueAtSettlement(Settlement.CurrentSettlement);
+                    var isLoanOverdueAtSettlement = IsLoanOverdueAtSettlement(Settlement.CurrentSettlement);
                     args.optionLeaveType = GameMenuOption.LeaveType.Trade;
-                    args.IsEnabled = !isLoanOverDueAtSettlement;
-                    args.Tooltip = isLoanOverDueAtSettlement ? new TextObject("You must repay your loan.") : TextObject.Empty;
+                    args.IsEnabled = !isLoanOverdueAtSettlement;
+                    args.Tooltip = isLoanOverdueAtSettlement ? new TextObject("You must repay your loan.") : TextObject.Empty;
                     return true;
                 },
                 args => { PromptWithdrawAmount(Settlement.CurrentSettlement); }
@@ -189,10 +210,18 @@ namespace Banks
                     {
                         return false;
                     }
+                    var doesPlayerHaveEnoughRenownToTakeOutLoan = DoesPlayerHaveEnoughRenownToTakeOutLoan();
                     var canLoan = MaxAvailableLoanAtSettlement(Settlement.CurrentSettlement) > 0;
                     args.optionLeaveType = GameMenuOption.LeaveType.Trade;
                     args.IsEnabled = canLoan;
-                    args.Tooltip = canLoan ? TextObject.Empty : new TextObject("{XORBERAX_SETTLEMENT_NAME}'s bank is unable to offer loans at this time.");
+                    if (doesPlayerHaveEnoughRenownToTakeOutLoan)
+                    {
+                        args.Tooltip = canLoan ? TextObject.Empty : new TextObject("{XORBERAX_SETTLEMENT_NAME}'s bank is unable to offer loans at this time.");
+                    }
+                    else
+                    {
+                        args.Tooltip = new TextObject($"You nn have at least {SubModule.Config.MinimumRenownRequiredToTakeOutLoan} renown to take out a loan.");
+                    }
                     return true;
                 },
                 args => { PromptLoanAmount(Settlement.CurrentSettlement); }
@@ -231,6 +260,11 @@ namespace Banks
             );
         }
 
+        private static bool DoesPlayerHaveEnoughRenownToTakeOutLoan()
+        {
+            return (int)Hero.MainHero.Clan.Renown >= SubModule.Config.MinimumRenownRequiredToTakeOutLoan;
+        }
+
         private (bool CanAccess, string ReasonMessage) CanPlayerAccessBankAtSettlement(Settlement settlement)
         {
             if (!CampaignTime.Now.IsDayTime)
@@ -250,10 +284,10 @@ namespace Banks
                 return;
             }
             var bankData = GetBankDataAtSettlement(settlement);
-            GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, remainingUnpaidLoanAmount);
+            GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, remainingUnpaidLoanAmount, true);
+            InformationManager.DisplayMessage(new InformationMessage($"You have paid off your loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_negative"));
             bankData.RemainingUnpaidLoan = 0;
             bankData.HasBankRetaliatedForUnpaidLoan = false;
-            InformationManager.DisplayMessage(new InformationMessage("You have paid off your loan."));
             GameMenu.SwitchToMenu(GetBankMenuId(settlement));
         }
 
@@ -302,7 +336,7 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             if (bankData.RemainingUnpaidLoan > 0)
             {
-                var isLoanOverdue = IsLoanOverDueAtSettlement(settlement);
+                var isLoanOverdue = IsLoanOverdueAtSettlement(settlement);
                 return $"You {(isLoanOverdue ? "had" : "have")} a loan of {bankData.RemainingUnpaidLoan}{{GOLD_ICON}} due on {GetLoanRepayDueDateAtSettlement(settlement)}.";
             }
             return string.Empty;
@@ -332,7 +366,7 @@ namespace Banks
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Deposit",
-                    "Amount",
+                    "Enter the amount to deposit:",
                     true,
                     true,
                     "Deposit",
@@ -357,7 +391,7 @@ namespace Banks
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Withdraw",
-                    "Amount",
+                    "Enter the amount to withdraw:",
                     true,
                     true,
                     "Withdraw",
@@ -382,7 +416,7 @@ namespace Banks
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Loan",
-                    $"You can take out a loan for up to {MaxAvailableLoanAtSettlement(settlement)} Denars. The amount must be repaid within {SubModule.Config.DaysToRepayLoan} days.",
+                    $"You can take out a loan for up to {MaxAvailableLoanAtSettlement(settlement)}<img src=\"Icons\\Coin@2x\">. The amount must be repaid within {SubModule.Config.DaysToRepayLoan} days.\nEnter the amount to take out:",
                     true,
                     true,
                     "Take Out Loan",
@@ -392,7 +426,7 @@ namespace Banks
                         var (isValid, amount) = TryParseLoanAmount(amountText, settlement);
                         if (isValid)
                         {
-                            PromptLoanConfirmation(amount, settlement);
+                            SubModule.ExecuteActionOnNextTick(() => PromptLoanConfirmation(amount, settlement)); // HACK: there's a bug that prevents a child inquiry from invoking the affirmative/negative actions.
                         }
                     },
                     () => { InformationManager.HideInquiry(); },
@@ -407,18 +441,18 @@ namespace Banks
             InformationManager.ShowInquiry(
                 new InquiryData(
                     "Loan",
-                    $"Are you sure you want to take out a loan of {amount}<img src=\"Icons\\Coin@2x\">? You will lose {CalculateRenownCostForLoanAmount(amount):0.00} renown.",
+                    $"Are you sure you want to take out a loan of {amount}<img src=\"Icons\\Coin@2x\">? You will lose {CalculateRenownCostForLoanAmount(amount)} renown.",
                     true,
                     true,
                     "Yes",
                     "No",
-                    () => TakeOutLoan(amount, settlement),
+                    () => { TakeOutLoan(amount, settlement); },
                     () => InformationManager.HideInquiry()
                 )
             );
         }
 
-        private float CalculateRenownCostForLoanAmount(int loanAmount)
+        private int CalculateRenownCostForLoanAmount(int loanAmount)
         {
             return (int)Mathf.Max(loanAmount / SubModule.Config.AvailableLoanAmountDivisor * SubModule.Config.RenownCostPerLoanAmountDivisor, 1);
         }
@@ -468,6 +502,7 @@ namespace Banks
             }
             bankData.LoanStartDate = CampaignTime.Now;
             bankData.RemainingUnpaidLoan = amount;
+            bankData.LoanLateFeeInterestRate = CalculateLoanLateFeeInterestAtSettlement(settlement);
             var loanRenownCost = CalculateRenownCostForLoanAmount(amount);
             Hero.MainHero.Clan.Renown -= loanRenownCost;
             GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);

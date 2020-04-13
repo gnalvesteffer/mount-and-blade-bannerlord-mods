@@ -1,5 +1,4 @@
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 
 namespace Banks
@@ -35,5 +34,8 @@ namespace Banks
 
         [SaveableProperty(9)]
         public bool HasBankRetaliatedForUnpaidLoan { get; set; }
+
+        [SaveableProperty(10)]
+        public float LoanLateFeeInterestRate { get; set; }
     }
 }

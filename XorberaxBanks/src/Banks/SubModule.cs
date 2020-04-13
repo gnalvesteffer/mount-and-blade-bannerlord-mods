@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
@@ -10,12 +12,32 @@ namespace Banks
     public class SubModule : MBSubModuleBase
     {
         private static readonly string ConfigFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
+        private static readonly List<Action> ActionsToExecuteNextTick = new List<Action>();
         public static Config Config { get; private set; }
+
+        public static void ExecuteActionOnNextTick(Action action)
+        {
+            if (action == null)
+            {
+                return;
+            }
+            ActionsToExecuteNextTick.Add(action);
+        }
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             LoadConfig();
+        }
+
+        protected override void OnApplicationTick(float dt)
+        {
+            base.OnApplicationTick(dt);
+            foreach (var action in ActionsToExecuteNextTick)
+            {
+                action();
+            }
+            ActionsToExecuteNextTick.Clear();
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarter)

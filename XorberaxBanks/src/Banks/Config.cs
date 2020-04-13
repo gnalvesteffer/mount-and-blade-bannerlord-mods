@@ -4,6 +4,9 @@ namespace Banks
 {
     public class Config
     {
+        [JsonProperty("minimumRenownRequiredToTakeOutLoan")]
+        public int MinimumRenownRequiredToTakeOutLoan { get; set; }
+
         [JsonProperty("availableLoanAmountPerRenown")]
         public int AvailableLoanAmountPerRenown { get; set; }
 
@@ -21,6 +24,9 @@ namespace Banks
 
         [JsonProperty("crimeRatingIncreaseForUnpaidLoan")]
         public int CrimeRatingIncreaseForUnpaidLoan { get; set; }
+
+        [JsonProperty("loanLateFeeInterestRatePerSettlementProsperityFactor")]
+        public float LoanLateFeeInterestRatePerSettlementProsperityFactor { get; set; }
 
         [JsonProperty("interestRatePerSettlementProsperityFactor")]
         public float InterestRatePerSettlementProsperityFactor { get; set; }
