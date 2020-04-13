@@ -9,7 +9,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace Banks
 {
-    public class SubModule : MBSubModuleBase
+    internal class SubModule : MBSubModuleBase
     {
         private static readonly string ConfigFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
         private static readonly List<Action> ActionsToExecuteNextTick = new List<Action>();

@@ -4,7 +4,7 @@ using TaleWorlds.SaveSystem;
 namespace Banks
 {
     [SaveableClass(42069247)]
-    public class BankData
+    internal class BankData
     {
         [SaveableProperty(1)]
         public string SettlementId { get; set; }
@@ -37,5 +37,8 @@ namespace Banks
 
         [SaveableProperty(10)]
         public float LoanLateFeeInterestRate { get; set; }
+
+        [SaveableProperty(11)]
+        public LoanQuest LoanQuest { get; set; }
     }
 }

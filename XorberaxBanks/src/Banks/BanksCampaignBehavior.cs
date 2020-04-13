@@ -10,7 +10,7 @@ using TaleWorlds.TwoDimension;
 
 namespace Banks
 {
-    public class BanksCampaignBehavior : CampaignBehaviorBase
+    internal class BanksCampaignBehavior : CampaignBehaviorBase
     {
         private Dictionary<string, BankData> _settlementBankDataBySettlementId = new Dictionary<string, BankData>();
 
@@ -82,13 +82,14 @@ namespace Banks
         {
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.HasBankRetaliatedForUnpaidLoan = true;
+            bankData.LoanQuest?.OnLoanUnpaid();
             ChangeCrimeRatingAction.Apply(settlement.MapFaction, SubModule.Config.CrimeRatingIncreaseForUnpaidLoan);
             Hero.MainHero.Clan.Renown -= SubModule.Config.RenownLossForUnpaidLoan;
             InformationManager.DisplayMessage(new InformationMessage($"You failed to repay your loan. Lost {SubModule.Config.RenownLossForUnpaidLoan} renown."));
             InformationManager.ShowInquiry(
                 new InquiryData(
                     "Loan Payment Overdue",
-                    $"You have failed to repay your loan with the {settlement.Name} bank. The {settlement.MapFaction.InformalName} will treat you as an outlaw if you do not repay your debts.",
+                    $"You failed to repay your loan with the {settlement.Name} bank. The {settlement.MapFaction.InformalName} will treat you as an outlaw if you do not repay your debts.",
                     true,
                     false,
                     "OK",
@@ -110,7 +111,7 @@ namespace Banks
         private bool IsLoanOverdueAtSettlement(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
-            return bankData.RemainingUnpaidLoan > 0 && (CampaignTime.Now - bankData.LoanEndDate).ToDays >= 0;
+            return bankData.RemainingUnpaidLoan > 0 && (CampaignTime.Now - bankData.LoanEndDate).ToDays > 0;
         }
 
         private void AddMenus(CampaignGameStarter campaignGameStarter)
@@ -288,7 +289,9 @@ namespace Banks
             }
             var bankData = GetBankDataAtSettlement(settlement);
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, remainingUnpaidLoanAmount, true);
-            InformationManager.DisplayMessage(new InformationMessage($"You have paid off your loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_negative"));
+            InformationManager.DisplayMessage(new InformationMessage($"You paid off your loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_negative"));
+            bankData.LoanQuest.OnLoanRepaidOnTime();
+            bankData.LoanQuest = null;
             bankData.RemainingUnpaidLoan = 0;
             bankData.HasBankRetaliatedForUnpaidLoan = false;
             GameMenu.SwitchToMenu("bank_account");
@@ -509,6 +512,7 @@ namespace Banks
             bankData.LoanStartDate = CampaignTime.Now;
             bankData.RemainingUnpaidLoan = amount;
             bankData.LoanLateFeeInterestRate = CalculateLoanLateFeeInterestAtSettlement(settlement);
+            bankData.LoanQuest = LoanQuest.Start(settlement, amount, bankData.LoanStartDate, bankData.LoanEndDate);
             var loanRenownCost = CalculateRenownCostForLoanAmount(amount);
             Hero.MainHero.Clan.Renown -= loanRenownCost;
             GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);

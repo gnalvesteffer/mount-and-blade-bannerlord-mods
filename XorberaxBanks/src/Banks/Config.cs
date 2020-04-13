@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Banks
 {
-    public class Config
+    internal class Config
     {
         [JsonProperty("minimumRenownRequiredToTakeOutLoan")]
         public int MinimumRenownRequiredToTakeOutLoan { get; set; }
