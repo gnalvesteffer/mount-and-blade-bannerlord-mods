@@ -289,7 +289,7 @@ namespace Banks
             }
             var bankData = GetBankDataAtSettlement(settlement);
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, remainingUnpaidLoanAmount, true);
-            InformationManager.DisplayMessage(new InformationMessage($"You paid off your loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_negative"));
+            InformationManager.DisplayMessage(new InformationMessage($"You repaid the loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\"> from {settlement.Name}.", "event:/ui/notification/coins_negative"));
             bankData.LoanQuest.OnLoanRepaidOnTime();
             bankData.LoanQuest = null;
             bankData.RemainingUnpaidLoan = 0;
