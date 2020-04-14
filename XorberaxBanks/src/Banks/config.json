@@ -4,11 +4,11 @@
   "availableLoanAmountDivisor": 100,
   "renownCostPerLoanAmountDivisor": 1,
   "daysToRepayLoan": 14,
-  "renownLossForUnpaidLoan": 10,
-  "crimeRatingIncreaseForUnpaidLoan": 5,
+  "renownLossForUnpaidLoan": 20,
+  "crimeRatingIncreaseForUnpaidLoan": 10,
   "recurringCrimeRatingIncreaseForUnpaidLoan": 20,
-  "loanLateFeeInterestRatePerSettlementProsperityFactor": 0.000015,
+  "loanLateFeeInterestRatePerSettlementProsperityFactor": 0.0000015,
   "interestRatePerSettlementProsperityFactor": 0.000000237,
-  "bankAccountOpeningCostBase": 1000,
-  "bankAccountOpeningCostSettlementProsperityDivisor": 500
+  "bankAccountOpeningCostBase": 5000,
+  "bankAccountOpeningCostSettlementProsperityDivisor": 1500
 }

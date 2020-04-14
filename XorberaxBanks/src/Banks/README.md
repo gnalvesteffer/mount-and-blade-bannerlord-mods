@@ -1,4 +1,4 @@
-# Xorberax's Banks
+# Xorberax's Banks of Calradia
 Adds banks to the towns of Calradia. You can maintain individual 
 balances at each towns' bank, and take out loans. Banks offer weekly 
 interest rates to provide a passive income and an incentive to bank with
