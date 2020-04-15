@@ -1,4 +1,3 @@
-using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;

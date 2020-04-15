@@ -39,5 +39,8 @@ namespace Banks
 
         [JsonProperty("bankAccountOpeningCostSettlementProsperityDivisor")]
         public int BankAccountOpeningCostSettlementProsperityDivisor { get; set; }
+
+        [JsonProperty("maxCriminalRatingForUnpaidLoan")]
+        public int MaxCriminalRatingForUnpaidLoan { get; set; }
     }
 }

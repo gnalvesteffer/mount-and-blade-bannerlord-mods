@@ -1,14 +1,15 @@
 {
   "minimumRenownRequiredToTakeOutLoan": 5,
-  "availableLoanAmountPerRenown": 100,
+  "availableLoanAmountPerRenown": 200,
   "availableLoanAmountDivisor": 100,
   "renownCostPerLoanAmountDivisor": 1,
   "daysToRepayLoan": 14,
   "renownLossForUnpaidLoan": 20,
   "crimeRatingIncreaseForUnpaidLoan": 10,
   "recurringCrimeRatingIncreaseForUnpaidLoan": 20,
+  "maxCriminalRatingForUnpaidLoan": 50,
   "loanLateFeeInterestRatePerSettlementProsperityFactor": 0.0000015,
-  "interestRatePerSettlementProsperityFactor": 0.000000237,
+  "interestRatePerSettlementProsperityFactor": 0.000001237,
   "bankAccountOpeningCostBase": 5000,
-  "bankAccountOpeningCostSettlementProsperityDivisor": 1500
+  "bankAccountOpeningCostSettlementProsperityDivisor": 500
 }

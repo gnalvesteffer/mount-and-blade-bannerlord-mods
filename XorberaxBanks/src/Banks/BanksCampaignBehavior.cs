@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -55,12 +54,14 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                var hasWeekPassedSinceLastBankDataUpdate = (CampaignTime.Now - bankData.LastBankUpdateDate).ToWeeks >= 1;
-                if (hasWeekPassedSinceLastBankDataUpdate)
+                var hasMonthPassedSinceLastBankDataUpdate = (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= CampaignTime.DaysInSeason;
+                if (hasMonthPassedSinceLastBankDataUpdate)
                 {
                     if (bankData.RemainingUnpaidLoan == 0)
                     {
-                        bankData.Balance += (int)(bankData.Balance * bankData.InterestRate);
+                        var moneyGainedFromInterest = (int)(bankData.Balance * bankData.InterestRate);
+                        bankData.Balance += moneyGainedFromInterest;
+                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.", "event:/ui/notification/coins_positive"));
                     }
                     bankData.LastBankUpdateDate = CampaignTime.Now;
                 }
@@ -108,8 +109,15 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.LastLoanRecurringRetaliationDate = CampaignTime.Now;
             bankData.RemainingUnpaidLoan += (int)(bankData.RemainingUnpaidLoan * bankData.LoanLateFeeInterestRate);
-            ChangeCrimeRatingAction.Apply(settlement.MapFaction, SubModule.Config.RecurringCrimeRatingIncreaseForUnpaidLoan);
-            InformationManager.DisplayMessage(new InformationMessage($"Your criminal rating with the {settlement.MapFaction.Name} has increased by {SubModule.Config.RecurringCrimeRatingIncreaseForUnpaidLoan} due to an unpaid loan at {settlement.Name}.", Colors.Red));
+            if (settlement.MapFaction.MainHeroCrimeRating < SubModule.Config.MaxCriminalRatingForUnpaidLoan)
+            {
+                var criminalRatingToApply =
+                    settlement.MapFaction.MainHeroCrimeRating + SubModule.Config.RecurringCrimeRatingIncreaseForUnpaidLoan > SubModule.Config.MaxCriminalRatingForUnpaidLoan
+                        ? SubModule.Config.MaxCriminalRatingForUnpaidLoan - settlement.MapFaction.MainHeroCrimeRating
+                        : SubModule.Config.RecurringCrimeRatingIncreaseForUnpaidLoan;
+                ChangeCrimeRatingAction.Apply(settlement.MapFaction, criminalRatingToApply);
+                InformationManager.DisplayMessage(new InformationMessage($"Your criminal rating with the {settlement.MapFaction.Name} has increased by {criminalRatingToApply} due to an unpaid loan at {settlement.Name}.", Colors.Red));
+            }
         }
 
         private bool IsLoanOverdueAtSettlement(Settlement settlement)
@@ -352,8 +360,8 @@ namespace Banks
         {
             var bankData = GetBankDataAtSettlement(settlement);
             return bankData.HasAccount
-                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}"
-                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with a weekly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}";
+                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with a monthly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}"
+                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with a monthly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}";
         }
 
         private string BuildLoanInfoText(Settlement settlement)
@@ -362,7 +370,7 @@ namespace Banks
             if (bankData.RemainingUnpaidLoan > 0)
             {
                 var isLoanOverdue = IsLoanOverdueAtSettlement(settlement);
-                return $"You {(isLoanOverdue ? "had" : "have")} a loan of {bankData.OriginalLoanAmount}{{GOLD_ICON}} due on {GetLoanRepayDueDateAtSettlement(settlement)}, which has accrued {bankData.AccruedLoanLateFees}{{GOLD_ICON}} in late fees.";
+                return $"You {(isLoanOverdue ? "had" : "have")} a loan of {bankData.OriginalLoanAmount}{{GOLD_ICON}} due on {GetLoanRepayDueDateAtSettlement(settlement)}{(bankData.AccruedLoanLateFees > 0 ? $", which has accrued {bankData.AccruedLoanLateFees}{{GOLD_ICON}} in late fees." : ".")}";
             }
             return string.Empty;
         }
@@ -480,7 +488,7 @@ namespace Banks
 
         private float CalculateRenownCostForLoanAmount(int loanAmount)
         {
-            return Mathf.Max((float)loanAmount / SubModule.Config.AvailableLoanAmountDivisor * SubModule.Config.RenownCostPerLoanAmountDivisor, 1);
+            return Mathf.Max((float)loanAmount / SubModule.Config.AvailableLoanAmountPerRenown * SubModule.Config.RenownCostPerLoanAmountDivisor, 1);
         }
 
         private void Deposit(int amount, Settlement settlement)
