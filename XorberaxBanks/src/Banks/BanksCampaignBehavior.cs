@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -424,10 +425,11 @@ namespace Banks
 
         private void PromptWithdrawAmount(Settlement settlement)
         {
+            var settlementFundsInfo = GetSettlementFundsInfo(settlement);
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Withdraw",
-                    $"Enter the amount to withdraw (1 - {GetBalanceAtSettlement(settlement)}):",
+                    $"{(settlementFundsInfo.AvailableFunds < settlementFundsInfo.PlayerBalance ? $"The {settlement.Name} bank only has {settlementFundsInfo.AvailableFunds}<img src=\"Icons\\Coin@2x\"> available for you to withdraw.\n" : string.Empty)}Enter the amount to withdraw (1 - {settlementFundsInfo.WithdrawableBalance}):",
                     true,
                     true,
                     "Withdraw",
@@ -517,10 +519,10 @@ namespace Banks
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough money to withdraw."));
                 return;
             }
-            var settlementComponent = settlement.GetSettlementComponent();
-            if (amount > settlementComponent.Gold)
+            var settlementFundsInfo = GetSettlementFundsInfo(settlement);
+            if (amount > settlementFundsInfo.AvailableFunds)
             {
-                InformationManager.DisplayMessage(new InformationMessage($"The bank does not have enough funds available for you to withdraw. Only {settlementComponent.Gold}<img src=\"Icons\\Coin@2x\"> are available."));
+                InformationManager.DisplayMessage(new InformationMessage($"The bank does not have enough funds available for you to withdraw. Only {settlementFundsInfo.AvailableFunds}<img src=\"Icons\\Coin@2x\"> is available."));
                 return;
             }
             bankData.Balance -= amount;
@@ -536,7 +538,7 @@ namespace Banks
             var settlementComponent = settlement.GetSettlementComponent();
             if (amount > settlementComponent.Gold)
             {
-                InformationManager.DisplayMessage(new InformationMessage($"This bank does not have enough funds to loan to you. Only {settlementComponent.Gold}<img src=\"Icons\\Coin@2x\"> are available."));
+                InformationManager.DisplayMessage(new InformationMessage($"This bank does not have enough funds to loan to you. Only {settlementComponent.Gold}<img src=\"Icons\\Coin@2x\"> is available."));
                 return;
             }
             bankData.LoanStartDate = CampaignTime.Now;
@@ -568,6 +570,13 @@ namespace Banks
         private float GetInterestRateAtSettlement(Settlement settlement)
         {
             return GetBankDataAtSettlement(settlement).InterestRate;
+        }
+
+        private (int PlayerBalance, int AvailableFunds, int WithdrawableBalance) GetSettlementFundsInfo(Settlement settlement)
+        {
+            var balanceAtSettlement = GetBalanceAtSettlement(settlement);
+            var availableFundsInSettlement = settlement.GetSettlementComponent().Gold;
+            return (balanceAtSettlement, availableFundsInSettlement, (int)Mathf.Min(balanceAtSettlement, availableFundsInSettlement));
         }
 
         private int GetBalanceAtSettlement(Settlement settlement)
