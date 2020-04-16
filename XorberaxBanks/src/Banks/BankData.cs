@@ -48,7 +48,7 @@ namespace Banks
         public int OriginalLoanAmount { get; set; }
 
         public int AccruedLoanLateFees => RemainingUnpaidLoan - OriginalLoanAmount;
-        
+
         [SaveableProperty(14)]
         public CampaignTime LastLoanRecurringRetaliationDate { get; set; }
     }

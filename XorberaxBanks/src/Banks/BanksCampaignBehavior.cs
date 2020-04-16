@@ -59,9 +59,12 @@ namespace Banks
                 {
                     if (bankData.RemainingUnpaidLoan == 0)
                     {
-                        var moneyGainedFromInterest = (int)(bankData.Balance * bankData.InterestRate);
+                        var oldInterestRate = bankData.InterestRate;
+                        var newInterestRate = CalculateSettlementInterestRate(settlement);
+                        var moneyGainedFromInterest = (int)(bankData.Balance * oldInterestRate);
                         bankData.Balance += moneyGainedFromInterest;
-                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.", "event:/ui/notification/coins_positive"));
+                        bankData.InterestRate = newInterestRate;
+                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.${(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate:0.0000} to {newInterestRate:0.0000}." : string.Empty)}", "event:/ui/notification/coins_positive"));
                     }
                     bankData.LastBankUpdateDate = CampaignTime.Now;
                 }
