@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="" />
+    <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/AccessExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/CutThroughEveryonePatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/CutThroughEveryonePatch.cs" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +21,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/78/9c0d95bc/EquipmentIndex.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/e4/c894bd42/MissionScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/ec/f5c158fd/MBSubModuleBase.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://C:/Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/Modules/CommunityPatch/src/CommunityPatch/Patches/StewardRulerPatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/aa/aaf611a1/EquipmentElement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/a3/04b033ba/InputKey.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/788467A7-D740-4F16-9678-CD3C164F9002/a9/ecd99fe5/CombatHotKeyCategory.cs" root0="FORCE_HIGHLIGHTING" />
@@ -34,7 +36,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F87B6DE7-76B9-44F5-8069-1DC4AB90D57F/63/f70d50c0/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/e1/1564f536/Agent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/b3/3421b348/Module.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://C:/Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/Modules/CommunityPatch/src/CommunityPatch/Patches/PeakFormPatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E6088FFC-2DEF-43EB-AE11-0D35CA37F638/06/ad6d7b2c/Widget.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92BFAE3E-41D6-41B3-AFD3-F86D2F2A7147/eb/41849e27/CrosshairWidget.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/274AA681-A77A-4A7C-85E7-3BB3E2B89E9F/09/30568770/CampaignAgentComponent.cs" root0="FORCE_HIGHLIGHTING" />
@@ -52,6 +53,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/10/dc8f18c8/CampaignGameStarter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/b6/14a849d0/AgentVisualHolder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderCamMissionLogic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BC024D22-EA62-4362-ACDF-15443B89B58A/da/61e06b8f/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07EE4C21-F4FD-4FE9-B095-A4144013E0BA/44/7683ec65/MissionScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/d7/97bcd17a/QueryLibrary.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/10/8de13bb4/MissionEquipment.cs" root0="SKIP_HIGHLIGHTING" />
@@ -87,9 +89,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92BFAE3E-41D6-41B3-AFD3-F86D2F2A7147/76/fe84aed4/AgentAmmoTextWidget.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/788467A7-D740-4F16-9678-CD3C164F9002/ae/238b124d/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderPosition.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://C:/Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/Modules/CommunityPatch/src/CommunityPatch/Patches/StewardAgrarianPatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D3042489-D4A6-42D9-9FC6-2B6EFC9134FB/3c/5b77b2aa/Patch.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://C:/Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/Modules/CommunityPatch/src/CommunityPatch/Patches/HealthyScoutPatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/obj/Debug/net472/ShoulderCam.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/65/3d62f509/MBSceneEditorScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/a7/e23eb7e5/CommandLineFunctionality.cs" root0="SKIP_HIGHLIGHTING" />
@@ -101,6 +101,7 @@
     <setting file="file://$PROJECT_DIR$/ShoulderCamPatch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/16/d6febfaa/InputContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FBF907D5-03E6-408C-B3A0-40F72E98E3F7/05/49c03392/Utilities.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/AccessExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxLivelyTowns/src/LivelyTowns/Config.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/e8/af35f8dc/HotKey.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/71/89042db1/DefaultPerks.cs" root0="SKIP_HIGHLIGHTING" />
@@ -190,6 +191,7 @@
       <workItem from="1586194202685" duration="12821000" />
       <workItem from="1586462179200" duration="6540000" />
       <workItem from="1586641189121" duration="765000" />
+      <workItem from="1587094442276" duration="21000" />
     </task>
     <task id="LOCAL-00001" summary="update shoulder cam">
       <created>1586134112450</created>
