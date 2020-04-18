@@ -65,7 +65,7 @@ namespace Banks
                         var moneyGainedFromInterest = (int)(bankData.Balance * oldInterestRate);
                         bankData.Balance += moneyGainedFromInterest;
                         bankData.InterestRate = newInterestRate;
-                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.${(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate:0.0000}% to {newInterestRate:0.0000}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
+                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.${(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
                     }
                     bankData.LastBankUpdateDate = CampaignTime.Now;
                 }
@@ -353,7 +353,7 @@ namespace Banks
         {
             MBTextManager.SetTextVariable("XORBERAX_BANKS_SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BALANCE", GetBalanceAtSettlement(Settlement.CurrentSettlement));
-            MBTextManager.SetTextVariable("XORBERAX_BANKS_INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement):0.0000}");
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_INTEREST_RATE", $"{GetInterestRateAtSettlement(Settlement.CurrentSettlement) * 100:0.00}");
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCostAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_REMAINING_UNPAID_LOAN", GetRemainingUnpaidLoanAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_LOAN_INFO", BuildLoanInfoText(Settlement.CurrentSettlement));
