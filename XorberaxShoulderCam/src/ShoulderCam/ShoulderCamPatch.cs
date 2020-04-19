@@ -51,8 +51,8 @@ namespace ShoulderCam
             var camShakeVector = GetCamShakeVector();
             ____cameraSpecialTargetFOV = SubModule.Config.ThirdPersonFieldOfView;
             ____cameraSpecialTargetDistanceToAdd = mainAgent.MountAgent == null ? SubModule.Config.OnFootPositionYOffset : SubModule.Config.MountedPositionYOffset;
-            ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset + (torsoBone.rotation.f.z * SubModule.Config.TorsoTrackedCameraSway) + camShakeVector.z;
-            ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset + (torsoBone.rotation.f.x * SubModule.Config.TorsoTrackedCameraSway) + camShakeVector.x;
+            ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset + (torsoBone.rotation.f.z * SubModule.Config.TorsoTrackedCameraSwayAmount) + camShakeVector.z;
+            ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset + (torsoBone.rotation.f.x * SubModule.Config.TorsoTrackedCameraSwayAmount) + camShakeVector.x;
         }
 
         private static void Postfix(

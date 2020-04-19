@@ -67,7 +67,7 @@ namespace ShoulderCam
         [JsonProperty("maxCamShakeAmount")]
         public float MaxCamShakeAmount { get; set; }
 
-        [JsonProperty("torsoTrackedCameraSway")]
-        public float TorsoTrackedCameraSway { get; set; }
+        [JsonProperty("torsoTrackedCameraSwayAmount")]
+        public float TorsoTrackedCameraSwayAmount { get; set; }
     }
 }

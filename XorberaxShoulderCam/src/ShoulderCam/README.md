@@ -130,7 +130,7 @@ The max angle in radians that the camera can shake.
 
 **Accepts:** decimal number
 
-#### torsoTrackedCameraSway
+#### torsoTrackedCameraSwayAmount
 The max angle in radians that the camera sways to follow the character's
 torso.
 

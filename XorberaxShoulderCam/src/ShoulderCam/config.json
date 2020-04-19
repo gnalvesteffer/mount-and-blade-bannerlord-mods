@@ -19,6 +19,6 @@
   "enemyHitCamShakeMultiplier": 0.025,
   "enemyHitCamShakeDuration": 0.15,
   "maxCamShakeAmount": 1.0,
-  "cameraSwayAmount": 0.05,
+  "torsoTrackedCameraSwayAmount": 0.05,
   "enableLiveConfigUpdates": false
 }
