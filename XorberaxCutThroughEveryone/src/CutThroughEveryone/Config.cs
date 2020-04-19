@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace CutThroughEveryone
 {
-    public class Config
+    internal class Config
     {
         [JsonProperty("onlyCutThroughWhenUnitIsKilled")]
         public bool ShouldOnlyCutThroughKilledUnits { get; set; }

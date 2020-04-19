@@ -6,7 +6,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace CutThroughEveryone
 {
-    public class SubModule : MBSubModuleBase
+    internal class SubModule : MBSubModuleBase
     {
         private static readonly string ConfigFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
         public static Config Config { get; private set; }

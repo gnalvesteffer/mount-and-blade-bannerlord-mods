@@ -55,9 +55,9 @@ namespace CutThroughEveryone
             [WeaponClass.TwoHandedPolearm] = PolearmSliceMetadatum,
         };
 
-        internal static bool ShouldSliceThrough(AttackCollisionData collisionData, Agent attacker, Agent victim)
+        public static bool ShouldCutThrough(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
-            if (!DoPreflightSliceThroughChecksPass(attacker, victim))
+            if (!DoPreflightSliceThroughChecksPass(collisionData, attacker, victim))
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace CutThroughEveryone
             return false;
         }
 
-        private static bool DoPreflightSliceThroughChecksPass(Agent attacker, Agent victim)
+        private static bool DoPreflightSliceThroughChecksPass(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
             return
                 victim != null &&
