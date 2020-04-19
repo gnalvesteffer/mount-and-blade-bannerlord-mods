@@ -65,7 +65,7 @@ namespace Banks
                         var moneyGainedFromInterest = (int)(bankData.Balance * oldInterestRate);
                         bankData.Balance += moneyGainedFromInterest;
                         bankData.InterestRate = newInterestRate;
-                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.${(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
+                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.{(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
                     }
                     bankData.LastBankUpdateDate = CampaignTime.Now;
                 }

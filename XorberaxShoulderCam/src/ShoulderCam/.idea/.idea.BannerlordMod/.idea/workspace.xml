@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Config.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ShoulderCamPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ShoulderCamPatch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +15,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/c3/842b6f80/ItemCategory.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/0f/142c48e6/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/78/9c0d95bc/EquipmentIndex.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/aa/aaf611a1/EquipmentElement.cs" root0="SKIP_HIGHLIGHTING" />
@@ -34,6 +29,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F87B6DE7-76B9-44F5-8069-1DC4AB90D57F/63/f70d50c0/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/e1/1564f536/Agent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07EE4C21-F4FD-4FE9-B095-A4144013E0BA/e9/517fd62c/MusicMissionView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/440D1D09-336D-46EE-B6BA-2229A55AC755/47/3aebb41b/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F87B6DE7-76B9-44F5-8069-1DC4AB90D57F/b2/6791d6bd/MissionLogic.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DE2FB9D-CBFD-4E57-B15D-7D0CF628DF00/25/538ca4e4/MissionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/b7/e7b09c4c/ItemObject.cs" root0="SKIP_HIGHLIGHTING" />
@@ -64,7 +60,7 @@
     <setting file="file://$PROJECT_DIR$/../../../XorberaxArena/src/XorberaxArena/ArenaCampaignBehavior.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F2FC69D8-452D-4153-8397-075FEC0D6D23/47/6db16653/Vec3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92BFAE3E-41D6-41B3-AFD3-F86D2F2A7147/76/fe84aed4/AgentAmmoTextWidget.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7215FDF7-7F77-44C1-ACCA-4969B099C5AD/a3/5cce8ef2/Campaign.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/788467A7-D740-4F16-9678-CD3C164F9002/ae/238b124d/Mission.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/65/3d62f509/MBSceneEditorScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/a7/e23eb7e5/CommandLineFunctionality.cs" root0="SKIP_HIGHLIGHTING" />
@@ -107,7 +103,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5B0A33A0-56E5-4DF0-A298-546E82852063/11/73382385/TrainingFieldMissionController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/d5/278c3660/GameKey.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/5b/279f4911/IInputContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A78DAADC-B012-4216-895D-0FF999032226/86/9e560492/MissionMainAgentController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Config.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0B9594ED-192C-4C06-A096-11228DD921A0/39/c4ff350b/SPItemVM.cs" root0="SKIP_HIGHLIGHTING" />
@@ -121,11 +116,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/440D1D09-336D-46EE-B6BA-2229A55AC755/1f/4d64cd04/RuntimeAssembly.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D3042489-D4A6-42D9-9FC6-2B6EFC9134FB/3c/5b77b2aa/Patch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/obj/Debug/net472/ShoulderCam.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../XorberaxBanks/src/Banks/BankDataSaveableTypeDefiner.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SubModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderCamPatch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C0672069-4EE1-4660-911B-8A9DE5FD2958/e8/af35f8dc/HotKey.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDD85516-1B59-4569-92E2-93DDD9A1B20F/71/89042db1/DefaultPerks.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA70C15-EF5E-4B5C-A654-FEEE7F407BF0/3e/fbb17cb4/Vec3.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -149,9 +144,9 @@
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/ShoulderCamMissionLogic.cs" />
         <option value="$PROJECT_DIR$/ShoulderCamPatch.cs" />
-        <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Config.cs" />
+        <option value="$PROJECT_DIR$/config.json" />
       </list>
     </option>
   </component>
@@ -210,7 +205,10 @@
       <workItem from="1586462179200" duration="6540000" />
       <workItem from="1586641189121" duration="765000" />
       <workItem from="1587094442276" duration="21000" />
-      <workItem from="1587246882332" duration="4768000" />
+      <workItem from="1587246882332" duration="5524000" />
+      <workItem from="1587260384539" duration="119000" />
+      <workItem from="1587272305452" duration="1186000" />
+      <workItem from="1587273843257" duration="792000" />
     </task>
     <task id="LOCAL-00001" summary="update shoulder cam">
       <created>1586134112450</created>
@@ -296,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587254567450</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="tweak config values">
+      <created>1587258223577</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1587258223577</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,7 +336,8 @@
     <MESSAGE value="remove old setting from readme" />
     <MESSAGE value="revert projectile penetration" />
     <MESSAGE value="limit cam shake amount + add torso-tracked camera sway" />
-    <option name="LAST_COMMIT_MESSAGE" value="limit cam shake amount + add torso-tracked camera sway" />
+    <MESSAGE value="tweak config values" />
+    <option name="LAST_COMMIT_MESSAGE" value="tweak config values" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -340,7 +346,18 @@
           <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.IO.FileNotFoundException" displayValue="System.IO.FileNotFoundException" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.ArgumentException" displayValue="System.ArgumentException" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="DotNet Exception Breakpoints" />
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
 </project>
