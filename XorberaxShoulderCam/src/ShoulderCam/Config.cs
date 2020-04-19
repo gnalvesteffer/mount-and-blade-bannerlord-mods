@@ -63,5 +63,11 @@ namespace ShoulderCam
 
         [JsonProperty("enableLiveConfigUpdates")]
         public bool AreLiveConfigUpdatesEnabled { get; set; }
+
+        [JsonProperty("maxCamShakeAmount")]
+        public float MaxCamShakeAmount { get; set; }
+
+        [JsonProperty("torsoTrackedCameraSway")]
+        public float TorsoTrackedCameraSway { get; set; }
     }
 }

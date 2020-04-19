@@ -4,6 +4,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screen;
+using TaleWorlds.TwoDimension;
 
 namespace ShoulderCam
 {
@@ -18,7 +19,7 @@ namespace ShoulderCam
 
         public static void ShakeCamera(float amount, float duration)
         {
-            _camShakeAmount = amount;
+            _camShakeAmount = Mathf.Clamp(amount, 0.0f, SubModule.Config.MaxCamShakeAmount);
             _camShakeEndTimestamp = Mission.Current.Time + duration;
         }
 
@@ -46,11 +47,12 @@ namespace ShoulderCam
             }
 
             var mainAgent = __instance.Mission.MainAgent;
+            var torsoBone = mainAgent.AgentVisuals.GetSkeleton().GetBoneEntitialFrame((int)HumanBone.Spine2);
             var camShakeVector = GetCamShakeVector();
             ____cameraSpecialTargetFOV = SubModule.Config.ThirdPersonFieldOfView;
             ____cameraSpecialTargetDistanceToAdd = mainAgent.MountAgent == null ? SubModule.Config.OnFootPositionYOffset : SubModule.Config.MountedPositionYOffset;
-            ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset + camShakeVector.z;
-            ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset + camShakeVector.x;
+            ____cameraSpecialTargetAddedBearing = SubModule.Config.BearingOffset + (torsoBone.rotation.f.z * SubModule.Config.TorsoTrackedCameraSway) + camShakeVector.z;
+            ____cameraSpecialTargetAddedElevation = SubModule.Config.ElevationOffset + (torsoBone.rotation.f.x * SubModule.Config.TorsoTrackedCameraSway) + camShakeVector.x;
         }
 
         private static void Postfix(

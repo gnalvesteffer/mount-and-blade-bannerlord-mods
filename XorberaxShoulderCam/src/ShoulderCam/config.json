@@ -13,10 +13,12 @@
   "shoulderSwitchMode": "noSwitching",
   "temporaryShoulderSwitchDuration": 1.0,
   "minimumPlayerHitCamShake": 0.025,
-  "playerHitCamShakeMultiplier": 0.025,
+  "playerHitCamShakeMultiplier": 0.05,
   "playerHitCamShakeDuration": 0.3,
   "minimumEnemyHitCamShakeAmount": 0.01,
-  "enemyHitCamShakeMultiplier": 0.01,
-  "enemyHitCamShakeDuration": 0.2,
+  "enemyHitCamShakeMultiplier": 0.025,
+  "enemyHitCamShakeDuration": 0.15,
+  "maxCamShakeAmount": 1.0,
+  "cameraSwayAmount": 0.05,
   "enableLiveConfigUpdates": false
 }

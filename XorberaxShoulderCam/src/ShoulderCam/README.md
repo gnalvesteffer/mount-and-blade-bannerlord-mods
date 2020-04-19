@@ -125,6 +125,17 @@ enemy.
 
 **Accepts:** decimal number
 
+#### maxCamShakeAmount
+The max angle in radians that the camera can shake.
+
+**Accepts:** decimal number
+
+#### torsoTrackedCameraSway
+The max angle in radians that the camera sways to follow the character's
+torso.
+
+**Accepts:** decimal number
+
 #### enableLiveConfigUpdates
 When enabled, changes to the config will be applied instantly in-game.
 
