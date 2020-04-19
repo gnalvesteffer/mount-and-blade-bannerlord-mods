@@ -34,6 +34,9 @@ namespace Banks
         [JsonProperty("interestRatePerSettlementProsperityFactor")]
         public float InterestRatePerSettlementProsperityFactor { get; set; }
 
+        [JsonProperty("interestAccrualRateInDays")]
+        public int InterestAccrualRateInDays { get; set; }
+
         [JsonProperty("bankAccountOpeningCostBase")]
         public int BankAccountOpeningCostBase { get; set; }
 

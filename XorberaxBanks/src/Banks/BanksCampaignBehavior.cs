@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -55,8 +54,8 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                var hasMonthPassedSinceLastBankDataUpdate = (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= CampaignTime.DaysInSeason;
-                if (hasMonthPassedSinceLastBankDataUpdate)
+                var shouldAccrueInterest = (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= SubModule.Config.InterestAccrualRateInDays;
+                if (shouldAccrueInterest)
                 {
                     if (bankData.RemainingUnpaidLoan == 0)
                     {
@@ -358,14 +357,15 @@ namespace Banks
             MBTextManager.SetTextVariable("XORBERAX_BANKS_REMAINING_UNPAID_LOAN", GetRemainingUnpaidLoanAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_LOAN_INFO", BuildLoanInfoText(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_INFO", BuildBankAccountInfoText(Settlement.CurrentSettlement));
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS", SubModule.Config.InterestAccrualRateInDays);
         }
 
         private string BuildBankAccountInfoText(Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
             return bankData.HasAccount
-                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with a monthly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}"
-                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with a monthly interest rate of {XORBERAX_BANKS_INTEREST_RATE}%. {XORBERAX_BANKS_LOAN_INFO}";
+                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS}. {XORBERAX_BANKS_LOAN_INFO}"
+                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS}. {XORBERAX_BANKS_LOAN_INFO}";
         }
 
         private string BuildLoanInfoText(Settlement settlement)

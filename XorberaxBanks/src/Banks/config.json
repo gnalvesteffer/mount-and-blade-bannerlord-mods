@@ -10,6 +10,7 @@
   "maxCriminalRatingForUnpaidLoan": 50,
   "loanLateFeeInterestRatePerSettlementProsperityFactor": 0.0000015,
   "interestRatePerSettlementProsperityFactor": 0.000000473,
+  "interestAccrualRateInDays": 7,
   "bankAccountOpeningCostBase": 3000,
   "bankAccountOpeningCostSettlementProsperityDivisor": 250
 }
