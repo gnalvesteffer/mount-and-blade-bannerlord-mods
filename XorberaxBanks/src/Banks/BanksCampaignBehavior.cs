@@ -356,7 +356,7 @@ namespace Banks
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCostAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_REMAINING_UNPAID_LOAN", GetRemainingUnpaidLoanAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_LOAN_INFO", BuildLoanInfoText(Settlement.CurrentSettlement));
-            MBTextManager.SetTextVariable("XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS", SubModule.Config.InterestAccrualRateInDays);
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT", $"{(SubModule.Config.InterestAccrualRateInDays == 1 ? "day" : $"{SubModule.Config.InterestAccrualRateInDays} days")}");
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_INFO", BuildBankAccountInfoText(Settlement.CurrentSettlement));
         }
 
@@ -364,8 +364,8 @@ namespace Banks
         {
             var bankData = GetBankDataAtSettlement(settlement);
             return bankData.HasAccount
-                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS}. {XORBERAX_BANKS_LOAN_INFO}"
-                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS}. {XORBERAX_BANKS_LOAN_INFO}";
+                ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT}. {XORBERAX_BANKS_LOAN_INFO}"
+                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT}. {XORBERAX_BANKS_LOAN_INFO}";
         }
 
         private string BuildLoanInfoText(Settlement settlement)
