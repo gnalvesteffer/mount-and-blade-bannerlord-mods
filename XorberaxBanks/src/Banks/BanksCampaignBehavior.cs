@@ -356,8 +356,8 @@ namespace Banks
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_OPENING_COST", GetBankAccountOpeningCostAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_REMAINING_UNPAID_LOAN", GetRemainingUnpaidLoanAtSettlement(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_LOAN_INFO", BuildLoanInfoText(Settlement.CurrentSettlement));
-            MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_INFO", BuildBankAccountInfoText(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS", SubModule.Config.InterestAccrualRateInDays);
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_INFO", BuildBankAccountInfoText(Settlement.CurrentSettlement));
         }
 
         private string BuildBankAccountInfoText(Settlement settlement)
