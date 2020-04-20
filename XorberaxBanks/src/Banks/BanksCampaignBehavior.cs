@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -269,6 +270,17 @@ namespace Banks
             );
             campaignGameStarter.AddGameMenuOption(
                 "bank_account",
+                "bank_account_view_accounts",
+                "{=bank_account_view_accounts}View Accounts",
+                args =>
+                {
+                    args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
+                    return true;
+                },
+                args => OpenAccountList()
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_account",
                 "bank_account_leave",
                 "{=bank_account_leave}Leave bank",
                 args =>
@@ -278,6 +290,80 @@ namespace Banks
                 },
                 args => GameMenu.SwitchToMenu("town")
             );
+        }
+
+        private void OpenAccountList()
+        {
+            InformationManager.ShowMultiSelectionInquiry(
+                new MultiSelectionInquiryData(
+                    "Accounts",
+                    "Select a bank account to view:",
+                    BuildBankAccountInquiryElements(),
+                    true,
+                    true,
+                    "View Account",
+                    null,
+                    selectedItems =>
+                    {
+                        var selectedItem = selectedItems.FirstOrDefault();
+                        if (selectedItem == null)
+                        {
+                            return;
+                        }
+                        InformationManager.HideInquiry();
+                        SubModule.ExecuteActionOnNextTick(() => DisplayAccountOverview(selectedItem.Identifier as string));
+                    },
+                    null
+                )
+            );
+        }
+
+        private void DisplayAccountOverview(string settlementId)
+        {
+            var settlement = Settlement.Find(settlementId);
+            if (settlement == null)
+            {
+                return;
+            }
+            var bankData = GetBankDataAtSettlement(settlement);
+            var daysUntilInterestAccrual = GetDaysUntilInterestAccrual(bankData);
+            InformationManager.ShowInquiry(
+                new InquiryData(
+                    $"Bank of {settlement.Name}",
+                    $"Balance: {bankData.Balance}<img src=\"Icons\\Coin@2x\">\nInterest Rate: {bankData.InterestRate * 100:0.00}% (accrues in {daysUntilInterestAccrual} {(daysUntilInterestAccrual == 1 ? "day" : "days")})",
+                    true,
+                    false,
+                    "Back",
+                    null,
+                    () =>
+                    {
+                        InformationManager.HideInquiry();
+                        SubModule.ExecuteActionOnNextTick(OpenAccountList);
+                    },
+                    null
+                )
+            );
+        }
+
+        private int GetDaysUntilInterestAccrual(BankData bankData)
+        {
+            return SubModule.Config.InterestAccrualRateInDays - (int)(CampaignTime.Now - bankData.LastBankUpdateDate).ToDays;
+        }
+
+        private List<InquiryElement> BuildBankAccountInquiryElements()
+        {
+            var inquiryElements = new List<InquiryElement>();
+            foreach (var settlementId in _settlementBankDataBySettlementId.Keys)
+            {
+                var settlement = Settlement.Find(settlementId);
+                var bankData = GetBankDataAtSettlement(settlement); // sanitize bank data by retrieving it through this method.
+                if (!bankData.HasAccount)
+                {
+                    continue;
+                }
+                inquiryElements.Add(new InquiryElement(bankData.SettlementId, $"Bank of {settlement.Name}", null));
+            }
+            return inquiryElements.OrderBy(element => element.Title).ToList();
         }
 
         private bool DoesPlayerHaveAccountAtSettlementBank(Settlement settlement)
@@ -596,6 +682,10 @@ namespace Banks
                 _settlementBankDataBySettlementId[settlement.StringId] = new BankData();
             }
             var bankData = _settlementBankDataBySettlementId[settlement.StringId];
+            if (bankData.SettlementId == null) // v0.3.0 data migration
+            {
+                bankData.SettlementId = settlement.StringId;
+            }
             if (bankData.InterestRate < 0)
             {
                 bankData.InterestRate = CalculateSettlementInterestRate(settlement);
