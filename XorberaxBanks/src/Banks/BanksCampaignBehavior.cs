@@ -297,7 +297,7 @@ namespace Banks
             InformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
                     "Accounts",
-                    "Select a bank account to view:",
+                    "Select an account to view:",
                     BuildBankAccountInquiryElements(),
                     true,
                     true,
