@@ -34,7 +34,7 @@ namespace TextToSpeech
             {
                 return VoiceAge.Teen;
             }
-            if (age < 60)
+            if (age < 50)
             {
                 return VoiceAge.Adult;
             }
@@ -54,12 +54,16 @@ namespace TextToSpeech
             private static void RefreshPostfix()
             {
                 var conversationManager = Campaign.Current.ConversationManager;
-                var text = conversationManager.CurrentSentenceText;
                 var character = conversationManager.OneToOneConversationCharacter;
+                if (character == null)
+                {
+                    return;
+                }
                 var voiceGender = character.IsFemale
                     ? VoiceGender.Female
                     : VoiceGender.Male;
-                Say(text.StripTags(), voiceGender, GetVoiceAge((int)character.Age));
+                var text = conversationManager.CurrentSentenceText;
+                Say(text?.StripTags() ?? string.Empty, voiceGender, GetVoiceAge((int)character.Age));
             }
 
             [HarmonyPostfix]
