@@ -1,0 +1,6 @@
+{
+  "watsonTextToSpeechUrl": "GO HERE -> https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-gettingStarted",
+  "watsonTextToSpeechApiKey": "GO HERE -> https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-gettingStarted",
+  "watsonTextToSpeechFemaleVoice": "en-GB_KateV3Voice",
+  "watsonTextToSpeechMaleVoice": "en-US_HenryV3Voice"
+}
