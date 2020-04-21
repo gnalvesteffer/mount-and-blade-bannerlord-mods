@@ -15,7 +15,7 @@ namespace TextToSpeech
     internal static class TextToSpeech
     {
         private static readonly RestClient RestClient;
-        private static readonly WaveOutEvent WaveOutEvent = new WaveOutEvent();
+        private static readonly WaveOutEvent VoiceWaveOutEvent = new WaveOutEvent();
 
         static TextToSpeech()
         {
@@ -38,12 +38,10 @@ namespace TextToSpeech
 
         private static void Say(string text, bool isFemale)
         {
-            var request = new RestRequest("v1/synthesize", DataFormat.Json);
-            request.AddJsonBody(new
-            {
-                text,
-                voice = isFemale ? SubModule.Config.WatsonTextToSpeechFemaleVoice : SubModule.Config.WatsonTextToSpeechMaleVoice,
-            });
+            VoiceWaveOutEvent.Stop();
+            var voice = isFemale ? SubModule.Config.WatsonTextToSpeechFemaleVoice : SubModule.Config.WatsonTextToSpeechMaleVoice;
+            var request = new RestRequest($"v1/synthesize?voice={voice}", DataFormat.Json);
+            request.AddJsonBody(new { text });
             request.AddHeader("Accept", "audio/wav");
             RestClient.PostAsync(request, (response, handle) =>
             {
@@ -51,9 +49,8 @@ namespace TextToSpeech
                 {
                     return;
                 }
-                WaveOutEvent.Stop();
-                WaveOutEvent.Init(new RawSourceWaveStream(new MemoryStream(response.RawBytes), new WaveFormat(22050, 1)));
-                WaveOutEvent.Play();
+                VoiceWaveOutEvent.Init(new RawSourceWaveStream(new MemoryStream(response.RawBytes), new WaveFormat(22050, 1)));
+                VoiceWaveOutEvent.Play();
             });
         }
 
@@ -82,7 +79,7 @@ namespace TextToSpeech
             [HarmonyPatch("OnFinalize")]
             private static void OnFinalizePostfix()
             {
-                WaveOutEvent?.Stop();
+                VoiceWaveOutEvent?.Stop();
             }
         }
     }
