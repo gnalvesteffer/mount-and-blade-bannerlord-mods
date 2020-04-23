@@ -110,8 +110,9 @@ namespace Work
 
         private void OnWorkEnded()
         {
-            GameMenu.SwitchToMenu("village");
             _hoursRemainingUntilAbleToWork = SubModule.Config.WorkCooldownInHours;
+            GameMenu.SwitchToMenu("village");
+
             if (TotalHoursWorked == 0)
             {
                 return;
