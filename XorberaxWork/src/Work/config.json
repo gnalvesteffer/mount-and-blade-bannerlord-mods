@@ -1,0 +1,8 @@
+{
+  "hoursInShift": 8,
+  "workCooldownInHours": 24,
+  "maxPercentageOfSettlementFundsToEarnFromFullShift": 0.01,
+  "paymentLimit": 300,
+  "probabilityOfReceivingGift": 0.05,
+  "maxGiftQuantity": 10
+}
