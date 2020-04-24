@@ -83,7 +83,7 @@ namespace Work
                 args =>
                 {
                     var totalWorkers = GetTotalWorkersInParty(PartyBase.MainParty);
-                    MBTextManager.SetTextVariable("XORBERAX_WORK_WAIT_DESCRIPTION", new TextObject($"{(totalWorkers == 0 ? "You" : $"You and {totalWorkers} of your workers")} are helping the locals around their village by gathering resources and working the land.\n \nYou've worked for {{XORBERAX_WORK_TOTAL_HOURS_WORKED_TEXT}}."));
+                    MBTextManager.SetTextVariable("XORBERAX_WORK_WAIT_DESCRIPTION", new TextObject($"{(totalWorkers == 0 ? "You" : $"You and {totalWorkers} of your peasants")} are helping the locals around their village by gathering resources and working the land.\n \nYou've worked for {{XORBERAX_WORK_TOTAL_HOURS_WORKED_TEXT}}."));
                     args.MenuContext.GameMenu.SetTargetedWaitingTimeAndInitialProgress(SubModule.Config.HoursInShift, 0);
                     args.MenuContext.GameMenu.AllowWaitingAutomatically();
                     return true;
