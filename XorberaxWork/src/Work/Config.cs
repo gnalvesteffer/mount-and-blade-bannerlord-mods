@@ -13,6 +13,15 @@ namespace Work
         [JsonProperty("maxPercentageOfSettlementFundsToEarnFromFullShift")]
         public float MaxPercentageOfSettlementFundsToEarnFromFullShift { get; set; }
 
+        [JsonProperty("relationChangeWithVillageNotablesFromFullShift")]
+        public int RelationChangeWithVillageNotablesFromFullShift { get; set; }
+
+        [JsonProperty("athleticsExperienceGainedFromFullShift")]
+        public int AthleticsExperienceGainedFromFullShift { get; set; }
+
+        [JsonProperty("bonusPercentageOfPaymentGainedPerWorker")]
+        public float BonusPercentageOfPaymentGainedPerWorker { get; set; }
+
         [JsonProperty("paymentLimit")]
         public int PaymentLimit { get; set; }
 

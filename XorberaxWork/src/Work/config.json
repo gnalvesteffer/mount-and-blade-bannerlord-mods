@@ -1,8 +1,11 @@
 {
   "hoursInShift": 8,
   "workCooldownInHours": 24,
-  "maxPercentageOfSettlementFundsToEarnFromFullShift": 0.01,
-  "paymentLimit": 300,
-  "probabilityOfReceivingGift": 0.05,
-  "maxGiftQuantity": 10
+  "maxPercentageOfSettlementFundsToEarnFromFullShift": 0.02,
+  "relationChangeWithVillageNotablesFromFullShift": 1,
+  "athleticsExperienceGainedFromFullShift": 50,
+  "bonusPercentageOfPaymentGainedPerWorker": 0.015,
+  "paymentLimit": 500,
+  "probabilityOfReceivingGift": 0.1,
+  "maxGiftQuantity": 15
 }
