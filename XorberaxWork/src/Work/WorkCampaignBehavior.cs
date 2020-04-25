@@ -28,7 +28,10 @@ namespace Work
         {
             try
             {
+                dataStore.SyncData("_isWorking", ref _isWorking);
+                dataStore.SyncData("_hoursRemainingUntilShiftFinished", ref _hoursRemainingUntilShiftFinished);
                 dataStore.SyncData("_hoursRemainingUntilAbleToWork", ref _hoursRemainingUntilAbleToWork);
+                dataStore.SyncData("_lastSettlementWorkedAt", ref _lastSettlementWorkedAt);
             }
             catch
             {
@@ -143,7 +146,7 @@ namespace Work
             {
                 if (giftQuantity > 0)
                 {
-                    PartyBase.MainParty.ItemRoster.AddToCounts(gift, giftQuantity);
+                    PartyBase.MainParty.ItemRoster.AddToCounts(gift.EquipmentElement, giftQuantity);
                     InformationManager.DisplayMessage(new InformationMessage($"The locals gave you {giftQuantity} {gift.EquipmentElement.Item.Name} as payment for your work."));
                     return;
                 }
