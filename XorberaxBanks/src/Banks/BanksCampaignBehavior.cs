@@ -714,7 +714,7 @@ namespace Banks
             {
                 bankData.SettlementId = settlement.StringId;
             }
-            if (bankData.InterestRate < 0)
+            if (bankData.InterestRate < 0 || !bankData.HasAccount)
             {
                 bankData.InterestRate = CalculateSettlementInterestRate(settlement);
             }
