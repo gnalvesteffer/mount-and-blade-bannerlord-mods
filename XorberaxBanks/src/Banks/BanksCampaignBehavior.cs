@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
@@ -270,6 +271,22 @@ namespace Banks
             );
             campaignGameStarter.AddGameMenuOption(
                 "bank_account",
+                "bank_account_close_account",
+                "{=bank_account_close_account}Close Account",
+                args =>
+                {
+                    if (!DoesPlayerHaveAccountAtSettlementBank(Settlement.CurrentSettlement))
+                    {
+                        return false;
+                    }
+                    args.optionLeaveType = GameMenuOption.LeaveType.Continue;
+                    args.Tooltip = new TextObject("Your remaining balance will be returned to your person, and you will no longer have an account with this bank.");
+                    return true;
+                },
+                args => OnCloseBankAccountAtSettlement(Settlement.CurrentSettlement)
+            );
+            campaignGameStarter.AddGameMenuOption(
+                "bank_account",
                 "bank_account_view_accounts",
                 "{=bank_account_view_accounts}View Accounts",
                 args =>
@@ -434,6 +451,36 @@ namespace Banks
             }
         }
 
+        private void OnCloseBankAccountAtSettlement(Settlement settlement)
+        {
+            PromptCloseAccount(settlement);
+        }
+
+        private void PromptCloseAccount(Settlement settlement)
+        {
+            InformationManager.ShowInquiry(
+                new InquiryData(
+                    "Close Account",
+                    "Are you sure you want to close your account with this bank?",
+                    true,
+                    true,
+                    "Yes",
+                    "No",
+                    () => CloseBankAccountAtSettlement(settlement),
+                    () => InformationManager.HideInquiry()
+                )
+            );
+        }
+
+        private void CloseBankAccountAtSettlement(Settlement settlement)
+        {
+            var bankData = GetBankDataAtSettlement(settlement);
+            Hero.MainHero.ChangeHeroGold(bankData.Balance);
+            bankData.Balance = 0;
+            bankData.HasAccount = false;
+            GameMenu.SwitchToMenu("bank_account");
+        }
+
         private void UpdateBankMenuTextVariables()
         {
             MBTextManager.SetTextVariable("XORBERAX_BANKS_SETTLEMENT_NAME", Settlement.CurrentSettlement.Name);
@@ -511,11 +558,11 @@ namespace Banks
 
         private void PromptWithdrawAmount(Settlement settlement)
         {
-            var settlementFundsInfo = GetSettlementFundsInfo(settlement);
+            var balanceAtSettlement = GetBalanceAtSettlement(settlement);
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Withdraw",
-                    $"{(settlementFundsInfo.AvailableFunds < settlementFundsInfo.PlayerBalance ? $"The {settlement.Name} bank only has {settlementFundsInfo.AvailableFunds}<img src=\"Icons\\Coin@2x\"> available for you to withdraw.\n" : string.Empty)}Enter the amount to withdraw (1 - {settlementFundsInfo.WithdrawableBalance}):",
+                    $"Enter the amount to withdraw (1 - {balanceAtSettlement}):",
                     true,
                     true,
                     "Withdraw",
@@ -591,7 +638,7 @@ namespace Banks
             }
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.Balance += amount;
-            GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, amount, true);
+            Hero.MainHero.ChangeHeroGold(amount);
             InformationManager.DisplayMessage(new InformationMessage($"You deposited {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
@@ -605,14 +652,8 @@ namespace Banks
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough money to withdraw."));
                 return;
             }
-            var settlementFundsInfo = GetSettlementFundsInfo(settlement);
-            if (amount > settlementFundsInfo.AvailableFunds)
-            {
-                InformationManager.DisplayMessage(new InformationMessage($"The bank does not have enough funds available for you to withdraw. Only {settlementFundsInfo.AvailableFunds}<img src=\"Icons\\Coin@2x\"> is available."));
-                return;
-            }
             bankData.Balance -= amount;
-            GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);
+            Hero.MainHero.ChangeHeroGold(amount);
             InformationManager.DisplayMessage(new InformationMessage($"You withdrew {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
@@ -621,12 +662,6 @@ namespace Banks
         private void TakeOutLoan(int amount, Settlement settlement)
         {
             var bankData = GetBankDataAtSettlement(settlement);
-            var settlementComponent = settlement.GetSettlementComponent();
-            if (amount > settlementComponent.Gold)
-            {
-                InformationManager.DisplayMessage(new InformationMessage($"This bank does not have enough funds to loan to you. Only {settlementComponent.Gold}<img src=\"Icons\\Coin@2x\"> is available."));
-                return;
-            }
             bankData.LoanStartDate = CampaignTime.Now;
             bankData.LastLoanRecurringRetaliationDate = CampaignTime.Never;
             bankData.OriginalLoanAmount = amount;
@@ -635,7 +670,7 @@ namespace Banks
             bankData.LoanQuest = LoanQuest.Start(settlement, bankData.Banker, amount, bankData.LoanStartDate, bankData.LoanEndDate);
             var loanRenownCost = CalculateRenownCostForLoanAmount(amount);
             Hero.MainHero.Clan.Renown -= loanRenownCost;
-            GiveGoldAction.ApplyForSettlementToCharacter(settlement, Hero.MainHero, amount, true);
+            Hero.MainHero.ChangeHeroGold(amount);
             InformationManager.DisplayMessage(new InformationMessage($"You took out a loan for {amount}<img src=\"Icons\\Coin@2x\">. Lost {loanRenownCost:0.00} renown.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
@@ -644,10 +679,9 @@ namespace Banks
         private int MaxAvailableLoanAtSettlement(Settlement settlement)
         {
             var availableLoanAmount =
-                (int)(MathF.Clamp(
+                (int)(Math.Max(
                           Hero.MainHero.Clan.Renown * SubModule.Config.AvailableLoanAmountPerRenown,
-                          0,
-                          settlement.GetSettlementComponent().Gold
+                          0
                       ) / SubModule.Config.AvailableLoanAmountDivisor
                 ) * SubModule.Config.AvailableLoanAmountDivisor;
             return availableLoanAmount;
@@ -656,13 +690,6 @@ namespace Banks
         private float GetInterestRateAtSettlement(Settlement settlement)
         {
             return GetBankDataAtSettlement(settlement).InterestRate;
-        }
-
-        private (int PlayerBalance, int AvailableFunds, int WithdrawableBalance) GetSettlementFundsInfo(Settlement settlement)
-        {
-            var balanceAtSettlement = GetBalanceAtSettlement(settlement);
-            var availableFundsInSettlement = settlement.GetSettlementComponent().Gold;
-            return (balanceAtSettlement, availableFundsInSettlement, (int)Mathf.Min(balanceAtSettlement, availableFundsInSettlement));
         }
 
         private int GetBalanceAtSettlement(Settlement settlement)
@@ -726,9 +753,7 @@ namespace Banks
 
         private float CalculateSettlementInterestRate(Settlement settlement)
         {
-            return
-                (settlement.Prosperity + settlement.GetSettlementComponent().Gold) *
-                SubModule.Config.InterestRatePerSettlementProsperityFactor;
+            return settlement.Prosperity * SubModule.Config.InterestRatePerSettlementProsperityFactor;
         }
 
         private (bool IsValid, int Amount) TryParseDepositAmount(string amountText)
