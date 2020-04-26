@@ -476,6 +476,7 @@ namespace Banks
         {
             var bankData = GetBankDataAtSettlement(settlement);
             Hero.MainHero.ChangeHeroGold(bankData.Balance);
+            InformationManager.DisplayMessage(new InformationMessage($"You closed your account with the Bank of {settlement.Name}. Your balance of {bankData.Balance}<img src=\"Icons\\Coin@2x\"> has been returned to you.", "event:/ui/notification/coins_positive"));
             bankData.Balance = 0;
             bankData.HasAccount = false;
             GameMenu.SwitchToMenu("bank_account");
@@ -638,7 +639,7 @@ namespace Banks
             }
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.Balance += amount;
-            Hero.MainHero.ChangeHeroGold(amount);
+            Hero.MainHero.ChangeHeroGold(-amount);
             InformationManager.DisplayMessage(new InformationMessage($"You deposited {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
