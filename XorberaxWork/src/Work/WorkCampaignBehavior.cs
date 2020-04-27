@@ -173,6 +173,10 @@ namespace Work
 
         private (ItemRosterElement Item, int quantity) GetSettlementGift()
         {
+            if (_lastSettlementWorkedAt.ItemRoster.IsEmpty())
+            {
+                return (default(ItemRosterElement), 0);
+            }
             var gift = _lastSettlementWorkedAt.ItemRoster.GetRandomElement();
             var quantity = MBRandom.RandomFloat <= SubModule.Config.ProbabilityOfReceivingGift ? Mathf.Clamp(MBRandom.RandomInt(gift.Amount), 0, SubModule.Config.MaxGiftQuantity) : 0;
             return (gift, quantity);
