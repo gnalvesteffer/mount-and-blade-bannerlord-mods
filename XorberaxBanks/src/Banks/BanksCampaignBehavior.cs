@@ -56,7 +56,7 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                var shouldAccrueInterest = (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= SubModule.Config.InterestAccrualRateInDays;
+                var shouldAccrueInterest = bankData.HasAccount && (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= SubModule.Config.InterestAccrualRateInDays;
                 if (shouldAccrueInterest)
                 {
                     if (bankData.RemainingUnpaidLoan == 0)
