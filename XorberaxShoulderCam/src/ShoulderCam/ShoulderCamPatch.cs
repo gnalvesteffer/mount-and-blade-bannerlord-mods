@@ -14,6 +14,7 @@ namespace ShoulderCam
     {
         private static ShoulderPosition _focusedShoulderPosition = ShoulderPosition.Right;
         private static float _alternateShoulderSwitchTimestamp;
+        private static float _revertRangedModeEndTimestamp;
         private static float _camShakeAmount;
         private static float _camShakeEndTimestamp;
 
@@ -154,7 +155,7 @@ namespace ShoulderCam
             {
                 return false;
             }
-            if (SubModule.Config.ShoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
+            if (SubModule.Config.ShoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack) && Mission.Current.Time > _revertRangedModeEndTimestamp)
             {
                 return false;
             }
@@ -168,6 +169,10 @@ namespace ShoulderCam
             {
                 if (weaponComponentData != null && weaponComponentData.IsRangedWeapon)
                 {
+                    if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
+                    {
+                        _revertRangedModeEndTimestamp = Mission.Current.Time + SubModule.Config.RevertWhenAimingDuration;
+                    }
                     return true;
                 }
             }

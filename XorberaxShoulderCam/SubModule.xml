@@ -2,7 +2,7 @@
 <Module>
   <Name value="Xorberax's Shoulder Cam"/>
   <Id value="XorberaxShoulderCam"/>
-  <Version value="v0.5.0"/>
+  <Version value="v0.6.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />

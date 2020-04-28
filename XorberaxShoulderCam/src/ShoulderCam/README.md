@@ -64,6 +64,13 @@ a ranged weapon.
 - `"revertWhenEquipped"` -- reverts/repositions the camera when a ranged
 weapon is equipped.
 
+#### revertWhenAimingDuration
+The duration in seconds that the camera should stay reverted after
+the player has finished aiming a ranged weapon. **Only applicable when
+`shoulderCamRangedMode` is set to `revertWhenAiming`.**
+
+**Accepts:** decimal number
+
 #### shoulderCamMountedMode
 The behavior of the camera when riding on a horse.
 

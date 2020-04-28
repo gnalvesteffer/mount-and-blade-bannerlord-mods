@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../SubModule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../SubModule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Config.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ShoulderCamPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ShoulderCamPatch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,6 +41,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CF836FB-23FC-408D-947D-99ADD8B5125C/b7/e7b09c4c/ItemObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderCamMountMode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/SubModule.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/130379A7-D7B9-454F-B455-A018B13EEE34/0b/b1d5e8b6/MissionScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/CutThroughEveryonePatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderCamMissionLogic.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07EE4C21-F4FD-4FE9-B095-A4144013E0BA/44/7683ec65/MissionScreen.cs" root0="SKIP_HIGHLIGHTING" />
@@ -143,9 +150,9 @@
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/SubModule.cs" />
         <option value="$PROJECT_DIR$/ShoulderCamMissionLogic.cs" />
-        <option value="$PROJECT_DIR$/ShoulderCamPatch.cs" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Config.cs" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/ShoulderCamPatch.cs" />
         <option value="$PROJECT_DIR$/config.json" />
       </list>
     </option>
@@ -209,6 +216,7 @@
       <workItem from="1587260384539" duration="119000" />
       <workItem from="1587272305452" duration="1186000" />
       <workItem from="1587273843257" duration="792000" />
+      <workItem from="1588041097047" duration="3692000" />
     </task>
     <task id="LOCAL-00001" summary="update shoulder cam">
       <created>1586134112450</created>
@@ -354,6 +362,19 @@
           <properties exception="System.ArgumentException" displayValue="System.ArgumentException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ShoulderCamPatch.cs</url>
+          <line>157</line>
+          <properties documentPath="$PROJECT_DIR$/ShoulderCamPatch.cs" initialLine="157">
+            <startOffsets>
+              <option value="7765" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7980" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" type="DotNet Exception Breakpoints" />

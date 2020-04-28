@@ -9,6 +9,7 @@
   "elevationOffset": 0.0,
   "thirdPersonFieldOfView": 65,
   "shoulderCamRangedMode": "revertWhenAiming",
+  "revertWhenAimingDuration": 0.75,
   "shoulderCamMountedMode": "noRevert",
   "shoulderSwitchMode": "noSwitching",
   "temporaryShoulderSwitchDuration": 1.0,
