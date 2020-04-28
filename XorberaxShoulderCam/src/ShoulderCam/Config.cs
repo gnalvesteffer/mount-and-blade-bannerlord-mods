@@ -34,8 +34,8 @@ namespace ShoulderCam
         [JsonProperty("shoulderCamRangedMode")]
         public ShoulderCamRangedMode ShoulderCamRangedMode { get; set; }
 
-        [JsonProperty("revertWhenAimingDuration")]
-        public float RevertWhenAimingDuration { get; set; }
+        [JsonProperty("revertWhenAimingReturnDelay")]
+        public float RevertWhenAimingReturnDelay { get; set; }
 
         [JsonProperty("shoulderCamMountedMode")]
         public ShoulderCamMountedMode ShoulderCamMountedMode { get; set; }

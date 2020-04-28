@@ -171,7 +171,7 @@ namespace ShoulderCam
                 {
                     if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
                     {
-                        _revertRangedModeEndTimestamp = Mission.Current.Time + SubModule.Config.RevertWhenAimingDuration;
+                        _revertRangedModeEndTimestamp = Mission.Current.Time + SubModule.Config.RevertWhenAimingReturnDelay;
                     }
                     return true;
                 }
