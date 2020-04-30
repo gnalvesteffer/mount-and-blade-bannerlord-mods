@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using CSCore;
-using CSCore.Codecs;
 using CSCore.Codecs.OGG;
 using CSCore.SoundOut;
 using TaleWorlds.Core;
@@ -13,9 +12,9 @@ namespace VoiceOvers
         private static ISoundOut _soundOut;
         private static IWaveSource _waveSource;
 
-        public static void SayDialog(string sentenceId, CultureCode characterCultureCode, bool isCharacterFemale, float characterAge)
+        public static void SayDialog(string sentenceId, CultureCode characterCultureCode, bool isCharacterFemale, AgeGroup ageGroup)
         {
-            var absoluteFilePath = VoiceOverFilePathResolver.GetVoiceOverFilePath(sentenceId, characterCultureCode, isCharacterFemale, characterAge).absoluteFilePath;
+            var absoluteFilePath = VoiceOverFilePathResolver.GetVoiceOverFilePath(sentenceId, characterCultureCode, isCharacterFemale, ageGroup).absoluteFilePath;
             if (!File.Exists(absoluteFilePath))
             {
                 return;
