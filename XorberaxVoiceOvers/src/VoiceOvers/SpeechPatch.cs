@@ -23,7 +23,7 @@ namespace VoiceOvers
             if (SubModule.Config.IsDevMode)
             {
                 var fileName = VoiceOverFilePathResolver.GetVoiceOverFilePath(sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup()).fileName;
-                Clipboard.SetText($"File Name: {fileName}\nCulure: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nText: {conversationManager.CurrentSentenceText}");
+                Clipboard.SetText($"File Name: {fileName}\nCulture: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nText: {conversationManager.CurrentSentenceText}");
                 Logger.LogInfo($"Copied voice-over info to clipboard: {fileName}");
             }
             DialogHandler.SayDialog(sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
