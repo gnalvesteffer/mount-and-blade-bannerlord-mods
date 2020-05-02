@@ -22,11 +22,11 @@ namespace VoiceOvers
             var sentenceId = (conversationManager.GetFieldValue("_currentSentenceText") as TextObject)?.GetID();
             if (SubModule.Config.IsDevMode)
             {
-                var fileName = VoiceOverFilePathResolver.GetVoiceOverFilePath(sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup()).fileName;
-                Clipboard.SetText($"File Name: {fileName}\nCulture: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nText: {conversationManager.CurrentSentenceText}");
-                Logger.LogInfo($"Copied voice-over info to clipboard: {fileName}");
+                var fileData = VoiceOverFilePathResolver.GetVoiceOverFileData(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
+                Clipboard.SetText($"NPC Voice-Over File Name: {fileData.npcFileName}\nGeneric Voice-Over File Name: {fileData.genericFileName}\nCulture: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nNPC Name: {character.Name}\nNPC ID: {character.StringId}\nText: {conversationManager.CurrentSentenceText}");
+                Logger.LogInfo("Copied voice-over info to clipboard");
             }
-            DialogHandler.SayDialog(sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
+            DialogHandler.SayDialog(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
         }
 
         [HarmonyPostfix]

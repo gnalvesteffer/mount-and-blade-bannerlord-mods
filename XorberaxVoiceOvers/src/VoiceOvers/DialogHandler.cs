@@ -12,14 +12,17 @@ namespace VoiceOvers
         private static ISoundOut _soundOut;
         private static IWaveSource _waveSource;
 
-        public static void SayDialog(string sentenceId, CultureCode characterCultureCode, bool isCharacterFemale, AgeGroup ageGroup)
+        public static void SayDialog(string npcId, string sentenceId, CultureCode characterCultureCode, bool isCharacterFemale, AgeGroup ageGroup)
         {
-            var absoluteFilePath = VoiceOverFilePathResolver.GetVoiceOverFilePath(sentenceId, characterCultureCode, isCharacterFemale, ageGroup).absoluteFilePath;
-            if (!File.Exists(absoluteFilePath))
+            var voiceOverFileData = VoiceOverFilePathResolver.GetVoiceOverFileData(npcId, sentenceId, characterCultureCode, isCharacterFemale, ageGroup);
+            if (File.Exists(voiceOverFileData.npcAbsoluteFilePath))
             {
-                return;
+                PlayVoiceOverSafe(voiceOverFileData.npcAbsoluteFilePath);
             }
-            PlayVoiceOverSafe(absoluteFilePath);
+            else if (File.Exists(voiceOverFileData.genericAbsoluteFilePath))
+            {
+                PlayVoiceOverSafe(voiceOverFileData.genericAbsoluteFilePath);
+            }
         }
 
         public static void StopDialog()
@@ -31,8 +34,8 @@ namespace VoiceOvers
         {
             try
             {
+                StopDialog();
                 _waveSource = new OggSource(new MemoryStream(File.ReadAllBytes(voiceOverFilePath))).ToWaveSource();
-                _soundOut?.Stop();
                 _soundOut = new WasapiOut();
                 _soundOut.Initialize(_waveSource);
                 _soundOut.Play();
