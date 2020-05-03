@@ -19,12 +19,17 @@ namespace VoiceOvers
             {
                 return;
             }
-            var sentenceId = (conversationManager.GetFieldValue("_currentSentenceText") as TextObject)?.GetID();
+            var sentenceTextObject = conversationManager.GetFieldValue("_currentSentenceText") as TextObject;
+            var sentenceId = sentenceTextObject?.GetID();
+            if (sentenceId == DialogTextProcessor.RumorSentenceId)
+            {
+                sentenceId = DialogTextProcessor.GetUnderlyingRumorSentenceId(sentenceTextObject) ?? sentenceId;
+            }
             if (SubModule.Config.IsDevMode)
             {
                 var fileData = VoiceOverFilePathResolver.GetVoiceOverFileData(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
-                Clipboard.SetText($"NPC Voice-Over File Name: {fileData.npcFileName}\nGeneric Voice-Over File Name: {fileData.genericFileName}\nCulture: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nNPC Name: {character.Name}\nNPC ID: {character.StringId}\nText: {conversationManager.CurrentSentenceText}");
-                Logger.LogInfo("Copied voice-over info to clipboard");
+                Clipboard.SetText($"NPC Voice-Over File Name: {fileData.npcFileName}\nGeneric Voice-Over File Name: {fileData.genericFileName}\nSentence ID: {sentenceId}\nCulture: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nNPC Name: {character.Name}\nNPC ID: {character.StringId}\nText: {conversationManager.CurrentSentenceText}");
+                Logger.LogInfo($"Copied voice-over info to clipboard: {sentenceId}");
             }
             DialogHandler.SayDialog(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
         }

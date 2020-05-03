@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 
 namespace VoiceOvers
@@ -19,6 +20,12 @@ namespace VoiceOvers
             var bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
             var field = instance.GetType().GetField(fieldName, bindFlags);
             return field.GetValue(instance);
+        }
+
+        public static object GetField(Type type, string name)
+        {
+            var info = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Static);
+            return info?.GetValue(null);
         }
     }
 }
