@@ -3,6 +3,7 @@ using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade;
 
 namespace VoiceOvers
 {
@@ -14,6 +15,7 @@ namespace VoiceOvers
         private static void RefreshPostfix()
         {
             var conversationManager = Campaign.Current.ConversationManager;
+            var agent = conversationManager.OneToOneConversationAgent as Agent;
             var character = conversationManager.OneToOneConversationCharacter;
             if (character == null)
             {
@@ -27,11 +29,11 @@ namespace VoiceOvers
             }
             if (SubModule.Config.IsDevMode)
             {
-                var fileData = VoiceOverFilePathResolver.GetVoiceOverFileData(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
+                var fileData = VoiceOverFilePathResolver.GetVoiceOverFileData(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, agent.GetAgeGroup());
                 Clipboard.SetText($"NPC Voice-Over File Name: {fileData.npcFileName}\nGeneric Voice-Over File Name: {fileData.genericFileName}\nSentence ID: {sentenceId}\nCulture: {character.Culture.GetCultureCode()}\nGender: {(character.IsFemale ? "Female" : "Male")}\nNPC Name: {character.Name}\nNPC ID: {character.StringId}\nText: {conversationManager.CurrentSentenceText}");
                 Logger.LogInfo($"Copied voice-over info to clipboard: {sentenceId}");
             }
-            DialogHandler.SayDialog(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, character.GetAgeGroup());
+            DialogHandler.SayDialog(character.StringId, sentenceId, character.Culture.GetCultureCode(), character.IsFemale, agent.GetAgeGroup());
         }
 
         [HarmonyPostfix]

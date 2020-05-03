@@ -1,4 +1,6 @@
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
 
 namespace VoiceOvers
 {
@@ -12,9 +14,9 @@ namespace VoiceOvers
 
     public static class AgeGroupExtensions
     {
-        public static AgeGroup GetAgeGroup(this CharacterObject character)
+        public static AgeGroup GetAgeGroup(this Agent agent)
         {
-            var age = character.Age;
+            var age = agent.Age;
             if (age < 12)
             {
                 return AgeGroup.Child;
