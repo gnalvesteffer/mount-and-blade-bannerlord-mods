@@ -56,14 +56,17 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                var shouldAccrueInterest = bankData.HasAccount && (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= SubModule.Config.InterestAccrualRateInDays;
+                var oldInterestRate = bankData.InterestRate;
+                var moneyGainedFromInterest = (int)(bankData.Balance * oldInterestRate);
+                var shouldAccrueInterest =
+                    bankData.HasAccount &&
+                    (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= SubModule.Config.InterestAccrualRateInDays &&
+                    bankData.Balance + moneyGainedFromInterest > 0; // prevent overflowing balance from interest
                 if (shouldAccrueInterest)
                 {
                     if (bankData.RemainingUnpaidLoan == 0)
                     {
-                        var oldInterestRate = bankData.InterestRate;
                         var newInterestRate = CalculateSettlementInterestRate(settlement);
-                        var moneyGainedFromInterest = (int)(bankData.Balance * oldInterestRate);
                         bankData.Balance += moneyGainedFromInterest;
                         bankData.InterestRate = newInterestRate;
                         InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.{(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
