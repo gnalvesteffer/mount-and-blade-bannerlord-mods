@@ -4,7 +4,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using TaleWorlds.MountAndBlade;
 
-namespace CutThroughEveryone
+namespace DeadlyCombat
 {
     internal class SubModule : MBSubModuleBase
     {
@@ -15,7 +15,13 @@ namespace CutThroughEveryone
         {
             base.OnSubModuleLoad();
             LoadConfig();
-            new Harmony("xorberax.cutthrougheveryone").PatchAll();
+            new Harmony("xorberax.deadlycombat").PatchAll();
+        }
+
+        public override void OnMissionBehaviourInitialize(Mission mission)
+        {
+            base.OnMissionBehaviourInitialize(mission);
+            mission.AddMissionBehaviour(new DeadlyCombatMissionLogic());
         }
 
         protected override void OnApplicationTick(float dt)

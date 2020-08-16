@@ -4,5 +4,7 @@
   "percentageOfInflictedDamageRequiredToCutThroughArmor": 0.95,
   "doFriendlyUnitsBlockCutThroughs": false,
   "onlyPlayerCanCutThrough": false,
-  "enableProjectilePenetration": true
+  "canCutThroughShields": false,
+  "onlyPlayerCanCutThroughShields": false,
+  "shouldAutoReloadConfig": false
 }

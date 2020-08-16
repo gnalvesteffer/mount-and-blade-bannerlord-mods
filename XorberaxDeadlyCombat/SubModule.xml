@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-  <Name value="Xorberax's Cut Through Everyone"/>
-  <Id value="XorberaxCutThroughEveryone"/>
-  <Version value="v0.4.0"/>
+  <Name value="Xorberax's Deadly Combat"/>
+  <Id value="XorberaxDeadlyCombat"/>
+  <Version value="v0.1.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />
@@ -15,9 +15,9 @@
   </DependedModules> 
   <SubModules>
     <SubModule>
-      <Name value="CutThroughEveryone"/>
-      <DLLName value="CutThroughEveryone.dll"/>
-      <SubModuleClassType value="CutThroughEveryone.SubModule"/>
+      <Name value="DeadlyCombat"/>
+      <DLLName value="DeadlyCombat.dll"/>
+      <SubModuleClassType value="DeadlyCombat.SubModule"/>
       <Tags>
         <Tag key="DedicatedServerType" value="none" />
         <Tag key="IsNoRenderModeElement" value="false" />

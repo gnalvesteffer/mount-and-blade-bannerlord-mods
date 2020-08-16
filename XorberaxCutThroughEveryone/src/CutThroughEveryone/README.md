@@ -29,14 +29,31 @@ and an attack has a total of 100 points of damage, and 20 points are absorbed
 by armor, then 80 points of damage will be inflicted, which means 80% of
 the attack damage was inflicted, allowing the attack to cut through.
  
- **Accepts:** decimal number
- 
- #### doFriendlyUnitsBlockCutThroughs
- When enabled, prevents weapons from cutting through friendly units.
- 
- **Accepts:** `true` or `false`
- 
- #### onlyPlayerCanCutThrough
- When enabled, only the player will be allowed to cut through units.
- 
- **Accepts:** `true` or `false`
+**Accepts:** decimal number
+
+#### doFriendlyUnitsBlockCutThroughs
+When enabled, prevents weapons from cutting through friendly units.
+
+**Accepts:** `true` or `false`
+
+#### onlyPlayerCanCutThrough
+When enabled, only the player will be allowed to cut through units.
+
+**Accepts:** `true` or `false`
+
+#### canCutThroughShields
+When enabled, units can cut through shields.
+
+**Accepts:** `true` or `false`
+
+#### onlyPlayerCanCutThroughShields
+When enabled with `canCutThroughShields`, only the player will be able
+to cut through shields.
+
+**Accepts:** `true` or `false`
+
+#### shouldAutoReloadConfig
+When enabled, will automatically apply changes made to the config
+while in-game.
+
+**Accepts:** `true` or `false`

@@ -1,0 +1,6 @@
+{
+  "percentageOfDamageRequiredToKillUnit": 0.3,
+  "unitHealthPercentageToCauseBleedout": 0.75,
+  "unitSpeedReductionRateDuringBleedout": 0.05,
+  "shouldAutoReloadConfig": false
+}

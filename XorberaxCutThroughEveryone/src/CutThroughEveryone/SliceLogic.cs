@@ -57,7 +57,7 @@ namespace CutThroughEveryone
 
         public static bool ShouldCutThrough(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
-            if (!DoPreflightSliceThroughChecksPass(collisionData, attacker, victim))
+            if (!DoPreflightChecksPass(collisionData, attacker, victim))
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace CutThroughEveryone
             return false;
         }
 
-        private static bool DoPreflightSliceThroughChecksPass(AttackCollisionData collisionData, Agent attacker, Agent victim)
+        private static bool DoPreflightChecksPass(AttackCollisionData collisionData, Agent attacker, Agent victim)
         {
             return
                 victim != null &&
