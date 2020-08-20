@@ -50,7 +50,7 @@ namespace TrainingField
                 {
                     MBTextManager.SetTextVariable("COST", CalculateCostToTrainTroops());
                     menuCallbackArgs.optionLeaveType = GameMenuOption.LeaveType.Wait;
-                    return HasTroopsToTrain && !Settlement.CurrentSettlement.HasTournament;
+                    return HasTroopsToTrain && !Settlement.CurrentSettlement.Town.HasTournament;
                 },
                 menuCallbackArgs => BeginTraining(),
                 false,
