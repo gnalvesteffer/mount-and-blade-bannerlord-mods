@@ -30,7 +30,7 @@ namespace Banks
         public CampaignTime LoanEndDate => CampaignTime.Days((int)LoanStartDate.ToDays) + CampaignTime.Days(SubModule.Config.DaysToRepayLoan);
 
         [SaveableProperty(8)]
-        public CampaignTime LastBankUpdateDate { get; set; } = CampaignTime.Never;
+        public CampaignTime LastInterestAccrualDate { get; set; } = CampaignTime.Never;
 
         [SaveableProperty(9)]
         public bool HasBankPerformedInitialRetaliationForUnpaidLoan { get; set; }

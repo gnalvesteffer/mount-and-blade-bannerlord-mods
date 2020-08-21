@@ -56,22 +56,23 @@ namespace Banks
             {
                 var settlement = Settlement.Find(settlementId);
                 var bankData = GetBankDataAtSettlement(settlement);
-                var oldInterestRate = bankData.InterestRate;
-                var moneyGainedFromInterest = (int)(bankData.Balance * oldInterestRate);
+                var currentInterestRate = bankData.InterestRate;
+                var moneyGainedFromInterest = (int)(bankData.Balance * currentInterestRate);
                 var shouldAccrueInterest =
                     bankData.HasAccount &&
-                    (CampaignTime.Now - bankData.LastBankUpdateDate).ToDays >= SubModule.Config.InterestAccrualRateInDays &&
-                    bankData.Balance + moneyGainedFromInterest > 0; // prevent overflowing balance from interest
+                    (CampaignTime.Now - bankData.LastInterestAccrualDate).ToDays >= SubModule.Config.InterestAccrualRateInDays &&
+                    !OverflowUtility.WillAdditionOverflow(bankData.Balance, moneyGainedFromInterest) && // prevent overflowing balance from interest
+                    bankData.Balance < SubModule.Config.MaxBankBalance;
                 if (shouldAccrueInterest)
                 {
                     if (bankData.RemainingUnpaidLoan == 0)
                     {
                         var newInterestRate = CalculateSettlementInterestRate(settlement);
-                        bankData.Balance += moneyGainedFromInterest;
+                        bankData.Balance = Math.Min(bankData.Balance + moneyGainedFromInterest, SubModule.Config.MaxBankBalance);
                         bankData.InterestRate = newInterestRate;
-                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.{(Mathf.Abs(newInterestRate - oldInterestRate) > 0.0001 ? $" Your interest rate has changed from {oldInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
+                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.{(Mathf.Abs(newInterestRate - currentInterestRate) > 0.0001 ? $" Your interest rate has changed from {currentInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
                     }
-                    bankData.LastBankUpdateDate = CampaignTime.Now;
+                    bankData.LastInterestAccrualDate = CampaignTime.Now;
                 }
                 if (IsLoanOverdueAtSettlement(settlement) && bankData.HasBankPerformedInitialRetaliationForUnpaidLoan && HasWeekElapsedSinceLastBankRetaliation(bankData))
                 {
@@ -320,7 +321,7 @@ namespace Banks
                     "Select an account to view:",
                     BuildBankAccountInquiryElements(),
                     true,
-                    true,
+                    1,
                     "View Account",
                     null,
                     selectedItems =>
@@ -367,7 +368,7 @@ namespace Banks
 
         private int GetDaysUntilInterestAccrual(BankData bankData)
         {
-            return SubModule.Config.InterestAccrualRateInDays - (int)(CampaignTime.Now - bankData.LastBankUpdateDate).ToDays;
+            return SubModule.Config.InterestAccrualRateInDays - (int)(CampaignTime.Now - bankData.LastInterestAccrualDate).ToDays;
         }
 
         private List<InquiryElement> BuildBankAccountInquiryElements()
@@ -502,7 +503,7 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             return bankData.HasAccount
                 ? "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank.\nYour balance is {XORBERAX_BANKS_BALANCE}{GOLD_ICON} with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT}. {XORBERAX_BANKS_LOAN_INFO}"
-                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT}. {XORBERAX_BANKS_LOAN_INFO}";
+                : "You are at the {XORBERAX_BANKS_SETTLEMENT_NAME} bank. You can open an account with an interest rate of {XORBERAX_BANKS_INTEREST_RATE}% accrued every {XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT}, and can store up to {XORBERAX_BANKS_MAX_BANK_BALANCE}{GOLD_ICON} here. {XORBERAX_BANKS_LOAN_INFO}";
         }
 
         private string BuildLoanInfoText(Settlement settlement)
@@ -535,19 +536,35 @@ namespace Banks
             return SubModule.Config.BankAccountOpeningCostBase * settlementProsperityFactor;
         }
 
+        private (int Amount, bool HasReachedLimit) GetMaxDepositAmountInfoAtSettlement(Settlement settlement)
+        {
+            var moneyOnPerson = GetPlayerMoneyOnPerson();
+            var bankData = GetBankDataAtSettlement(settlement);
+            var unfilledBalance = SubModule.Config.MaxBankBalance - bankData.Balance;
+            return (Math.Min(moneyOnPerson, unfilledBalance), moneyOnPerson > unfilledBalance);
+        }
+
+        private (int Amount, bool HasReachedLimit) GetMaxWithdrawAmountInfoAtSettlement(Settlement settlement)
+        {
+            var moneyOnPerson = GetPlayerMoneyOnPerson();
+            var bankData = GetBankDataAtSettlement(settlement);
+            return (Math.Min(int.MaxValue - moneyOnPerson, bankData.Balance), bankData.Balance > int.MaxValue - moneyOnPerson);
+        }
+
         private void PromptDepositAmount(Settlement settlement)
         {
+            var maxDepositAmountInfo = GetMaxDepositAmountInfoAtSettlement(settlement);
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Deposit",
-                    $"Enter the amount to deposit (1 - {GetPlayerMoneyOnPerson()}):",
+                    $"{(maxDepositAmountInfo.HasReachedLimit ? $"The bank is unable to hold more than {SubModule.Config.MaxBankBalance}<img src=\"Icons\\Coin@2x\">. The max you can deposit has been capped.\n\n" : string.Empty)}Enter the amount to deposit (1 - {maxDepositAmountInfo.Amount}):",
                     true,
                     true,
                     "Deposit",
                     "Cancel",
                     amountText =>
                     {
-                        var (isValid, amount) = TryParseDepositAmount(amountText);
+                        var (isValid, amount) = TryParseDepositAmount(amountText, settlement);
                         if (isValid)
                         {
                             Deposit(amount, settlement);
@@ -555,18 +572,18 @@ namespace Banks
                     },
                     () => { InformationManager.HideInquiry(); },
                     false,
-                    amountText => TryParseDepositAmount(amountText).IsValid
+                    amountText => TryParseDepositAmount(amountText, settlement).IsValid
                 )
             );
         }
 
         private void PromptWithdrawAmount(Settlement settlement)
         {
-            var balanceAtSettlement = GetBalanceAtSettlement(settlement);
+            var maxWithdrawAmountInfo = GetMaxWithdrawAmountInfoAtSettlement(settlement);
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Withdraw",
-                    $"Enter the amount to withdraw (1 - {balanceAtSettlement}):",
+                    $"{(maxWithdrawAmountInfo.HasReachedLimit ? $"You are unable to hold more than {int.MaxValue}<img src=\"Icons\\Coin@2x\">. The max you can withdraw has been capped.\n\n" : string.Empty)}Enter the amount to withdraw (1 - {maxWithdrawAmountInfo.Amount}):",
                     true,
                     true,
                     "Withdraw",
@@ -641,6 +658,11 @@ namespace Banks
                 return;
             }
             var bankData = GetBankDataAtSettlement(settlement);
+            if (bankData.Balance + amount > SubModule.Config.MaxBankBalance || OverflowUtility.WillAdditionOverflow(bankData.Balance, amount))
+            {
+                InformationManager.DisplayMessage(new InformationMessage($"The bank is unable to hold more than {SubModule.Config.MaxBankBalance}<img src=\"Icons\\Coin@2x\">."));
+                return;
+            }
             bankData.Balance += amount;
             Hero.MainHero.ChangeHeroGold(-amount);
             InformationManager.DisplayMessage(new InformationMessage($"You deposited {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
@@ -654,6 +676,11 @@ namespace Banks
             if (amount > bankData.Balance)
             {
                 InformationManager.DisplayMessage(new InformationMessage("You do not have enough money to withdraw."));
+                return;
+            }
+            if (OverflowUtility.WillAdditionOverflow(Hero.MainHero.Gold, amount))
+            {
+                InformationManager.DisplayMessage(new InformationMessage("You cannot carry that much money on you."));
                 return;
             }
             bankData.Balance -= amount;
@@ -684,9 +711,9 @@ namespace Banks
         {
             var availableLoanAmount =
                 (int)(Math.Max(
-                          Hero.MainHero.Clan.Renown * SubModule.Config.AvailableLoanAmountPerRenown,
-                          0
-                      ) / SubModule.Config.AvailableLoanAmountDivisor
+                        Hero.MainHero.Clan.Renown * SubModule.Config.AvailableLoanAmountPerRenown,
+                        0
+                    ) / SubModule.Config.AvailableLoanAmountDivisor
                 ) * SubModule.Config.AvailableLoanAmountDivisor;
             return availableLoanAmount;
         }
@@ -724,13 +751,13 @@ namespace Banks
             if (bankData.Banker == null) // v0.2.0 data migration
             {
                 bankData.Banker = new Hero();
-                bankData.Banker.Call("SetCharacterObject", settlement.Culture.Merchant);
+                bankData.Banker.SetCharacterObject(settlement.Culture.Merchant);
                 bankData.Banker.Name = new TextObject("Banker");
                 bankData.Banker.Clan = new Clan
                 {
-                    Name = new TextObject($"Bank of {settlement.Name}"),
+                    Name = new TextObject($"Bank of {settlement.Name}")
                 };
-                bankData.Banker.Clan.Call("SetLeader", bankData.Banker);
+                bankData.Banker.Clan.SetLeader(bankData.Banker);
             }
             if (bankData.OriginalLoanAmount == 0 && bankData.RemainingUnpaidLoan > 0) // v0.2.0 data migration
             {
@@ -750,7 +777,7 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             bankData.HasAccount = true;
             bankData.AccountOpenDate = CampaignTime.Now;
-            bankData.LastBankUpdateDate = CampaignTime.Now;
+            bankData.LastInterestAccrualDate = CampaignTime.Now;
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, openingCost);
             return true;
         }
@@ -760,11 +787,11 @@ namespace Banks
             return settlement.Prosperity * SubModule.Config.InterestRatePerSettlementProsperityFactor;
         }
 
-        private (bool IsValid, int Amount) TryParseDepositAmount(string amountText)
+        private (bool IsValid, int Amount) TryParseDepositAmount(string amountText, Settlement settlement)
         {
             if (int.TryParse(amountText, out var amount))
             {
-                return (amount > 0 && amount <= GetPlayerMoneyOnPerson(), amount);
+                return (amount > 0 && amount <= GetMaxDepositAmountInfoAtSettlement(settlement).Amount, amount);
             }
             return (false, -1);
         }
@@ -773,7 +800,7 @@ namespace Banks
         {
             if (int.TryParse(amountText, out var amount))
             {
-                return (amount > 0 && amount <= GetBalanceAtSettlement(settlement), amount);
+                return (amount > 0 && amount <= GetMaxWithdrawAmountInfoAtSettlement(settlement).Amount, amount);
             }
             return (false, -1);
         }

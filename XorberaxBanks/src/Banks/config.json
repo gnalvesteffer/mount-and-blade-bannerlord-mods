@@ -12,5 +12,6 @@
   "interestRatePerSettlementProsperityFactor": 0.00000873,
   "interestAccrualRateInDays": 7,
   "bankAccountOpeningCostBase": 3000,
-  "bankAccountOpeningCostSettlementProsperityDivisor": 500
+  "bankAccountOpeningCostSettlementProsperityDivisor": 500,
+  "maxBankBalance": 100000
 }

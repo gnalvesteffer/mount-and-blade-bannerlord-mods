@@ -45,5 +45,8 @@ namespace Banks
 
         [JsonProperty("maxCriminalRatingForUnpaidLoan")]
         public int MaxCriminalRatingForUnpaidLoan { get; set; }
+
+        [JsonProperty("maxBankBalance")]
+        public int MaxBankBalance { get; set; }
     }
 }
