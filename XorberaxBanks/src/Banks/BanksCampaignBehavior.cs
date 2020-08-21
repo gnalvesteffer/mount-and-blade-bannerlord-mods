@@ -496,6 +496,7 @@ namespace Banks
             MBTextManager.SetTextVariable("XORBERAX_BANKS_LOAN_INFO", BuildLoanInfoText(Settlement.CurrentSettlement));
             MBTextManager.SetTextVariable("XORBERAX_BANKS_ACCRUAL_RATE_IN_DAYS_TEXT", $"{(SubModule.Config.InterestAccrualRateInDays == 1 ? "day" : $"{SubModule.Config.InterestAccrualRateInDays} days")}");
             MBTextManager.SetTextVariable("XORBERAX_BANKS_BANK_ACCOUNT_INFO", BuildBankAccountInfoText(Settlement.CurrentSettlement));
+            MBTextManager.SetTextVariable("XORBERAX_BANKS_MAX_BANK_BALANCE", SubModule.Config.MaxBankBalance);
         }
 
         private string BuildBankAccountInfoText(Settlement settlement)
