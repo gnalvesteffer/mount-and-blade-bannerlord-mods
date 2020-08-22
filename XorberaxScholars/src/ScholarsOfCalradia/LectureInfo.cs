@@ -2,10 +2,9 @@ using TaleWorlds.Core;
 
 namespace ScholarsOfCalradia
 {
-    public struct LectureInfo
+    public class LectureInfo
     {
-        public SkillObject Skill;
-        public int ExperienceGainPerAttendee;
-        public int CostPerAttendee;
+        public SkillObject Skill { get; set; }
+        public ScholarLevelInfo ScholarLevelInfo { get; set; }
     }
 }

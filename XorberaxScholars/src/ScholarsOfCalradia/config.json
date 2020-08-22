@@ -1,17 +1,11 @@
 {
-  "minimumRenownRequiredToTakeOutLoan": 5,
-  "availableLoanAmountPerRenown": 200,
-  "availableLoanAmountDivisor": 100,
-  "renownCostPerLoanAmountDivisor": 1,
-  "daysToRepayLoan": 30,
-  "renownLossForUnpaidLoan": 20,
-  "crimeRatingIncreaseForUnpaidLoan": 10,
-  "recurringCrimeRatingIncreaseForUnpaidLoan": 20,
-  "maxCriminalRatingForUnpaidLoan": 50,
-  "loanLateFeeInterestRatePerSettlementProsperityFactor": 0.0000015,
-  "interestRatePerSettlementProsperityFactor": 0.00000873,
-  "interestAccrualRateInDays": 7,
-  "bankAccountOpeningCostBase": 3000,
-  "bankAccountOpeningCostSettlementProsperityDivisor": 500,
-  "maxBankBalance": 100000
+  "noviceScholarExperienceGain": 25,
+  "noviceScholarCostPerAttendee": 300,
+  "intermediateScholarExperienceGain": 50,
+  "intermediateScholarCostPerAttendee": 500,
+  "advancedScholarExperienceGain": 100,
+  "advancedScholarCostPerAttendee": 1000,
+  "expertScholarExperienceGain": 200,
+  "expertScholarCostPerAttendee": 2000,
+  "scholarAppearanceProbability": 0.75
 }
