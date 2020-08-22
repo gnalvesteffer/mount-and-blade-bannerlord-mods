@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-  <Name value="Xorberax's Banks of Calradia"/>
-  <Id value="XorberaxBanks"/>
-  <Version value="v0.5.1"/>
+  <Name value="Xorberax's Scholars of Calradia"/>
+  <Id value="XorberaxScholars"/>
+  <Version value="v0.1.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />
@@ -12,12 +12,12 @@
     <DependedModule Id="Sandbox"/>
     <DependedModule Id="CustomBattle"/>
     <DependedModule Id="StoryMode" />
-  </DependedModules>
+  </DependedModules> 
   <SubModules>
     <SubModule>
-      <Name value="Banks"/>
-      <DLLName value="Banks.dll"/>
-      <SubModuleClassType value="Banks.SubModule"/>
+      <Name value="ScholarsOfCalradia"/>
+      <DLLName value="ScholarsOfCalradia.dll"/>
+      <SubModuleClassType value="ScholarsOfCalradia.SubModule"/>
       <Tags>
         <Tag key="DedicatedServerType" value="none" />
         <Tag key="IsNoRenderModeElement" value="false" />
