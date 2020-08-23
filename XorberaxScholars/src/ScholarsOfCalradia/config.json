@@ -1,15 +1,15 @@
 {
-  "noviceScholarExperienceGain": 25,
-  "noviceScholarCostPerAttendee": 300,
+  "noviceScholarExperienceGain": 100,
+  "noviceScholarCostPerAttendee": 500,
   "noviceLectureDurationInHours": 5,
-  "intermediateScholarExperienceGain": 50,
-  "intermediateScholarCostPerAttendee": 500,
+  "intermediateScholarExperienceGain": 250,
+  "intermediateScholarCostPerAttendee": 1000,
   "intermediateLectureDurationInHours": 4,
-  "advancedScholarExperienceGain": 100,
-  "advancedScholarCostPerAttendee": 1000,
+  "advancedScholarExperienceGain": 500,
+  "advancedScholarCostPerAttendee": 3000,
   "advancedLectureDurationInHours": 3,
-  "expertScholarExperienceGain": 200,
-  "expertScholarCostPerAttendee": 2000,
+  "expertScholarExperienceGain": 1000,
+  "expertScholarCostPerAttendee": 5000,
   "expertLectureDurationInHours": 2,
   "scholarAppearanceProbability": 0.25
 }
