@@ -149,10 +149,10 @@ namespace ScholarsOfCalradia
             var lectureInfo = GetCurrentLectureInfoAtSettlement(currentSettlement);
 
             MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_SETTLEMENT_NAME", currentSettlement);
-            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LECTURE_SKILL_NAME", lectureInfo.Skill.Name);
-            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LEVEL", lectureInfo.ScholarLevelInfo.ScholarLevelName.ToLowerInvariant());
-            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LECTURE_COST_PER_ATTENDEE", lectureInfo.ScholarLevelInfo.CostPerAttendee);
-            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LECTURE_IN_PROGRESS_DESCRIPTION", $"{_heroIdsOfLectureAttendees.Count} {(_heroIdsOfLectureAttendees.Count == 1 ? "person" : "people")} in your party {(_heroIdsOfLectureAttendees.Count == 1 ? "is" : "are")} attending a lecture about {lectureInfo.Skill}.");
+            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LECTURE_SKILL_NAME", lectureInfo?.Skill?.Name);
+            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LEVEL", lectureInfo?.ScholarLevelInfo?.ScholarLevelName.ToLowerInvariant());
+            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LECTURE_COST_PER_ATTENDEE", lectureInfo?.ScholarLevelInfo?.CostPerAttendee);
+            MBTextManager.SetTextVariable("XORBERAX_SCHOLAR_LECTURE_IN_PROGRESS_DESCRIPTION", $"{_heroIdsOfLectureAttendees.Count} {(_heroIdsOfLectureAttendees.Count == 1 ? "person" : "people")} in your party {(_heroIdsOfLectureAttendees.Count == 1 ? "is" : "are")} attending a lecture about {lectureInfo?.Skill}.");
         }
 
         private void ShowAttendeeSelectionList()
@@ -243,7 +243,6 @@ namespace ScholarsOfCalradia
 
         private void OnLectureEnd()
         {
-            GameMenu.SwitchToMenu("town");
             _settlementIdsOfSettlementsLecturedAtToday.Add(Settlement.CurrentSettlement.StringId);
             var attendees = Hero.FindAll(hero => _heroIdsOfLectureAttendees.Contains(hero.StringId));
             var lectureSkill = SkillObject.FindFirst(skill => skill.StringId == _lectureSkillId);
@@ -251,6 +250,8 @@ namespace ScholarsOfCalradia
             {
                 attendee.AddSkillXp(lectureSkill, _lectureExperienceGainPerAttendee);
             }
+            UpdateMenuTextVariables();
+            GameMenu.SwitchToMenu("town");
         }
 
         private bool HasAttendedLectureAtSettlementToday(Settlement settlement)
