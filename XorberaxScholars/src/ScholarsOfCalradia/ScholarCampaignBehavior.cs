@@ -111,6 +111,7 @@ namespace ScholarsOfCalradia
                 args =>
                 {
                     args.MenuContext.GameMenu.SetTargetedWaitingTimeAndInitialProgress(_lectureDurationInHours, 0.0f);
+                    args.MenuContext.GameMenu.AllowWaitingAutomatically();
                 },
                 args =>
                 {
@@ -121,7 +122,6 @@ namespace ScholarsOfCalradia
                 args => OnLectureEnd(),
                 (args, dt) =>
                 {
-                    args.MenuContext.GameMenu.SetMenuAsWaitMenuAndInitiateWaiting();
                     args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(_startTimeOfLecture.ElapsedHoursUntilNow / _lectureDurationInHours);
                 },
                 GameMenu.MenuAndOptionType.WaitMenuShowOnlyProgressOption

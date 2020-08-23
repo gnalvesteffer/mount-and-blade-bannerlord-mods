@@ -9,35 +9,31 @@ namespace ScholarsOfCalradia
         {
             new ScholarLevelInfo
             {
-                ScholarLevelPrefix = "a",
                 ScholarLevelName = "Novice",
                 ExperienceGainPerAttendee = SubModule.Config.NoviceScholarExperienceGain,
                 CostPerAttendee = SubModule.Config.NoviceScholarCostPerAttendee,
-                LectureDurationInHours = 4
+                LectureDurationInHours = SubModule.Config.NoviceLectureDurationInHours
             },
             new ScholarLevelInfo
             {
-                ScholarLevelPrefix = "an",
                 ScholarLevelName = "Intermediate",
                 ExperienceGainPerAttendee = SubModule.Config.IntermediateScholarExperienceGain,
                 CostPerAttendee = SubModule.Config.IntermediateScholarCostPerAttendee,
-                LectureDurationInHours = 3
+                LectureDurationInHours = SubModule.Config.IntermediateLectureDurationInHours
             },
             new ScholarLevelInfo
             {
-                ScholarLevelPrefix = "an",
                 ScholarLevelName = "Advanced",
                 ExperienceGainPerAttendee = SubModule.Config.AdvancedScholarExperienceGain,
                 CostPerAttendee = SubModule.Config.AdvancedScholarCostPerAttendee,
-                LectureDurationInHours = 2
+                LectureDurationInHours = SubModule.Config.AdvancedLectureDurationInHours
             },
             new ScholarLevelInfo
             {
-                ScholarLevelPrefix = "an",
                 ScholarLevelName = "Expert",
                 ExperienceGainPerAttendee = SubModule.Config.ExpertScholarExperienceGain,
                 CostPerAttendee = SubModule.Config.ExpertScholarCostPerAttendee,
-                LectureDurationInHours = 1
+                LectureDurationInHours = SubModule.Config.ExpertLectureDurationInHours
             }
         };
 
