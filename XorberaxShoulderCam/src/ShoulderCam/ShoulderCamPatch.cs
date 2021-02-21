@@ -165,16 +165,14 @@ namespace ShoulderCam
                 return false;
             }
             var equippedItem = agent.Equipment[wieldedItemIndex];
-            foreach (var weaponComponentData in equippedItem.Weapons)
+            var weaponComponentData = equippedItem.GetWeaponComponentDataForUsage(equippedItem.CurrentUsageIndex);
+            if (weaponComponentData != null && weaponComponentData.IsRangedWeapon)
             {
-                if (weaponComponentData != null && weaponComponentData.IsRangedWeapon)
+                if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
                 {
-                    if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
-                    {
-                        _revertRangedModeEndTimestamp = Mission.Current.Time + SubModule.Config.RevertWhenAimingReturnDelay;
-                    }
-                    return true;
+                    _revertRangedModeEndTimestamp = Mission.Current.Time + SubModule.Config.RevertWhenAimingReturnDelay;
                 }
+                return true;
             }
             return false;
         }

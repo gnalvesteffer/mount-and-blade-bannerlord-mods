@@ -21,9 +21,14 @@ namespace ShoulderCam
             ShoulderCamPatch.ShakeCamera(0, 0);
         }
 
-        public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, int damage, int weaponKind, int currentWeaponUsageIndex)
+        public override void OnAgentHit(
+            Agent affectedAgent,
+            Agent affectorAgent,
+            int damage,
+            in MissionWeapon affectorWeapon
+        )
         {
-            base.OnAgentHit(affectedAgent, affectorAgent, damage, weaponKind, currentWeaponUsageIndex);
+            base.OnAgentHit(affectedAgent, affectorAgent, damage, in affectorWeapon);
             if (affectedAgent.IsMainAgent || affectedAgent.RiderAgent?.IsMainAgent == true)
             {
                 ShoulderCamPatch.ShakeCamera(
@@ -33,8 +38,7 @@ namespace ShoulderCam
             }
             else if (affectorAgent.IsMainAgent || affectorAgent.RiderAgent?.IsMainAgent == true)
             {
-                var weapon = ItemObject.GetItemFromWeaponKind(weaponKind);
-                if (weapon != null && MeleeWeaponTypes.Contains(weapon.Type))
+                if (affectorWeapon.Item != null && MeleeWeaponTypes.Contains(affectorWeapon.Item.Type))
                 {
                     ShoulderCamPatch.ShakeCamera(
                         SubModule.Config.MinimumEnemyHitCamShakeAmount + damage * SubModule.Config.EnemyHitCamShakeMultiplier,

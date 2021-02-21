@@ -6,13 +6,7 @@
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />
-  <DependedModules>
-    <DependedModule Id="Native"/>
-    <DependedModule Id="SandBoxCore"/>
-    <DependedModule Id="Sandbox"/>
-    <DependedModule Id="CustomBattle"/>
-    <DependedModule Id="StoryMode" />
-  </DependedModules> 
+  <DependedModules/>
   <SubModules>
     <SubModule>
       <Name value="ShoulderCam"/>
