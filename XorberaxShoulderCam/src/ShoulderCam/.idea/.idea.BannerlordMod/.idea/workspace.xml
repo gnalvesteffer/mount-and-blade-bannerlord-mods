@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../SubModule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../SubModule.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ShoulderCamMissionLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ShoulderCamMissionLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ShoulderCamPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ShoulderCamPatch.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,29 +23,22 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7F72D9F4-03F5-48D2-A797-AA014BDDEFC7/4e/23d1a10b/WeaponComponent.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D34056D0-4CFC-4109-B6F9-99F40D3154AF/28/dc666fb2/MissionWeapon.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7F72D9F4-03F5-48D2-A797-AA014BDDEFC7/9d/7db98522/ItemObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/SliceLogic.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F0CE325A-CF6E-4FFF-AB23-270E2E9199C7/89/7f8a9d23/AgentCouchLanceVisualWidget.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../XorberaxBanks/src/Banks/BankDataSaveableTypeDefiner.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D34056D0-4CFC-4109-B6F9-99F40D3154AF/71/7863d08d/MissionBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/Config.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxArena/src/XorberaxArena/SubModule.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxArena/src/XorberaxArena/ArenaCampaignBehavior.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ShoulderCamRangedMode.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8A547BBA-2BF3-4F18-9BCB-CE3A2B6E7F08/45/c763fd9e/ModuleInfo.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ShoulderPosition.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/SubModule.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Config.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/CutThroughEveryonePatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/obj/Debug/net472/ShoulderCam.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ShoulderCamMountMode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/SliceLogic.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ShoulderSwitchMode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SubModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderCamMissionLogic.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ShoulderCamMountMode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ShoulderCamRangedMode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../XorberaxBanks/src/Banks/BankDataSaveableTypeDefiner.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ShoulderPosition.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ShoulderCamPatch.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/55/f690a999/CryptographicException.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ShoulderSwitchMode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../XorberaxCutThroughEveryone/src/CutThroughEveryone/Config.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Config.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -69,6 +57,8 @@
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/ShoulderCam.csproj" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -80,9 +70,9 @@
   </component>
   <component name="RunManager">
     <configuration name="Bannerlord" type="RunExe" factoryName=".NET Executable">
-      <option name="EXE_PATH" value="C:/Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/bin/Win64_Shipping_Client/TaleWorlds.MountAndBlade.Launcher.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../../../Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/bin/Win64_Shipping_Client/TaleWorlds.MountAndBlade.Launcher.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="C:/Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/bin/Win64_Shipping_Client" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Program Files (x86)/Steam/steamapps/common/Mount &amp; Blade II Bannerlord/bin/Win64_Shipping_Client" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -117,6 +107,7 @@
       <workItem from="1587273843257" duration="792000" />
       <workItem from="1588041097047" duration="3919000" />
       <workItem from="1613885967618" duration="1515000" />
+      <workItem from="1632613045349" duration="303000" />
     </task>
     <task id="LOCAL-00001" summary="update shoulder cam">
       <created>1586134112450</created>
@@ -222,6 +213,7 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
