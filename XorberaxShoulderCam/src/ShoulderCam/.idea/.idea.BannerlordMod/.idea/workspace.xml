@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f6c61cb-ff4c-4633-8845-d471915fdd42" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../../bin/Win64_Shipping_Client/ShoulderCam.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BannerlordMod/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +105,7 @@
       <workItem from="1587273843257" duration="792000" />
       <workItem from="1588041097047" duration="3919000" />
       <workItem from="1613885967618" duration="1515000" />
-      <workItem from="1632613045349" duration="303000" />
+      <workItem from="1632613045349" duration="688000" />
     </task>
     <task id="LOCAL-00001" summary="update shoulder cam">
       <created>1586134112450</created>
@@ -207,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588046810743</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Built for Bannerlord e1.6.2.284092">
+      <created>1632613352652</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1632613352652</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,7 +249,8 @@
     <MESSAGE value="limit cam shake amount + add torso-tracked camera sway" />
     <MESSAGE value="tweak config values" />
     <MESSAGE value="added: delay to ranged mode revert when returning to shoulder cam" />
-    <option name="LAST_COMMIT_MESSAGE" value="added: delay to ranged mode revert when returning to shoulder cam" />
+    <MESSAGE value="Built for Bannerlord e1.6.2.284092" />
+    <option name="LAST_COMMIT_MESSAGE" value="Built for Bannerlord e1.6.2.284092" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
