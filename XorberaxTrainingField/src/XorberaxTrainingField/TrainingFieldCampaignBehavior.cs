@@ -63,7 +63,7 @@ namespace TrainingField
                 args =>
                 {
                     args.MenuContext.GameMenu.SetTargetedWaitingTimeAndInitialProgress(MaximumNumberOfHoursToTrain, 0);
-                    args.MenuContext.GameMenu.AllowWaitingAutomatically();
+                    args.MenuContext.GameMenu.StartWait();
                     return true;
                 },
                 null,
