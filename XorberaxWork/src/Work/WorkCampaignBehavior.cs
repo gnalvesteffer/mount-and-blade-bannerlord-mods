@@ -86,17 +86,15 @@ namespace Work
                 args =>
                 {
                     var totalWorkers = GetTotalWorkersInParty(PartyBase.MainParty);
-                    MBTextManager.SetTextVariable("XORBERAX_WORK_WAIT_DESCRIPTION", new TextObject($"{(totalWorkers == 0 ? "You" : $"You and {totalWorkers} of your peasants")} are helping the locals around their village by gathering resources and working the land.\n \nYou've worked for {{XORBERAX_WORK_TOTAL_HOURS_WORKED_TEXT}}."));
-                    args.MenuContext.GameMenu.SetTargetedWaitingTimeAndInitialProgress(SubModule.Config.HoursInShift, 0);
-                    args.MenuContext.GameMenu.AllowWaitingAutomatically();
+                    MBTextManager.SetTextVariable("XORBERAX_WORK_WAIT_DESCRIPTION", new TextObject($"{(totalWorkers == 0 ? "You" : $"You and {totalWorkers} of your peasants")} are helping the locals around their village by gathering resources and working the land."));
+                    args.MenuContext.GameMenu.StartWait();
                     return true;
                 },
                 null,
                 (args, dt) =>
                 {
                     MBTextManager.SetTextVariable("XORBERAX_WORK_TOTAL_HOURS_WORKED_TEXT", $"{TotalHoursWorked} {(TotalHoursWorked == 1 ? "hour" : "hours")}");
-                    var progress = GetNormalizedHoursWorkedInShift(TotalHoursWorked);
-                    args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(progress);
+                    args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(GetNormalizedHoursWorkedInShift(TotalHoursWorked));
                 },
                 GameMenu.MenuAndOptionType.WaitMenuShowOnlyProgressOption
             );
@@ -168,7 +166,7 @@ namespace Work
             {
                 GiveItemAction.ApplyForParties(_lastSettlementWorkedAt.Party, PartyBase.MainParty, gift, giftQuantity);
             }
-            InformationManager.DisplayMessage(new InformationMessage($"You were paid {amountPaid}<img src=\"Icons\\Coin@2x\"> for {TotalHoursWorked:0} {(TotalHoursWorked == 1 ? "hour" : "hours")} of work{(giftQuantity > 0 ? $", and received a gift of {giftQuantity} {gift.EquipmentElement.Item.Name}" : String.Empty)}.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You were paid {amountPaid}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\"> for {TotalHoursWorked:0} {(TotalHoursWorked == 1 ? "hour" : "hours")} of work{(giftQuantity > 0 ? $", and received a gift of {giftQuantity} {gift.EquipmentElement.Item.Name}" : String.Empty)}.", "event:/ui/notification/coins_positive"));
         }
 
         private (ItemRosterElement Item, int quantity) GetSettlementGift()
