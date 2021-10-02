@@ -2,7 +2,7 @@
 <Module>
   <Name value="Xorberax's Deadly Combat"/>
   <Id value="XorberaxDeadlyCombat"/>
-  <Version value="v0.1.0"/>
+  <Version value="v0.1.2"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false" />

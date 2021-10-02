@@ -15,6 +15,8 @@ namespace DeadlyCombat
             public float LifeSpanSinceInitialHit { get; set; }
         }
 
+        private static readonly ActionIndexCache BleedOutActionIndexCache = ActionIndexCache.Create("Bleed Out");
+
         private static readonly HashSet<BoneBodyPartType> VitalBodyParts = new HashSet<BoneBodyPartType>
         {
             BoneBodyPartType.Head,
@@ -30,10 +32,11 @@ namespace DeadlyCombat
             Agent victim,
             GameEntity realHitEntity,
             Blow blow,
-            ref AttackCollisionData collisionData
+            ref AttackCollisionData collisionData,
+            in MissionWeapon attackerWeapon
         )
         {
-            base.OnRegisterBlow(attacker, victim, realHitEntity, blow, ref collisionData);
+            base.OnRegisterBlow(attacker, victim, realHitEntity, blow, ref collisionData, attackerWeapon);
 
             if (
                 victim != null &&
@@ -80,12 +83,18 @@ namespace DeadlyCombat
                     agent.SetMaximumSpeedLimit(SubModule.Config.UnitSpeedReductionRateDuringBleedout, true);
                     agent.Health -= agentInfo.BleedOutRate;
                 }
+
                 if (agent.Health <= 0)
                 {
-                    agent.Die(agentInfo.InitialBlow);
+                    agent.Die(
+                        agentInfo.InitialBlow.IsMissile
+                            ? new Blow(agentInfo.InitialBlow.OwnerId)
+                            : agentInfo.InitialBlow
+                    );
                     agentsToRemoveFromBleedOut.Add(agent);
                 }
             }
+
             foreach (var agent in agentsToRemoveFromBleedOut)
             {
                 _agentsThatAreBleedingOut.Remove(agent);
