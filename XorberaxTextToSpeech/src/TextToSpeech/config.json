@@ -1,3 +1,34 @@
 {
-
+  "IsDeveloperMode": false, // bool: if true: changes to the config will apply while the game is running; dialog will be copied to the clipboard (helps with setting up dialog replacements); and installed voices will be output to "XorberaxTextToSpeech\bin\Win64_Shipping_Client\installed-voices.txt"
+  "SpeechRate": 1, // int: [-10, 10]
+  "DialogReplacements": { // Substitutes text in dialogs during text-to-speech. Can be used to read out icons or to help with pronunciation.  
+    "<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">": "denars",
+    "Barter line - player should not see this": ""
+  },
+  "CultureVoices": {
+    "aserai": {
+      "male": "Microsoft David",
+      "female": "Microsoft Zira"
+    },
+    "battania": {
+      "male": "Microsoft David",
+      "female": "Microsoft Zira"
+    },
+    "khuzait": {
+      "male": "Microsoft David",
+      "female": "Microsoft Zira"
+    },
+    "empire": {
+      "male": "Microsoft David",
+      "female": "Microsoft Zira"
+    },
+    "vlandia": {
+      "male": "Microsoft David",
+      "female": "Microsoft Zira"
+    },
+    "sturgia": {
+      "male": "Microsoft David",
+      "female": "Microsoft Zira"
+    }
+  }
 }

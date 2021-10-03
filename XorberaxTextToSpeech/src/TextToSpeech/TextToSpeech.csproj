@@ -34,7 +34,10 @@
           <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\StoryMode\bin\Win64_Shipping_Client\StoryMode.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <Reference Include="System.Speech" />
+        <Reference Include="System.Speech, Version=666.666.666.666, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <HintPath>System.Speech.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Windows.Forms" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +47,9 @@
     <ItemGroup>
       <None Update="config.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="System.Speech.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

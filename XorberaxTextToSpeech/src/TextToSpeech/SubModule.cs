@@ -18,7 +18,7 @@ namespace TextToSpeech
             new Harmony("xorberax.texttospeech").PatchAll();
         }
 
-        private static void LoadConfig()
+        public static void LoadConfig()
         {
             if (!File.Exists(ConfigFilePath))
             {

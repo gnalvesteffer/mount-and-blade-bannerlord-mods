@@ -1,77 +1,93 @@
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
-using HarmonyLib;
+using System.Windows.Forms;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.ViewModelCollection;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
 
 namespace TextToSpeech
 {
     internal static class TextToSpeech
     {
-        private static readonly SpeechSynthesizer GameSpeechSynthesizer = new SpeechSynthesizer();
+        private static readonly SpeechSynthesizer SpeechSynthesizer = new SpeechSynthesizer();
 
-        private static string GetVoiceNameForGender(this SpeechSynthesizer speechSynthesizer, VoiceGender gender)
+        static TextToSpeech()
         {
-            var installedVoices = speechSynthesizer.GetInstalledVoices();
+            if (SubModule.Config.IsDeveloperMode)
+            {
+                File.WriteAllText(
+                    Path.Combine(
+                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                        "installed-voices.txt"
+                    ),
+                    string.Join(
+                        "\n",
+                        SpeechSynthesizer.GetInstalledVoices().Select(voice => voice.VoiceInfo.Name)
+                    )
+                );
+            }
+        }
+
+        public static void Say(string text, CharacterObject character)
+        {
+            if (SubModule.Config.IsDeveloperMode)
+            {
+                SubModule.LoadConfig(); // Reloads config, allowing voices to be tweaked in-game.
+                Clipboard.SetText(text);
+            }
+
+            var voice = GetVoiceForCharacter(character);
+            try
+            {
+                SpeechSynthesizer.SelectVoice(voice);
+            }
+            catch
+            {
+                InformationManager.DisplayMessage(
+                    new InformationMessage(
+                        $@"ERROR: The voice ""{voice}"" is not available.",
+                        Colors.Red
+                    )
+                );
+            }
+
+            SpeechSynthesizer.SpeakAsyncCancelAll();
+            SpeechSynthesizer.Rate = SubModule.Config.SpeechRate;
+            SpeechSynthesizer.SpeakAsync(ProcessConversationTextForSpeech(text));
+        }
+
+        private static string GetFallbackVoiceNameForGender(VoiceGender gender)
+        {
+            var installedVoices = SpeechSynthesizer.GetInstalledVoices();
             return installedVoices.FirstOrDefault(voice => voice.VoiceInfo.Gender == gender)?.VoiceInfo.Name;
         }
 
-        private static void Say(string text, VoiceGender voiceGender, VoiceAge voiceAge)
+        private static string GetVoiceForCharacter(CharacterObject character)
         {
-            GameSpeechSynthesizer.SpeakAsyncCancelAll();
-            GameSpeechSynthesizer.SelectVoiceByHints(voiceGender, voiceAge);
-            GameSpeechSynthesizer.SpeakAsync(text);
+            if (SubModule.Config.CultureVoices.TryGetValue(character.Culture.StringId, out var cultureVoiceDefinition))
+            {
+                return character.IsFemale ? cultureVoiceDefinition.Female : cultureVoiceDefinition.Male;
+            }
+
+            return GetFallbackVoiceNameForGender(character.IsFemale ? VoiceGender.Female : VoiceGender.Male);
         }
 
-        private static VoiceAge GetVoiceAge(int age)
+        private static string ProcessConversationTextForSpeech(string text)
         {
-            if (age < 12)
+            foreach (var dialogReplacements in SubModule.Config.DialogReplacements)
             {
-                return VoiceAge.Child;
+                text = text.Replace(dialogReplacements.Key, dialogReplacements.Value);
             }
-            if (age < 18)
-            {
-                return VoiceAge.Teen;
-            }
-            if (age < 50)
-            {
-                return VoiceAge.Adult;
-            }
-            return VoiceAge.Senior;
+
+            return Regex.Replace(text, "<.*?>", string.Empty); // remove any tags from the text.
         }
 
-        private static string StripTags(this string text)
+        public static void StopSpeech()
         {
-            return Regex.Replace(text, "<.*?>", string.Empty);
-        }
-
-        [HarmonyPatch(typeof(MissionConversationVM))]
-        internal static class Patch
-        {
-            [HarmonyPostfix]
-            [HarmonyPatch("Refresh")]
-            private static void RefreshPostfix()
-            {
-                var conversationManager = Campaign.Current.ConversationManager;
-                var character = conversationManager.OneToOneConversationCharacter;
-                if (character == null)
-                {
-                    return;
-                }
-                var voiceGender = character.IsFemale
-                    ? VoiceGender.Female
-                    : VoiceGender.Male;
-                var text = conversationManager.CurrentSentenceText;
-                Say(text?.StripTags() ?? string.Empty, voiceGender, GetVoiceAge((int)character.Age));
-            }
-
-            [HarmonyPostfix]
-            [HarmonyPatch("OnFinalize")]
-            private static void OnFinalizePostfix()
-            {
-                GameSpeechSynthesizer.SpeakAsyncCancelAll();
-            }
+            SpeechSynthesizer.SpeakAsyncCancelAll();
         }
     }
 }
