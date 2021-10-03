@@ -70,7 +70,7 @@ namespace Banks
                         var newInterestRate = CalculateSettlementInterestRate(settlement);
                         bankData.Balance = Math.Min(bankData.Balance + moneyGainedFromInterest, SubModule.Config.MaxBankBalance);
                         bankData.InterestRate = newInterestRate;
-                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"Icons\\Coin@2x\"> from interest.{(Mathf.Abs(newInterestRate - currentInterestRate) > 0.0001 ? $" Your interest rate has changed from {currentInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
+                        InformationManager.DisplayMessage(new InformationMessage($"Your balance at the {settlement.Name} bank has gained {moneyGainedFromInterest}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\"> from interest.{(Mathf.Abs(newInterestRate - currentInterestRate) > 0.0001 ? $" Your interest rate has changed from {currentInterestRate * 100:0.00}% to {newInterestRate * 100:0.00}%." : string.Empty)}", "event:/ui/notification/coins_positive"));
                     }
                     bankData.LastInterestAccrualDate = CampaignTime.Now;
                 }
@@ -351,7 +351,7 @@ namespace Banks
             InformationManager.ShowInquiry(
                 new InquiryData(
                     $"Bank of {settlement.Name}",
-                    $"Balance: {bankData.Balance}<img src=\"Icons\\Coin@2x\">\nInterest Rate: {bankData.InterestRate * 100:0.00}% (accrues in {daysUntilInterestAccrual} {(daysUntilInterestAccrual == 1 ? "day" : "days")})",
+                    $"Balance: {bankData.Balance}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">\nInterest Rate: {bankData.InterestRate * 100:0.00}% (accrues in {daysUntilInterestAccrual} {(daysUntilInterestAccrual == 1 ? "day" : "days")})",
                     true,
                     false,
                     "Back",
@@ -418,7 +418,7 @@ namespace Banks
             }
             var bankData = GetBankDataAtSettlement(settlement);
             GiveGoldAction.ApplyForCharacterToSettlement(Hero.MainHero, settlement, remainingUnpaidLoanAmount, true);
-            InformationManager.DisplayMessage(new InformationMessage($"You repaid the loan of {remainingUnpaidLoanAmount}<img src=\"Icons\\Coin@2x\"> from {settlement.Name}.", "event:/ui/notification/coins_negative"));
+            InformationManager.DisplayMessage(new InformationMessage($"You repaid the loan of {remainingUnpaidLoanAmount}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\"> from {settlement.Name}.", "event:/ui/notification/coins_negative"));
             if (bankData.LoanQuest?.IsOngoing == true)
             {
                 bankData.LoanQuest.OnLoanRepaidOnTime();
@@ -480,7 +480,7 @@ namespace Banks
         {
             var bankData = GetBankDataAtSettlement(settlement);
             Hero.MainHero.ChangeHeroGold(bankData.Balance);
-            InformationManager.DisplayMessage(new InformationMessage($"You closed your account with the Bank of {settlement.Name}. Your balance of {bankData.Balance}<img src=\"Icons\\Coin@2x\"> has been returned to you.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You closed your account with the Bank of {settlement.Name}. Your balance of {bankData.Balance}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\"> has been returned to you.", "event:/ui/notification/coins_positive"));
             bankData.Balance = 0;
             bankData.HasAccount = false;
             GameMenu.SwitchToMenu("bank_account");
@@ -558,7 +558,7 @@ namespace Banks
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Deposit",
-                    $"{(maxDepositAmountInfo.HasReachedLimit ? $"The bank is unable to hold more than {SubModule.Config.MaxBankBalance}<img src=\"Icons\\Coin@2x\">. The max you can deposit has been capped.\n\n" : string.Empty)}Enter the amount to deposit (1 - {maxDepositAmountInfo.Amount}):",
+                    $"{(maxDepositAmountInfo.HasReachedLimit ? $"The bank is unable to hold more than {SubModule.Config.MaxBankBalance}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">. The max you can deposit has been capped.\n\n" : string.Empty)}Enter the amount to deposit (1 - {maxDepositAmountInfo.Amount}):",
                     true,
                     true,
                     "Deposit",
@@ -573,7 +573,7 @@ namespace Banks
                     },
                     () => { InformationManager.HideInquiry(); },
                     false,
-                    amountText => TryParseDepositAmount(amountText, settlement).IsValid
+                    amountText => new Tuple<bool, string>(TryParseDepositAmount(amountText, settlement).IsValid, string.Empty)
                 )
             );
         }
@@ -584,7 +584,7 @@ namespace Banks
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Withdraw",
-                    $"{(maxWithdrawAmountInfo.HasReachedLimit ? $"You are unable to hold more than {int.MaxValue}<img src=\"Icons\\Coin@2x\">. The max you can withdraw has been capped.\n\n" : string.Empty)}Enter the amount to withdraw (1 - {maxWithdrawAmountInfo.Amount}):",
+                    $"{(maxWithdrawAmountInfo.HasReachedLimit ? $"You are unable to hold more than {int.MaxValue}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">. The max you can withdraw has been capped.\n\n" : string.Empty)}Enter the amount to withdraw (1 - {maxWithdrawAmountInfo.Amount}):",
                     true,
                     true,
                     "Withdraw",
@@ -599,7 +599,7 @@ namespace Banks
                     },
                     () => { InformationManager.HideInquiry(); },
                     false,
-                    amountText => TryParseWithdrawAmount(amountText, settlement).IsValid
+                    amountText => new Tuple<bool, string>(TryParseWithdrawAmount(amountText, settlement).IsValid, string.Empty)
                 )
             );
         }
@@ -610,7 +610,7 @@ namespace Banks
             InformationManager.ShowTextInquiry(
                 new TextInquiryData(
                     "Loan",
-                    $"You can take out a loan of up to {maxAvailableLoanAtSettlement}<img src=\"Icons\\Coin@2x\">. The amount must be repaid within {SubModule.Config.DaysToRepayLoan} days.\nEnter the amount to take out ({SubModule.Config.AvailableLoanAmountDivisor} - {maxAvailableLoanAtSettlement}):",
+                    $"You can take out a loan of up to {maxAvailableLoanAtSettlement}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">. The amount must be repaid within {SubModule.Config.DaysToRepayLoan} days.\nEnter the amount to take out ({SubModule.Config.AvailableLoanAmountDivisor} - {maxAvailableLoanAtSettlement}):",
                     true,
                     true,
                     "Take Out Loan",
@@ -625,7 +625,7 @@ namespace Banks
                     },
                     () => { InformationManager.HideInquiry(); },
                     false,
-                    amountText => TryParseLoanAmount(amountText, settlement).IsValid
+                    amountText => new Tuple<bool, string>(TryParseLoanAmount(amountText, settlement).IsValid, string.Empty)
                 )
             );
         }
@@ -635,7 +635,7 @@ namespace Banks
             InformationManager.ShowInquiry(
                 new InquiryData(
                     "Loan",
-                    $"Are you sure you want to take out a loan of {amount}<img src=\"Icons\\Coin@2x\">? You will lose {CalculateRenownCostForLoanAmount(amount):0.00} renown.",
+                    $"Are you sure you want to take out a loan of {amount}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">? You will lose {CalculateRenownCostForLoanAmount(amount):0.00} renown.",
                     true,
                     true,
                     "Yes",
@@ -661,12 +661,12 @@ namespace Banks
             var bankData = GetBankDataAtSettlement(settlement);
             if (bankData.Balance + amount > SubModule.Config.MaxBankBalance || OverflowUtility.WillAdditionOverflow(bankData.Balance, amount))
             {
-                InformationManager.DisplayMessage(new InformationMessage($"The bank is unable to hold more than {SubModule.Config.MaxBankBalance}<img src=\"Icons\\Coin@2x\">."));
+                InformationManager.DisplayMessage(new InformationMessage($"The bank is unable to hold more than {SubModule.Config.MaxBankBalance}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">."));
                 return;
             }
             bankData.Balance += amount;
             Hero.MainHero.ChangeHeroGold(-amount);
-            InformationManager.DisplayMessage(new InformationMessage($"You deposited {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You deposited {amount}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
         }
@@ -686,7 +686,7 @@ namespace Banks
             }
             bankData.Balance -= amount;
             Hero.MainHero.ChangeHeroGold(amount);
-            InformationManager.DisplayMessage(new InformationMessage($"You withdrew {amount}<img src=\"Icons\\Coin@2x\">.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You withdrew {amount}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
         }
@@ -703,7 +703,7 @@ namespace Banks
             var loanRenownCost = CalculateRenownCostForLoanAmount(amount);
             Hero.MainHero.Clan.Renown -= loanRenownCost;
             Hero.MainHero.ChangeHeroGold(amount);
-            InformationManager.DisplayMessage(new InformationMessage($"You took out a loan for {amount}<img src=\"Icons\\Coin@2x\">. Lost {loanRenownCost:0.00} renown.", "event:/ui/notification/coins_positive"));
+            InformationManager.DisplayMessage(new InformationMessage($"You took out a loan for {amount}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">. Lost {loanRenownCost:0.00} renown.", "event:/ui/notification/coins_positive"));
             UpdateBankMenuTextVariables();
             GameMenu.SwitchToMenu("bank_account");
         }
@@ -753,11 +753,9 @@ namespace Banks
             {
                 bankData.Banker = new Hero();
                 bankData.Banker.SetCharacterObject(settlement.Culture.Merchant);
-                bankData.Banker.Name = new TextObject("Banker");
-                bankData.Banker.Clan = new Clan
-                {
-                    Name = new TextObject($"Bank of {settlement.Name}")
-                };
+                bankData.Banker.SetName(new TextObject("Banker"));
+                bankData.Banker.Clan = new Clan();
+                bankData.Banker.Clan.ChangeClanName(new TextObject($"Bank of {settlement.Name}"));
                 bankData.Banker.Clan.SetLeader(bankData.Banker);
             }
             if (bankData.OriginalLoanAmount == 0 && bankData.RemainingUnpaidLoan > 0) // v0.2.0 data migration

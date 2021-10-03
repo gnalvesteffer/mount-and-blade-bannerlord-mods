@@ -14,8 +14,8 @@ namespace Banks
             get
             {
                 var textObject = new TextObject("Repay Loan at {BANK_SETTLEMENT_NAME} by {LOAN_DUE_DATE}");
-                textObject.SetTextVariable("BANK_SETTLEMENT_NAME", this._settlement.Name);
-                textObject.SetTextVariable("LOAN_DUE_DATE", this._loanEndDate.ToString());
+                textObject.SetTextVariable("BANK_SETTLEMENT_NAME", _settlement.Name);
+                textObject.SetTextVariable("LOAN_DUE_DATE", _loanEndDate.ToString());
                 return textObject;
             }
         }
@@ -32,7 +32,7 @@ namespace Banks
         {
             var loanQuest = new LoanQuest(settlement, banker, loanEndDate);
             loanQuest.StartQuest();
-            loanQuest.AddLog(new TextObject($"You took out a loan of {loanAmount}<img src=\"Icons\\Coin@2x\"> from the bank of {settlement.Name} on {loanStartDate}. You must repay the loan by {loanEndDate}."), true);
+            loanQuest.AddLog(new TextObject($"You took out a loan of {loanAmount}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\"> from the bank of {settlement.Name} on {loanStartDate}. You must repay the loan by {loanEndDate}."), true);
             return loanQuest;
         }
 
@@ -54,14 +54,14 @@ namespace Banks
         public void OnLoanRepaidOnTime()
         {
             CompleteQuestWithSuccess();
-            this.AddLog(new TextObject("You repaid the loan on time."), true);
+            AddLog(new TextObject("You repaid the loan on time."), true);
         }
 
         protected override void OnTimedOut()
         {
             base.OnTimedOut();
-            this.AddLog(new TextObject("You failed to repay the loan on time."), true);
-            BanksCampaignBehavior.Current.ApplyInitialBankRetaliationForUnpaidLoan(this._settlement);
+            AddLog(new TextObject("You failed to repay the loan on time."), true);
+            BanksCampaignBehavior.Current.ApplyInitialBankRetaliationForUnpaidLoan(_settlement);
         }
 
         protected override void SetDialogs()
@@ -70,6 +70,7 @@ namespace Banks
 
         protected override void InitializeQuestOnGameLoad()
         {
+            
         }
     }
 }

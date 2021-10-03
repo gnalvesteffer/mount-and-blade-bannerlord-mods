@@ -3,7 +3,6 @@ using TaleWorlds.SaveSystem;
 
 namespace Banks
 {
-    [SaveableClass(42069247)]
     internal class BankData
     {
         [SaveableProperty(1)]
