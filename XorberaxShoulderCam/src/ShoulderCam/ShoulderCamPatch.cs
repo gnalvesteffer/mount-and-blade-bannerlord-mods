@@ -21,7 +21,7 @@ namespace ShoulderCam
         public static void ShakeCamera(float amount, float duration)
         {
             _camShakeAmount = Mathf.Clamp(amount, 0.0f, SubModule.Config.MaxCamShakeAmount);
-            _camShakeEndTimestamp = Mission.Current.Time + duration;
+            _camShakeEndTimestamp = Mission.Current.CurrentTime + duration;
         }
 
         private static void Prefix(
@@ -99,7 +99,7 @@ namespace ShoulderCam
                 {
                     case Agent.UsageDirection.AttackLeft:
                         _focusedShoulderPosition = ShoulderPosition.Left;
-                        _alternateShoulderSwitchTimestamp = missionScreen.Mission.Time;
+                        _alternateShoulderSwitchTimestamp = missionScreen.Mission.CurrentTime;
                         return;
                     case Agent.UsageDirection.AttackRight:
                         _focusedShoulderPosition = ShoulderPosition.Right;
@@ -112,7 +112,7 @@ namespace ShoulderCam
                 {
                     case Agent.UsageDirection.DefendLeft:
                         _focusedShoulderPosition = ShoulderPosition.Left;
-                        _alternateShoulderSwitchTimestamp = missionScreen.Mission.Time;
+                        _alternateShoulderSwitchTimestamp = missionScreen.Mission.CurrentTime;
                         return;
                     case Agent.UsageDirection.DefendRight:
                         _focusedShoulderPosition = ShoulderPosition.Right;
@@ -130,7 +130,7 @@ namespace ShoulderCam
             var returnFocusTimestamp = _alternateShoulderSwitchTimestamp + SubModule.Config.TemporaryShoulderSwitchDuration;
             return
                 SubModule.Config.ShoulderSwitchMode == ShoulderSwitchMode.TemporarilyMatchAttackAndBlockDirection &&
-                missionScreen.Mission.Time > returnFocusTimestamp;
+                missionScreen.Mission.CurrentTime > returnFocusTimestamp;
         }
 
         private static bool ShouldApplyCameraTransformation(MissionScreen missionScreen)
@@ -155,7 +155,7 @@ namespace ShoulderCam
             {
                 return false;
             }
-            if (SubModule.Config.ShoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack) && Mission.Current.Time > _revertRangedModeEndTimestamp)
+            if (SubModule.Config.ShoulderCamRangedMode == ShoulderCamRangedMode.RevertWhenAiming && !missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack) && Mission.Current.CurrentTime > _revertRangedModeEndTimestamp)
             {
                 return false;
             }
@@ -170,7 +170,7 @@ namespace ShoulderCam
             {
                 if (missionScreen.InputManager.IsGameKeyDown(CombatHotKeyCategory.Attack))
                 {
-                    _revertRangedModeEndTimestamp = Mission.Current.Time + SubModule.Config.RevertWhenAimingReturnDelay;
+                    _revertRangedModeEndTimestamp = Mission.Current.CurrentTime + SubModule.Config.RevertWhenAimingReturnDelay;
                 }
                 return true;
             }
@@ -192,7 +192,7 @@ namespace ShoulderCam
 
         private static Vec3 GetCamShakeVector()
         {
-            var strength = Math.Max(_camShakeEndTimestamp - Mission.Current.Time, 0);
+            var strength = Math.Max(_camShakeEndTimestamp - Mission.Current.CurrentTime, 0);
             return new Vec3(
                 MBRandom.RandomFloatNormal * _camShakeAmount * strength,
                 MBRandom.RandomFloatNormal * _camShakeAmount * strength,
